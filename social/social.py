@@ -181,7 +181,7 @@ class Social:
     if ctx.message.author == user:
       await self.bot.say(sender.mention + " Did you just try to twerk on yourself? We'll pretend that never happened! ")
     else:
-      await self.upload_random_gif(user.mention + " TWERKED FOR " + sender.mention + "! and thet LIKED it! ", folder)
+      await self.upload_random_gif(user.mention + " TWERKED FOR " + sender.mention + "! and they LIKED it! ", folder)
 
   async def upload_random_gif(self, msg, folder):
     if msg:
