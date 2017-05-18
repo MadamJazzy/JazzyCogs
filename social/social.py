@@ -123,6 +123,67 @@ class Social:
     else:
       await self.upload_random_gif(user.mention + " was SPANKED HARD by " + sender.mention + " , and they LOVED it! ", folder)
 
+  @commands.command(pass_context=True, invoke_without_command=True)
+  async def tease(self, ctx, *, user : discord.Member):
+    """Tease people!"""
+    sender = ctx.message.author
+    folder = "tease"
+    if ctx.message.author == user:
+      await self.bot.say(sender.mention + " You're a special person aren't you? You cannot tease yourself! ")
+    else:
+      await self.upload_random_gif(user.mention + " was TEASED by " + sender.mention + "! ", folder)
+
+  @commands.command(pass_context=True, invoke_without_command=True)
+  async def hi5(self, ctx, *, user : discord.Member):
+    """HighFive people!"""
+    sender = ctx.message.author
+    folder = "hi5"
+    if ctx.message.author == user:
+      await self.bot.say(sender.mention + " Nice try, You have to get out more! ")
+      await self.bot.upload(data/social/self/1.gif)
+    else:
+      await self.upload_random_gif(user.mention + " was HIGHFIVED by " + sender.mention + "! ", folder)
+
+  @commands.command(pass_context=True, invoke_without_command=True)
+  async def shoot(self, ctx, *, user : discord.Member):
+    """Shoot people!"""
+    sender = ctx.message.author
+    folder = "shoot"
+    if ctx.message.author == user:
+      await self.bot.say(sender.mention + " Calm down! I am sure we can solve whatever problem you're having. ")
+    else:
+      await self.upload_random_gif(user.mention + " was SHOT by " + sender.mention + "! They survived! ", folder)
+
+  @commands.command(pass_context=True, invoke_without_command=True)
+  async def lick(self, ctx, *, user : discord.Member):
+    """Lick people!"""
+    sender = ctx.message.author
+    folder = "lick"
+    if ctx.message.author == user:
+      await self.bot.say(sender.mention + " Well aren't you a kinky little thing? And very flexible! ")
+    else:
+      await self.upload_random_gif(user.mention + " was LICKED by " + sender.mention + "! ", folder)
+
+  @commands.command(pass_context=True, invoke_without_command=True)
+  async def shake(self, ctx, *, user : discord.Member):
+    """Handshake!"""
+    sender = ctx.message.author
+    folder = "handshake"
+    if ctx.message.author == user:
+      await self.bot.say(sender.mention + " No, Just No! Get a life! ")
+    else:
+      await self.upload_random_gif(user.mention + " Shook " + sender.mention + "'s Hand! ", folder)
+      
+  @commands.command(pass_context=True, invoke_without_command=True)
+  async def twerk(self, ctx, *, user : discord.Member):
+    """TWERK!"""
+    sender = ctx.message.author
+    folder = "twerk"
+    if ctx.message.author == user:
+      await self.bot.say(sender.mention + " Did you just try to twerk on yourself? We'll pretend that never happened! ")
+    else:
+      await self.upload_random_gif(user.mention + " TWERKED FOR " + sender.mention + "! and thet LIKED it! ", folder)
+
   async def upload_random_gif(self, msg, folder):
     if msg:
       await self.bot.say(msg)
