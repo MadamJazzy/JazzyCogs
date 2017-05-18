@@ -201,7 +201,7 @@ class Social:
     if ctx.message.author == user:
       await self.bot.say(sender.mention + " Really? Just really?? You need help! ")
     else:
-      await self.upload_random_gif(sender.mention + " tells " + user.mention + " To calm your thirsy ass down! ", folder)
+      await self.upload_random_gif(sender.mention + " tells " + user.mention + " To calm your thirsty ass down! ", folder)
 
   @commands.command(pass_context=True, invoke_without_command=True)
   async def moist(self, ctx, *, user : discord.Member):
