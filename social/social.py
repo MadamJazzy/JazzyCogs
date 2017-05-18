@@ -251,7 +251,7 @@ class Social:
     if ctx.message.author == user:
       await self.bot.say(sender.mention + " You cannot do that to yourself! ")
     else:
-      await self.upload_random_gif(sender.mention + " yells at " + sender.mention + " Oh no they didn't! ", folder)
+      await self.upload_random_gif(sender.mention + " yells at " + user.mention + " Oh no they didn't! ", folder)
 
   @commands.command(pass_context=True, invoke_without_command=True)
   async def hungry(self, ctx, *, user : discord.Member):
