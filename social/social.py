@@ -140,7 +140,6 @@ class Social:
     folder = "hi5"
     if ctx.message.author == user:
       await self.bot.say(sender.mention + " Nice try, You have to get out more! ")
-      await self.bot.upload(data/social/self/1.gif)
     else:
       await self.upload_random_gif(user.mention + " was HIGHFIVED by " + sender.mention + "! ", folder)
 
