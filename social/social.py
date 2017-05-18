@@ -126,7 +126,7 @@ class Social:
   async def upload_random_gif(self, msg, folder):
     if msg:
       await self.bot.say(msg)
-    folderPath = "data/gifs/" + folder
+    folderPath = "data/social/" + folder
     fileList = os.listdir(folderPath)
     gifPath = folderPath + "/" + fileList[randint(0, len(fileList) - 1)]
     await self.bot.upload(gifPath)
