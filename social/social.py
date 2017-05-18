@@ -183,6 +183,86 @@ class Social:
     else:
       await self.upload_random_gif(user.mention + " TWERKED FOR " + sender.mention + "! and they LIKED it! ", folder)
 
+  @commands.command(pass_context=True, invoke_without_command=True)
+  async def strip(self, ctx, *, user : discord.Member):
+    """STRIP!"""
+    sender = ctx.message.author
+    folder = "strip"
+    if ctx.message.author == user:
+      await self.bot.say(sender.mention + " No, Just No! Get a life! ")
+    else:
+      await self.upload_random_gif(sender.mention + " strips for " + user.mention + " and they LIKE it! ", folder)
+
+  @commands.command(pass_context=True, invoke_without_command=True)
+  async def thirsty(self, ctx, *, user : discord.Member):
+    """The Thirst is Real!"""
+    sender = ctx.message.author
+    folder = "thirst"
+    if ctx.message.author == user:
+      await self.bot.say(sender.mention + " Really? Just really?? You need help! ")
+    else:
+      await self.upload_random_gif(sender.mention + " tells " + user.mention + " To calm your thirsy ass down! ", folder)
+
+  @commands.command(pass_context=True, invoke_without_command=True)
+  async def moist(self, ctx, *, user : discord.Member):
+    """Moist lol!"""
+    sender = ctx.message.author
+    folder = "moist"
+    if ctx.message.author == user:
+      await self.bot.say(sender.mention + " You are way to easy! ")
+    else:
+      await self.upload_random_gif(user.mention + " has made " + sender.mention + " moist. OH LORD! ", folder)
+
+  @commands.command(pass_context=True, invoke_without_command=True)
+  async def banned(self, ctx, *, user : discord.Member):
+    """Banned images!"""
+    sender = ctx.message.author
+    folder = "banned"
+    if ctx.message.author == user:
+      await self.bot.say(sender.mention + " You cannot do that to yourself! ")
+    else:
+      await self.upload_random_gif(sender.mention + " sent the following gif to " + user.mention + " Uh oh ", folder)
+
+  @commands.command(pass_context=True, invoke_without_command=True)
+  async def whip(self, ctx, *, user : discord.Member):
+    """Whip someone!"""
+    sender = ctx.message.author
+    folder = "whip"
+    if ctx.message.author == user:
+      await self.bot.say(sender.mention + " Well aren't you just a kinky thing! ")
+    else:
+      await self.upload_random_gif(sender.mention + " has whipped " + user.mention + " and i think they LIKED it! ", folder)
+
+  @commands.command(pass_context=True, invoke_without_command=True)
+  async def facepalm(self, ctx, *, user : discord.Member):
+    """Facepalm images!"""
+    sender = ctx.message.author
+    folder = "facepalm"
+    if ctx.message.author == user:
+      await self.bot.say(sender.mention + " You cannot do that to yourself! ")
+    else:
+      await self.upload_random_gif(user.mention + " has made " + sender.mention + " FACEPALM! ", folder)
+
+  @commands.command(pass_context=True, invoke_without_command=True)
+  async def ohno(self, ctx, *, user : discord.Member):
+    """Oh no they didnt images!"""
+    sender = ctx.message.author
+    folder = "ono"
+    if ctx.message.author == user:
+      await self.bot.say(sender.mention + " You cannot do that to yourself! ")
+    else:
+      await self.upload_random_gif(sender.mention + " yells at " + sender.mention + " Oh no they didn't! ", folder)
+
+  @commands.command(pass_context=True, invoke_without_command=True)
+  async def hungry(self, ctx, *, user : discord.Member):
+    """Hungry images!"""
+    sender = ctx.message.author
+    folder = "hungry"
+    if ctx.message.author == user:
+      await self.bot.say(sender.mention + " THEN GO GET SOMETHING TO EAT! ")
+    else:
+      await self.upload_random_gif(user.mention + " has made " + sender.mention + " HUNGRY! ", folder)
+
   async def upload_random_gif(self, msg, folder):
     if msg:
       await self.bot.say(msg)
