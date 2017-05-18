@@ -197,7 +197,7 @@ class Social:
   async def thirsty(self, ctx, *, user : discord.Member):
     """The Thirst is Real!"""
     sender = ctx.message.author
-    folder = "thirst"
+    folder = "thirsty"
     if ctx.message.author == user:
       await self.bot.say(sender.mention + " Really? Just really?? You need help! ")
     else:
