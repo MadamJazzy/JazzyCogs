@@ -8,7 +8,8 @@ from discord.ext import commands
 class Social:
   def __init__(self, bot):
     self.bot = bot
-  
+
+#add new ohno gifs
 
   @commands.command(pass_context=True, invoke_without_command=True)
   async def kiss(self, ctx, *, user : discord.Member):
