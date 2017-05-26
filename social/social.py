@@ -108,7 +108,7 @@ class Social:
   async def feed(self, ctx, *, user : discord.Member):
     """Feed people!"""
     sender = ctx.message.author
-    folder = "feed"
+    folder = "feeds"
     if ctx.message.author == user:
       await self.bot.say(sender.mention + " I'm so glad you know how to feed yourself! ")
     else:
