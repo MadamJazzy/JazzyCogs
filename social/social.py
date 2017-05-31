@@ -263,6 +263,16 @@ class Social:
     else:
       await self.upload_random_gif(user.mention + " has made " + sender.mention + " HUNGRY! ", folder)
 
+  @commands.command(pass_context=True, invoke_without_command=True)
+  async def nuts(self, ctx, *, user : discord.Member):
+    """NutCracker images!"""
+    sender = ctx.message.author
+    folder = "nuts"
+    if ctx.message.author == user:
+      await self.bot.say(sender.mention + " No, Just no! Get a life! ")
+    else:
+      await self.upload_random_gif(sender.mention + " wants to kick " + user.mention + " in the NUTS! OUCH!! ", folder)
+
   async def upload_random_gif(self, msg, folder):
     if msg:
       await self.bot.say(msg)
