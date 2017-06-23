@@ -44,12 +44,12 @@ class revimage:
                     pages.append('<{}>'.format(hidden.next_sibling['href']))
                 else:
                     image_link = hidden.a['href']
+                except IndexError:
+                    message = '\n**No matches found**'
 #            message = '\n**Pages:** '
 #            message += '\n**Pages:** '.join(pages)
             if image_link is not None:
                 message = '\n**Image Found:** \n<{}>'.format(image_link)
-            else:
-                message = '\n**No Matching Images Found'
             await self.bot.reply(message)
 
 #    @commands.command(pass_context=True)
