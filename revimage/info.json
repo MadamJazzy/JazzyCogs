@@ -1,0 +1,8 @@
+{
+    "AUTHOR" : "Jazzibell",
+    "INSTALL_MSG" : "Thank you for installing RevImage{BETA WIP} cog by Jazzibell.",
+    "NAME" : "Revimage",
+    "SHORT" : "Reverse Image Cog",
+    "DESCRIPTION" : "Gives you the ability to reverse search an image and display results within discord",
+    "TAGS" : ["reverse image", "image", "utility", "image search"]
+}     
