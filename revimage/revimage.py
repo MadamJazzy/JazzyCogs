@@ -47,7 +47,7 @@ class revimage:
 #            message = '\n**Pages:** '
 #            message += '\n**Pages:** '.join(pages)
             if image_link is not None:
-                message = '\n**Image Found:** <{}>'.format(image_link)
+                message = '\n**Image Found:** \n<{}>'.format(image_link)
             else:
                 message = '\n**Image not Found'
             await self.bot.reply(message)
