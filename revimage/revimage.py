@@ -8,29 +8,29 @@ class revimage:
 
 
     def __init__(self, bot):
-        self.bot = bot
-        self.sauce_session = aiohttp.ClientSession()
-        self.tineye_session = aiohttp.ClientSession()
+		self.bot = bot
+		self.sauce_session = aiohttp.ClientSession()
+		self.tineye_session = aiohttp.ClientSession()
 		self.google_session = aiohttp.ClientSession()
 
     def __unload(self):
-        self.sauce_session.close()
-        self.tineye_session.close()
+		self.sauce_session.close()
+		self.tineye_session.close()
 		self.google_session.close()
 
     def _tag_to_title(self, tag):
-        return tag.replace(' ', ', ').replace('_', ' ').title()
+		return tag.replace(' ', ', ').replace('_', ' ').title()
 
     @commands.command(pass_context=True)
     async def sauce(self, ctx, link=None, similarity=80):
+		"""
+		Reverse image search using saucenao
+		usage:   [p]sauce <image-link> <similarity (in percent)> or 
+		[p]sauce on image upload comment <similarity (in percent)>
         """
-        Reverse image search using saucenao
-       usage:   .sauce <image-link> <similarity (in percent)> or
-                .sauce on image upload comment <similarity (in percent)>
-        """
-        file = ctx.message.attachments
-        if link is None and not file:
-            await self.bot.say('Message didn\'t contain Image')
+		file = ctx.message.attachments
+		if link is None and not file:
+			await self.bot.say('Message didn\'t contain Image')
         else:
             await self.bot.type()
             if file:
