@@ -6,7 +6,7 @@ To add, do `[p]cog repo add JazzyCogs https://github.com/MadamJazzy/JazzyCogs`
 
 >Social - This cog gives the ability to interact with users through gifs and the bot. Commands like kiss, bite, spank, slap, feed ect. 
 
->RevImage - This cog gives the ability to reverse image search any file (weather you upload it or have the link) and display results within discord. with a link to data. (BETA-WIP)
+>RevImage - This cog gives the ability to reverse image search any file (weather you upload it or have the link) and display results within discord. with a link to data. 
 
 **Why...** 
 
