@@ -50,7 +50,7 @@ class revimage:
                 message = '\n**Image Found:** \n<{}>'.format(image_link)
             else:
                 message = '\n**Image not Found'
-            await self.bot.send_message(message)
+            await self.bot.reply(message)
 
     @commands.command(pass_context=True)
     async def gimage(self, ctx, link=None):
