@@ -39,11 +39,11 @@ class revimage:
                 soup = BeautifulSoup(await response.text(), 'html.parser')
                 pages = []
                 image_link = None
-                    hidden = soup.find(class_='match').select('.hidden-xs')[0]
-                    if hidden.contents[0].startswith('Page:'):
-                        pages.append('<{}>'.format(hidden.next_sibling['href']))
-                    else:
-                        image_link = hidden.a['href']
+                hidden = soup.find(class_='match').select('.hidden-xs')[0]
+                if hidden.contents[0].startswith('Page:'):
+                    pages.append('<{}>'.format(hidden.next_sibling['href']))
+                else:
+                    image_link = hidden.a['href']
 #            message = '\n**Pages:** '
 #            message += '\n**Pages:** '.join(pages)
             if image_link is not None:
