@@ -43,10 +43,12 @@ class revimage:
                         image_link = hidden.a['href']
                 except AttributeError:
                     message = '\n**No matches found**'
+                    message += '**Full Search:**\nhttps://tineye.com/search/?url={}'.format(url)
 #            message = '\n**Pages:** '
 #            message += '\n**Pages:** '.join(pages)
             if image_link is not None:
                 message = '\n**Image Found:** \n<{}>'.format(image_link)
+                message += '\n**Full Search:**\nhttps://tineye.com/search/?url={}'.format(url)
             await self.bot.reply(message)
 
 
