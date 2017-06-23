@@ -44,7 +44,7 @@ class revimage:
                     pages.append('<{}>'.format(hidden.next_sibling['href']))
                 else:
                     image_link = hidden.a['href']
-                except IndexError:
+                except AttributeError:
                     message = '\n**No matches found**'
 #            message = '\n**Pages:** '
 #            message += '\n**Pages:** '.join(pages)
