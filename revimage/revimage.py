@@ -32,6 +32,7 @@ class revimage:
                 url = file[0]['proxy_url']
             else:
                 url = link
+                await self.bot.delete_message(ctx.message)
             async with self.tineye_session.get('https://tineye.com/search/?url={}'.format(url)) as response:
                 soup = BeautifulSoup(await response.text(), 'html.parser')
                 pages = []
@@ -59,7 +60,7 @@ class revimage:
 #                message = '\n**Image Found:** \n<{}>'.format(image_link)
 #                message += '\n**Full Search:** \nhttps://tineye.com/search/?url={}'.format(url)
 #            await self.bot.reply(message)
-            await self.bot.say(embed=embed)
+            await self.bot.reply(embed=embed)
 
 
 def setup(bot):
