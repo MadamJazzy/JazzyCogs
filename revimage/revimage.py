@@ -52,7 +52,7 @@ class revimage:
 #            message = '\n**Pages:** '
 #            message += '\n**Pages:** '.join(pages)
             if image_link is not None:
-                embed = .discord.Embed(title="Reverse Image Details", color=0xffff00)
+                embed = discord.Embed(title="Reverse Image Details", color=0xffff00)
                 embed.add_field(name="Original Link", value='<{}>'.format(URL), inline=False)
                 embed.add_field(name="Matches", value='<{}>'.format(image_link), inline=False)
                 embed.add_field(name="Full Search", value='https://tineye.com/search/?url={}'.format(url), inline=False)
