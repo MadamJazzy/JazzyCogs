@@ -60,7 +60,7 @@ class revimage:
 #                message = '\n**Image Found:** \n<{}>'.format(image_link)
 #                message += '\n**Full Search:** \nhttps://tineye.com/search/?url={}'.format(url)
 #            await self.bot.reply(message)
-            await self.bot.reply(content=embed)
+            await self.bot.say(embed=embed)
 
 
 def setup(bot):
