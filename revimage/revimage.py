@@ -44,7 +44,7 @@ class revimage:
                         image_link = hidden.a['href']
                 except AttributeError:
                     embed = discord.Embed(title="Reverse Image Details", color=0xffff00)
-                    embed.add_field(name="Original Link", value='<{}>'.format(URL), inline=False)
+                    embed.add_field(name="Original Link", value='<{}>'.format(url), inline=False)
                     embed.add_field(name="Matches", value='**No Matches Found**', inline=False)
                     embed.add_field(name="Full Search", value='https://tineye.com/search/?url={}'.format(url), inline=False)
 #                    message = '\n**No matches found**\n'
@@ -53,7 +53,7 @@ class revimage:
 #            message += '\n**Pages:** '.join(pages)
             if image_link is not None:
                 embed = discord.Embed(title="Reverse Image Details", color=0xffff00)
-                embed.add_field(name="Original Link", value='<{}>'.format(URL), inline=False)
+                embed.add_field(name="Original Link", value='<{}>'.format(url), inline=False)
                 embed.add_field(name="Matches", value='<{}>'.format(image_link), inline=False)
                 embed.add_field(name="Full Search", value='https://tineye.com/search/?url={}'.format(url), inline=False)
 #                message = '\n**Image Found:** \n<{}>'.format(image_link)
