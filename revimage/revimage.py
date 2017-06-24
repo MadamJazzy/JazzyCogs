@@ -1,4 +1,3 @@
-import discord
 from discord.ext import commands
 import aiohttp
 from bs4 import BeautifulSoup
@@ -45,9 +44,9 @@ class revimage:
                         image_link = hidden.a['href']
                 except AttributeError:
                     embed = discord.Embed(title="Reverse Image Details", color=0xffff00)
-                    embed.add_field(name="Original Link", value="<{}>'.format(URL)", inline=False)
-                    embed.add_field(name="Matches", value="**No Matches Found**", inline=False)
-                    embed.add_field(name="Full Search", value="https://tineye.com/search/?url={}'.format(url)", inline=False)
+                    embed.add_field(name="Original Link", value='<{}>'.format(URL), inline=False)
+                    embed.add_field(name="Matches", value='**No Matches Found**', inline=False)
+                    embed.add_field(name="Full Search", value='https://tineye.com/search/?url={}'.format(url), inline=False)
 #                    message = '\n**No matches found**\n'
 #                    message += '\n**Full Search:**\nhttps://tineye.com/search/?url={}'.format(url)
 #            message = '\n**Pages:** '
@@ -60,7 +59,7 @@ class revimage:
 #                message = '\n**Image Found:** \n<{}>'.format(image_link)
 #                message += '\n**Full Search:** \nhttps://tineye.com/search/?url={}'.format(url)
 #            await self.bot.reply(message)
-            await self.bot.reply(embed=embed)
+            await self.bot.say(embed=embed)
 
 
 def setup(bot):
