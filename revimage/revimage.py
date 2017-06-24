@@ -1,3 +1,4 @@
+import discord
 from discord.ext import commands
 import aiohttp
 from bs4 import BeautifulSoup
@@ -52,11 +53,10 @@ class revimage:
 #            message = '\n**Pages:** '
 #            message += '\n**Pages:** '.join(pages)
             if image_link is not None:
-                embed = discord.Embed(title="Reverse Image Details", color=0xffff00)
-                embed.add_field(name="Original Link", value="<{}>'.format(URL)", inline=False)
-                embed.add_field(name="Matches", value="<{}>'.format(image_link)", inline=False)
-                embed.add_field(name="Full Search", value="https://tineye.com/search/?url={}'.format(url)", inline=False)
-                await self.bot.say(embed=embed)
+                embed = .discord.Embed(title="Reverse Image Details", color=0xffff00)
+                embed.add_field(name="Original Link", value='<{}>'.format(URL), inline=False)
+                embed.add_field(name="Matches", value='<{}>'.format(image_link), inline=False)
+                embed.add_field(name="Full Search", value='https://tineye.com/search/?url={}'.format(url), inline=False)
 #                message = '\n**Image Found:** \n<{}>'.format(image_link)
 #                message += '\n**Full Search:** \nhttps://tineye.com/search/?url={}'.format(url)
 #            await self.bot.reply(message)
