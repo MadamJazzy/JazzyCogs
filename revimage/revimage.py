@@ -43,7 +43,7 @@ class revimage:
                         pages.append('<{}>'.format(hidden.next_sibling['href']))
                     else:
                         image_link = hidden.a['href']
-                except AttributeError:
+                except AttributeError or IndexError:
                     embed = discord.Embed(title="Reverse Image Details", color=0xffff00)
                     embed.add_field(name="Original Link", value='<{}>'.format(url), inline=False)
                     embed.add_field(name="Matches", value='**No Matches Found**', inline=False)
