@@ -239,7 +239,7 @@ class Social:
         else:
             await self.upload_random_gif(sender.mention + " wants to kick " + user.mention + " in the NUTS! OUCH!! ",
                                          folder)
-
+        
     async def upload_random_gif(self, msg, folder):
         if msg:
             await self.bot.say(msg)
