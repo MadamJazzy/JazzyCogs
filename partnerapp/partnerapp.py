@@ -37,12 +37,12 @@ class partnerapp:
     async def rolecreation(self, ctx):
         author = ctx.message.author
         server = ctx.message.server
-        aprole = discord.utils.get(server.roles, name="Applied")
+        aprole = discord.utils.get(server.roles, name="Partner Applicant")
         partnerrole = discord.utils.get(server.roles, name="Partners")
         if partnerrole not in server.roles:
             await self.bot.create_role(server, name="Partners")
         if aprole not in server.roles:
-            await self.bot.create_role(server, name="Applied")
+            await self.bot.create_role(server, name="Partner Applicant")
         await self.bot.say("All done!")
 
     @checks.admin_or_permissions(Manage_server=True)
@@ -82,7 +82,7 @@ class partnerapp:
         """set a min number of users a server must have to apply"""
         server = ctx.message.server
         author = ctx.message.author
-        if int(usermin) >= 0:
+        if usermin >= 0:
             if server.id not in self.settings:
                 self.initial_config(server.id)
             else:
@@ -111,7 +111,7 @@ class partnerapp:
         """"make an application by following the prompts"""
         author = ctx.message.author
         server = ctx.message.server
-        aprole = discord.utils.get(server.roles, name="Applied")
+        aprole = discord.utils.get(server.roles, name="Partner Applicant")
         partnerrole = discord.utils.get(server.roles, name="Partners")
         usermin = self.settings[server.id]['usermin']
         if server.id not in self.settings:

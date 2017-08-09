@@ -42,6 +42,7 @@ class registration:
         self.save_json()
         await self.bot.say("Cache has been reset")
 
+
     @checks.admin_or_permissions(Manage_server=True)
     @setreg.command(name="channel", pass_context=True, no_pm=True)
     async def setoutput(self, ctx, chan=None):
@@ -89,27 +90,54 @@ class registration:
                                        "[Gender Roles](Male, Female, Transgender)\n"
                                        "[Oritentation Roles](Straight, Gay, Bisexual, Pansexual)\n"
                                        "[Position Roles](Submissive, Dominant, Switch)\n"
-                                       "[Misc Roles](Over 18, Registered)``` \n"
+                                       "[Misc Roles](Over 18, Registered, Under 18)``` \n"
                                        "These roles are required for the cog to function correctly. They will be made "
                                        "with no permissions. You can modify this later through Role Management if you "
                                        "Need/Want to. Do you wish to continue? [This command will time out in 60s]")
             setrole = await self.bot.wait_for_message(channel=rolemsg.channel, author=author, timeout=60)
             if setrole.content.lower() == "no":
-                await self.bot.reply("OK, Please create the required roles yourself before proceeding")
+                await self.bot.reply("OK, This must be done before the command will work correctly!")
             elif setrole.content.lower() == "yes":
+                male = discord.utils.get(server.roles, name="Male")
+                female = discord.utils.get(server.roles, name="Female")
+                trans = discord.utils.get(server.roles, name="Transgender")
+                str8 = discord.utils.get(server.roles, name="Straight")
+                gay = discord.utils.get(server.roles, name="Gay")
+                bi = discord.utils.get(server.roles, name="Bisexual")
+                pan = discord.utils.get(server.roles, name="Pansexual")
+                dom = discord.utils.get(server.roles, name="Dominant")
+                sub = discord.utils.get(server.roles, name="Submissive")
+                switch = discord.utils.get(server.roles, name="Switch")
+                reg = discord.utils.get(server.roles, name="Registered")
+                over = discord.utils.get(server.roles, name="Over 18")
+                under = discord.utils.get(server.roles, name="Under 18")
                 await self.bot.reply("Ok, This will just take a moment")
-                await self.bot.create_role(server, name="Male")
-                await self.bot.create_role(server, name="Female")
-                await self.bot.create_role(server, name="Transgender")
-                await self.bot.create_role(server, name="Straight")
-                await self.bot.create_role(server, name="Gay")
-                await self.bot.create_role(server, name="Bisexual")
-                await self.bot.create_role(server, name="Pansexual")
-                await self.bot.create_role(server, name="Dominant")
-                await self.bot.create_role(server, name="Submissive")
-                await self.bot.create_role(server, name="Switch")
-                await self.bot.create_role(server, name="Over 18")
-                await self.bot.create_role(server, name="Registered")
+                if male not in server.roles:
+                    await self.bot.create_role(server, name="Male")
+                if female not in server.roles:
+                    await self.bot.create_role(server, name="Female")
+                if trans not in server.roles:
+                    await self.bot.create_role(server, name="Transgender")
+                if str8 not in server.roles:
+                    await self.bot.create_role(server, name="Straight")
+                if gay not in server.roles:
+                    await self.bot.create_role(server, name="Gay")
+                if bi not in server.roles:
+                    await self.bot.create_role(server, name="Bisexual")
+                if pan not in server.roles:
+                    await self.bot.create_role(server, name="Pansexual")
+                if dom not in server.roles:
+                    await self.bot.create_role(server, name="Dominant")
+                if sub not in server.roles:
+                    await self.bot.create_role(server, name="Submissive")
+                if switch not in server.roles:
+                    await self.bot.create_role(server, name="Switch")
+                if over not in server.roles:
+                    await self.bot.create_role(server, name="Over 18")
+                if reg not in server.roles:
+                    await self.bot.create_role(server, name="Registered")
+                if under not in server.roles:
+                    await self.bot.create_role(server, name="Under 18")
                 await asyncio.sleep(1.0)
                 await self.bot.reply("All done!")
             else:
@@ -253,7 +281,9 @@ class registration:
                                     await self.bot.add_roles(author, over18)
                                     em.add_field(name="Age", value=age.content, inline=True)
                                 else:
+                                    under = discord.utils.get(server.roles, name="Under 18")
                                     em.add_field(name="Age", value=age.content, inline=True)
+                                    await self.bot.add_roles(author, under)
                                 break
                         except ValueError:
                             await self.bot.send_message(author, "Age must be a number. Try again. This field is required!")

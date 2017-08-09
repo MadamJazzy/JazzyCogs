@@ -46,9 +46,9 @@ class staffapp:
     async def rolecreation(self, ctx):
         server = ctx.message.server
         author = ctx.message.author
-        aprole = discord.Client.get(server, name="Applied")
+        aprole = discord.utils.get(server, name="Staff Applicant")
         if aprole not in server.roles:
-            await self.bot.create_role(server, name="Applied")
+            await self.bot.create_role(server, name="Staff Applicant")
             await self.bot.say("All done!")
         else:
             await self.bot.say("Roles already present")
@@ -94,7 +94,7 @@ class staffapp:
         """"make an application by following the prompts"""
         author = ctx.message.author
         server = ctx.message.server
-        aprole = discord.utils.get(server.roles, name="Applied")
+        aprole = discord.utils.get(server.roles, name="Staff Applicant")
         if server.id not in self.settings:
             return await self.bot.say("Applications are not setup on this server!")
         if self.settings[server.id]['inactive']:
