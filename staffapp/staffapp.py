@@ -149,7 +149,7 @@ class staffapp:
                         await self.bot.send_message(author, "Timed Out. Please re-run command and try again!")
                         break
                     else:
-                        em.add_field(name="active", value=active.content, inline=False)
+                        em.add_field(name="Active Hours per Day:", value=active.content, inline=False)
                         break
                 if active is None:
                     break
