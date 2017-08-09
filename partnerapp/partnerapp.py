@@ -120,7 +120,7 @@ class partnerapp:
             return await self.bot.say("We are not currently accepting partnership applications, Try again later")
         if partnerrole in author.roles:
             await self.bot.say("{}, You have already partnered with this server!".format(author.mention))
-        if aprole in author.roles:
+        elif aprole in author.roles:
             await self.bot.say("{}You have already applied for partnership on this server!".format(author.mention))
         else:
             await self.bot.say("{}Ok lets start the application".format(author.mention))
