@@ -46,7 +46,7 @@ class staffapp:
     async def rolecreation(self, ctx):
         server = ctx.message.server
         author = ctx.message.author
-        aprole = discord.utils.get(server, name="Staff Applicant")
+        aprole = discord.utils.get(server.roles, name="Staff Applicant")
         if aprole not in server.roles:
             await self.bot.create_role(server, name="Staff Applicant")
             await self.bot.say("All done!")
