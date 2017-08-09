@@ -161,7 +161,7 @@ class staffapp:
                         break
                     else:
                         em.add_field(name="Why do you want to be staff", value=why.content, inline=False)
-                        aprole = discord.utils.get(server.roles, name="Applied")
+                        aprole = discord.utils.get(server.roles, name="Staff Applicant")
                         await self.bot.add_roles(author, aprole)
                         await self.bot.send_message(author, "You have finished the application. Thank you")
                         break
