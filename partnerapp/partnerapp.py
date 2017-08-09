@@ -187,7 +187,7 @@ class partnerapp:
                         break
                     else:
                         break
-                aprole = discord.utils.get(server.roles, name="Applied")
+                aprole = discord.utils.get(server.roles, name="Partner Applicant")
                 await self.bot.add_roles(author, aprole)
                 await self.bot.send_message(author, "You have finished the application. Thank you")
                 for output in self.settings[server.id]['output']:
