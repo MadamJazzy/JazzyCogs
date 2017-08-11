@@ -133,12 +133,12 @@ class partnerapp:
                     membermsg = await self.bot.send_message(author, "How many members does your server have")
                     while True:
                         member = await self.bot.wait_for_message(channel=membermsg.channel, author=author, timeout=30)
-                        member1 = int(member.content)
                         if member is None:
                             await self.bot.send_message(author, "Sorry you took to long, please try again later!")
                             break
                         else:
                             try:
+                                member1 = int(member.content)
                                 if member1 > 0:
                                     if member1 < usermin:
                                         await self.bot.send_message(author, "You do not meet our member guidelines for "
