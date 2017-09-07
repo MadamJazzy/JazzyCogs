@@ -185,7 +185,7 @@ class registration:
                                        color=discord.Color.blue())
                     em.set_author(name='Introduction for {}'.format(author.name), icon_url=avatar)
                     gendermsg = await self.bot.send_message(author, "What is your Gender? Please choose from Male, "
-                                                                    "Female, or Transgender.")
+                                                                    "Female, Trans, Trans MTF, or Trans FTM")
                     while True:
                         genders = ["male", "female", "trans", "trans mtf", "trans ftm"]
                         gender = await self.bot.wait_for_message(channel=gendermsg.channel, author=author, timeout=60)
