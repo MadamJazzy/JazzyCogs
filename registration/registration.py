@@ -485,19 +485,16 @@ class registration:
                                                         "Age must be a number. Try again. This field is required!")
                 if age is None:
                     break
-                locationmsg = await self.bot.send_message(author, "Please select your location from the following\n"
-                                                            "usa-eastern", "usa-central", "usa-pacific", "usa-mountain",
-                                                    "africa", "asia",
-                                                    "australia", "austria", "belgium", "bosnia", "brazil", "bulgaria",
-                                                    "canada", "croatia",
-                                                    "czech", "denmark", "estonia", "europe", "finland", "france",
-                                                    "germany",
-                                                    "hungary", "ireland", "israel", "italy", "latvia", "lithuania",
-                                                    "macedonia", "mexico", "middle east", "netherlands", "norway",
-                                                    "new zealand", "philippines", "poland", "portugal", "romania",
-                                                    "russia", "saudi", "scotland", "serbia", "singapore", "slovakia",
-                                                    "slovenia", "south america", "spain", "sweden", "switzerland",
-                                                    "turkey", "united kingdom")
+                locationmsg = await self.bot.send_message(author, 'Please select your location from the following\n'
+                                                                  '"usa-eastern", "usa-central", "usa-pacific", "usa-mountain",'
+                                                                  '"africa", "asia","australia", "austria", "belgium", "bosnia", "brazil", "bulgaria",'
+                                                                  '"canada", "croatia","czech", "denmark", "estonia", "europe", "finland", "france",'
+                                                                  '"germany","hungary", "ireland", "israel", "italy", "latvia", "lithuania",'
+                                                                  '"macedonia", "mexico", "middle east", "netherlands", "norway",'
+                                                                  '"new zealand", "philippines", "poland", "portugal", "romania",'
+                                                                  '"russia", "saudi", "scotland", "serbia", "singapore", "slovakia",'
+                                                                  '"slovenia", "south america", "spain", "sweden", "switzerland",'
+                                                                  '"turkey", "united kingdom"')
                 while True:
                     locations = ["usa-eastern", "usa-central", "usa-pacific", "usa-mountain", "africa", "asia",
                                  "australia", "austria", "belgium", "bosnia", "brazil", "bulgaria", "canada", "croatia",
@@ -505,8 +502,7 @@ class registration:
                                  "ireland", "israel", "italy", "latvia", "lithuania", "macedonia", "mexico",
                                  "middle-east", "netherlands", "norway", "newzealand", "philippines", "poland",
                                  "portugal", "romania", "russia", "saudi", "scotland", "serbia", "singapore",
-                                 "slovakia",
-                                 "slovenia", "southamerica", "spain", "sweden", "switzerland", "turkey",
+                                 "slovakia","slovenia", "southamerica", "spain", "sweden", "switzerland", "turkey",
                                  "unitedkingdom"]
                     location = await self.bot.wait_for_message(channel=locationmsg.channel, author=author, timeout=60)
                     if location is None:
