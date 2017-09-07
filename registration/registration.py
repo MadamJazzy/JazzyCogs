@@ -187,45 +187,35 @@ class registration:
                     gendermsg = await self.bot.send_message(author, "What is your Gender? Please choose from Male, "
                                                                     "Female, or Transgender.")
                     while True:
-                        genders = ["male", "female", "transgender", "Male", "Female", "Transgender"]
+                        genders = ["male", "female", "trans", "trans mtf", "trans ftm"]
                         gender = await self.bot.wait_for_message(channel=gendermsg.channel, author=author, timeout=60)
                         if gender is None:
                             await self.bot.send_message(author, "Registration has timed out. Please run register command again to continue!")
                             break
                         elif gender.content.lower() not in genders:
-                            await self.bot.send_message(author,"You have chosen an incorrect response. Please choose Male, Female, or "
-                                                               "Transgender. Make sure that you are spelling the choice correctly!")
+                            await self.bot.send_message(author,"You have chosen an incorrect response. Please choose Male, Female, "
+                                                               "Trans, Trans MTF, or Trans FTM. Make sure that you are spelling the choice correctly!")
                         elif gender.content.lower() in genders:
                             male = discord.utils.get(server.roles, name='Male')
                             female = discord.utils.get(server.roles, name='Female')
                             trans = discord.utils.get(server.roles, name='Transgender')
+                            mtf = discord.utils.get(server.roles, name="Trans MTF")
+                            ftm = discord.utils.get(server.roles, name="Trans FTM")
                             if gender.content.lower() == "male":
                                 await self.bot.add_roles(author, male)
                                 em.add_field(name="Gender", value="Male", inline=True)
                             elif gender.content.lower() == "female":
                                 await self.bot.add_roles(author, female)
                                 em.add_field(name="Gender", value="Female", inline=True)
+                            elif gender.content.lower() == "trans mtf":
+                                await self.bot.add_roles(author, mtf)
+                                em.add_field(name="Gender", value="Trans MTF", inline=True)
+                            elif gender.content.lower() == "trans ftm":
+                                await self.bot.add_roles(author, ftm)
+                                em.add_field(name="Gender", value="Trans FTM", inline=True)
                             else:
-                                transroles = ["mtf", "ftm", "none"]
-                                transmsg = self.bot.send_message(author, "You said you are Trans. Which are you? "
-                                                                         "Valid options are MTF, FTM, none. "
-                                                                         "[Select none if you prefer not to answer")
-                                trans1 = self.bot.wait_for_message(channel=transmsg.channel, author=author, timeout=60)
-                                if trans1.content.lower() not in transroles:
-                                    await self.bot.send_message(author, "You have chosen an incorrect response, Please"
-                                                                        "choose from MTF, FTM, or none.")
-                                elif trans1.content.lower() in transroles:
-                                    mtf = discord.utils.get(server.roles, name="Trans MTF")
-                                    ftm = discord.utils.get(server.roles, name="Trans FTM")
-                                    if trans1.content.lower() == "mtf":
-                                        await self.bot.add_roles(author, mtf)
-                                        em.add_field(name="Gender", value="Trans MTF", inline=True)
-                                    elif trans1.content.lower() == "ftm":
-                                        await self.bot.add_roles(author, ftm)
-                                        em.add_field(name="Gender", value="Trans FTM", inline=True)
-                                    else:
-                                        await self.bot.add_roles(author, trans)
-                                        em.add_field(name="Gender", value="Transgender", inline=True)
+                                await self.bot.add_roles(author, trans)
+                                em.add_field(name="Gender", value="Transgender", inline=True)
                             break
                     if gender is None:
                         break
