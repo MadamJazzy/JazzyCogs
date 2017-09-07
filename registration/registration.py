@@ -495,16 +495,18 @@ class registration:
                                                                   '"new zealand", "philippines", "poland", "portugal", "romania",'
                                                                   '"russia", "saudi", "scotland", "serbia", "singapore", "slovakia",'
                                                                   '"slovenia", "south america", "spain", "sweden", "switzerland",'
-                                                                  '"turkey", "united kingdom"')
+                                                                  '"turkey", "united kingdom"\n'
+                                                                  'If you do not wish to disclose a location you can '
+                                                                  'select none.')
                 while True:
                     locations = ["usa-eastern", "usa-central", "usa-pacific", "usa-mountain", "africa", "asia",
                                  "australia", "austria", "belgium", "bosnia", "brazil", "bulgaria", "canada", "croatia",
                                  "czech", "denmark", "estonia", "europe", "finland", "france", "germany", "hungary",
                                  "ireland", "israel", "italy", "latvia", "lithuania", "macedonia", "mexico",
-                                 "middle-east", "netherlands", "norway", "newzealand", "philippines", "poland",
+                                 "middle east", "netherlands", "norway", "new zealand", "philippines", "poland",
                                  "portugal", "romania", "russia", "saudi", "scotland", "serbia", "singapore",
-                                 "slovakia","slovenia", "southamerica", "spain", "sweden", "switzerland", "turkey",
-                                 "unitedkingdom"]
+                                 "slovakia","slovenia", "south america", "spain", "sweden", "switzerland", "turkey",
+                                 "united kingdom", "none"]
                     location = await self.bot.wait_for_message(channel=locationmsg.channel, author=author, timeout=60)
                     if location is None:
                         await self.bot.send_message(author,
@@ -666,6 +668,8 @@ class registration:
                             await self.bot.add_roles(author, turkey)
                         elif location.content.lower() == "united kingdom":
                             await self.bot.add_roles(author, uk)
+                        else:
+                            pass
                         break
                 if location is None:
                     break
