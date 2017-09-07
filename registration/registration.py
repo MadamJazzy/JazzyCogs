@@ -93,8 +93,8 @@ class registration:
                                            "[Gender Roles](Male, Female, Transgender, MTF, and FTM)\n"
                                            "[Orientation Roles](Straight, Gay, Bisexual, Pansexual, and Asexual)\n"
                                            "[Position Roles](Submissive, Dominant, Switch)\n"
-                                           "[Misc Roles](Over 18, Registered, Under 18)``` \n"
-                                           "[Location Roles] 52 location roles"
+                                           "[Misc Roles](Over 18, Registered, Under 18) \n"
+                                           "[Location Roles] 52 location roles```\n"
                                            "These roles are required for the cog to function correctly. They will be made "
                                            "with no permissions. You can modify this later through Role Management if you "
                                            "Need/Want to. Do you wish to continue? [This command will time out in 60s]")
