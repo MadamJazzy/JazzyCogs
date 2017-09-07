@@ -485,7 +485,7 @@ class registration:
                                                         "Age must be a number. Try again. This field is required!")
                 if age is None:
                     break
-                locationmsg = self.bot.send_message(author, "Please select your location from the following\n"
+                locationmsg = await self.bot.send_message(author, "Please select your location from the following\n"
                                                             "usa-eastern", "usa-central", "usa-pacific", "usa-mountain",
                                                     "africa", "asia",
                                                     "australia", "austria", "belgium", "bosnia", "brazil", "bulgaria",
