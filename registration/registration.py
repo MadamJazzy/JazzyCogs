@@ -87,8 +87,8 @@ class registration:
         author = ctx.message.author
         try:
             rolemsg = await self.bot.reply("This will create the roles needed for this cog to function.\n```md\n"
-                                       "[Gender Roles](Male, Female, Transgender)\n"
-                                       "[Oritentation Roles](Straight, Gay, Bisexual, Pansexual)\n"
+                                       "[Gender Roles](Male, Female, Transgender, MTF, and FTM)\n"
+                                       "[Oritentation Roles](Straight, Gay, Bisexual, Pansexual, and Asexual)\n"
                                        "[Position Roles](Submissive, Dominant, Switch)\n"
                                        "[Misc Roles](Over 18, Registered, Under 18)``` \n"
                                        "These roles are required for the cog to function correctly. They will be made "
@@ -101,16 +101,20 @@ class registration:
                 male = discord.utils.get(server.roles, name="Male")
                 female = discord.utils.get(server.roles, name="Female")
                 trans = discord.utils.get(server.roles, name="Transgender")
+                mtf = discord.utils.get(server.roles, name="Trans MTF")
+                ftm = discord.utils.get(server.roles, name="Trans FTM")
                 str8 = discord.utils.get(server.roles, name="Straight")
                 gay = discord.utils.get(server.roles, name="Gay")
                 bi = discord.utils.get(server.roles, name="Bisexual")
                 pan = discord.utils.get(server.roles, name="Pansexual")
+                asexual = discord.utils.get(server.roles, name="Asexual")
                 dom = discord.utils.get(server.roles, name="Dominant")
                 sub = discord.utils.get(server.roles, name="Submissive")
                 switch = discord.utils.get(server.roles, name="Switch")
                 reg = discord.utils.get(server.roles, name="Registered")
                 over = discord.utils.get(server.roles, name="Over 18")
                 under = discord.utils.get(server.roles, name="Under 18")
+
                 await self.bot.reply("Ok, This will just take a moment")
                 if male not in server.roles:
                     await self.bot.create_role(server, name="Male")
@@ -138,6 +142,12 @@ class registration:
                     await self.bot.create_role(server, name="Registered")
                 if under not in server.roles:
                     await self.bot.create_role(server, name="Under 18")
+                if mtf not in server.roles:
+                    await self.bot.create_role(server, name="Trans MTF")
+                if ftm not in server.roles:
+                    await self.bot.create_role(server, name="Trans FTM")
+                if asexual not in server.roles:
+                    await self.bot.create_role(server, name="Asexual")
                 await asyncio.sleep(1.0)
                 await self.bot.reply("All done!")
             else:
@@ -196,8 +206,26 @@ class registration:
                                 await self.bot.add_roles(author, female)
                                 em.add_field(name="Gender", value="Female", inline=True)
                             else:
-                                await self.bot.add_roles(author, trans)
-                                em.add_field(name="Gender", value="Transgender", inline=True)
+                                transroles = ["mtf", "ftm", "none"]
+                                transmsg = self.bot.send_message(author, "You said you are Trans. Which are you? "
+                                                                         "Valid options are MTF, FTM, none. "
+                                                                         "[Select none if you prefer not to answer")
+                                trans1 = self.bot.wait_for_message(channel=transmsg.channel, author=author, timeout=60)
+                                if trans1.content.lower() not in transroles:
+                                    await self.bot.send_message(author, "You have chosen an incorrect response, Please"
+                                                                        "choose from MTF, FTM, or none.")
+                                elif trans1.content.lower() in transroles:
+                                    mtf = discord.utils.get(server.roles, name="Trans MTF")
+                                    ftm = discord.utils.get(server.roles, name="Trans FTM")
+                                    if trans1.content.lower() == "mtf":
+                                        await self.bot.add_roles(author, mtf)
+                                        em.add_field(name="Gender", value="Trans MTF", inline=True)
+                                    elif trans1.content.lower() == "ftm":
+                                        await self.bot.add_roles(author, ftm)
+                                        em.add_field(name="Gender", value="Trans FTM", inline=True)
+                                    else:
+                                        await self.bot.add_roles(author, trans)
+                                        em.add_field(name="Gender", value="Transgender", inline=True)
                             break
                     if gender is None:
                         break
@@ -206,21 +234,22 @@ class registration:
                                          "you. You are more than welcome to disable then again after we are done!")
 
                 otmsg = await self.bot.send_message(author, "What is your Sexual Orientation? Please choose from Straight,"
-                                                 " Bisexual, Pansexual, or Gay.")
+                                                 " Bisexual, Pansexual, Asexual, or Gay.")
                 while True:
-                    Orient = ["straight", "bisexual", "pansexual", "gay"]
+                    Orient = ["straight", "bisexual", "pansexual", "gay", "asexual"]
                     ot = await self.bot.wait_for_message(channel=otmsg.channel, author=author, timeout=60)
                     if ot is None:
                         await self.bot.send_message(author, "Registration has timed out. Please run register command again to continue!")
                         break
                     elif ot.content.lower() not in Orient:
                         await self.bot.send_message(author, "You have entered an incorrect repsonse. Please choose from Straigh"
-                                                            "t, Gay, Bisexual, or Pansexual. Remember to check your spelling!")
+                                                            "t, Gay, Bisexual, Asexual, or Pansexual. Remember to check your spelling!")
                     elif ot.content.lower() in Orient:
                         str8 = discord.utils.get(server.roles, name='Straight')
                         gay = discord.utils.get(server.roles, name='Gay')
                         bi = discord.utils.get(server.roles, name='Bisexual')
                         pan = discord.utils.get(server.roles, name='Pansexual')
+                        asexual = discord.utils.get(server.roles, name="Asexual")
                         if ot.content.lower() == "straight":
                             await self.bot.add_roles(author, str8)
                             em.add_field(name="Orientation", value="Straight", inline=True)
@@ -230,6 +259,9 @@ class registration:
                         elif ot.content.lower() == "pansexual":
                             await self.bot.add_roles(author, pan)
                             em.add_field(name="Orientation", value="Pansexual", inline=True)
+                        elif ot.content.lower() == "asexual":
+                            await self.bot.add_roles(author, asexual)
+                            em.add_field(name="Orientation", value="Asexual", inline=True)
                         else:
                             await self.bot.add_roles(author, bi)
                             em.add_field(name="Orientation", value="Bisexual", inline=True)
@@ -237,7 +269,13 @@ class registration:
                 if ot is None:
                     break
 
-                positionmsg = await self.bot.send_message(author, "Are you a Submissive, Dominant, or Switch?")
+                positionmsg = await self.bot.send_message(author, "Are you a Submissive, Dominant, or Switch?\n"
+                                                                  "```Explination```\n:one:Submissive - This means you "
+                                                                  "are passive and not aggressive in relationships\n"
+                                                                  ":two:Dominant - This means you are aggressive in "
+                                                                  "relationships\n:three:Switch - This means you are "
+                                                                  "both passive and aggressive or you 'switch' roles "
+                                                                  "in relationships.")
                 while True:
                     pos = ["submissive", "dominant", "switch"]
                     position = await self.bot.wait_for_message(channel=positionmsg.channel, author=author, timeout=60)
@@ -264,9 +302,9 @@ class registration:
                 if position is None:
                     break
 
-                agemsg = await self.bot.send_message(author, "What is your Age? **BE TRUTHFUL** Lying will get your "
-                                                             "account banned for 1 day, If you lie again after that "
-                                                             "you will be **PERM BANNED**. Just tell the truth")
+                agemsg = await self.bot.send_message(author, "What is your Age? **BE TRUTHFUL** Lying will most likely "
+                                                             "result in consequences by admins, owners of the server! Just"
+                                                             "be honest")
                 while True:
                     over18 = discord.utils.get(server.roles, name="Over 18")
                     age = await self.bot.wait_for_message(channel=agemsg.channel, author=author, timeout=60)
@@ -276,6 +314,11 @@ class registration:
                         try:
                             if int(age.content) > 0:
                                 if int(age.content) < 13:
+                                    await self.bot.send_message(author, "Children under the age of 13 are not allowed"
+                                                                        "to be on the discord platform. You have been"
+                                                                        "kicked from this server. If you attempt to "
+                                                                        "rejoin you will be banned and reported to "
+                                                                        "discord.\nthank you")
                                     self.bot.kick(author)
                                 elif int(age.content) >=18:
                                     await self.bot.add_roles(author, over18)
