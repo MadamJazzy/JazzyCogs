@@ -313,6 +313,165 @@ class registration:
                                  "Permissions on the server. Please check this and try again. or check your console! "
                                  "for full error details ")
 
+    @checks.admin_or_permissions(Manage_server=True)
+    @setreg.command(name="droles", pass_context=True, no_pm=True)
+    async def roles2(self, ctx):
+        """Deletes the Location Roles from Role List"""
+        server = ctx.message.server
+        author = ctx.message.author
+        usa1 = discord.utils.get(server.roles, name="USA-Eastern")
+        usa2 = discord.utils.get(server.roles, name="USA-Central")
+        usa3 = discord.utils.get(server.roles, name="USA-Pacific")
+        usa4 = discord.utils.get(server.roles, name="USA-Mountain")
+        africa = discord.utils.get(server.roles, name="Africa")
+        asia = discord.utils.get(server.roles, name="Asia")
+        australia = discord.utils.get(server.roles, name="Australia")
+        austria = discord.utils.get(server.roles, name="Austria")
+        belgium = discord.utils.get(server.roles, name="Belgium")
+        bosnia = discord.utils.get(server.roles, name="Bosnia")
+        brazil = discord.utils.get(server.roles, name="Brazil")
+        bulgaria = discord.utils.get(server.roles, name="Bulgaria")
+        canada = discord.utils.get(server.roles, name="Canada")
+        croatia = discord.utils.get(server.roles, name="Croatia")
+        czech = discord.utils.get(server.roles, name="Czech")
+        denmark = discord.utils.get(server.roles, name="Denmark")
+        estonia = discord.utils.get(server.roles, name="Estonia")
+        europe = discord.utils.get(server.roles, name="Europe")
+        finland = discord.utils.get(server.roles, name="Finland")
+        france = discord.utils.get(server.roles, name="France")
+        germany = discord.utils.get(server.roles, name="Germany")
+        hungary = discord.utils.get(server.roles, name="Hungary")
+        ireland = discord.utils.get(server.roles, name="Ireland")
+        israel = discord.utils.get(server.roles, name="Israel")
+        italy = discord.utils.get(server.roles, name="Italy")
+        latvia = discord.utils.get(server.roles, name="Latvia")
+        lithuania = discord.utils.get(server.roles, name="Lithuania")
+        macedonia = discord.utils.get(server.roles, name="Macedonia")
+        mexico = discord.utils.get(server.roles, name="Mexico")
+        middleeast = discord.utils.get(server.roles, name="Middle East")
+        netherlands = discord.utils.get(server.roles, name="Netherlands")
+        norway = discord.utils.get(server.roles, name="Norway")
+        newzealand = discord.utils.get(server.roles, name="New Zealand")
+        philippines = discord.utils.get(server.roles, name="Philippines")
+        poland = discord.utils.get(server.roles, name="Poland")
+        portugal = discord.utils.get(server.roles, name="Portugal")
+        romania = discord.utils.get(server.roles, name="Romania")
+        russia = discord.utils.get(server.roles, name="Russia")
+        saudi = discord.utils.get(server.roles, name="Saudi")
+        scotland = discord.utils.get(server.roles, name="Scotland")
+        serbia = discord.utils.get(server.roles, name="Serbia")
+        singapore = discord.utils.get(server.roles, name="Singapore")
+        slovakia = discord.utils.get(server.roles, name="Slovakia")
+        slovenia = discord.utils.get(server.roles, name="Slovenia")
+        southamerica = discord.utils.get(server.roles, name="South America")
+        spain = discord.utils.get(server.roles, name="Spain")
+        sweden = discord.utils.get(server.roles, name="Sweden")
+        switzerland = discord.utils.get(server.roles, name="Switzerland")
+        turkey = discord.utils.get(server.roles, name="Turkey")
+        uk = discord.utils.get(server.roles, name="United Kingdom")
+        if usa1 in server.roles:
+            await self.bot.delete_role(server, usa1)
+        if usa2 in server.roles:
+            await self.bot.delete_role(server, usa2)
+        if usa3 in server.roles:
+            await self.bot.delete_role(server, usa3)
+        if usa4 in server.roles:
+            await self.bot.delete_role(server, usa4)
+        if africa in server.roles:
+            await self.bot.delete_role(server, africa)
+        if asia in server.roles:
+            await self.bot.delete_role(server, asia)
+        if australia in server.roles:
+            await self.bot.delete_role(server, australia)
+        if austria in server.roles:
+            await self.bot.delete_role(server, austria)
+        if belgium in server.roles:
+            await self.bot.delete_role(server, belgium)
+        if bosnia in server.roles:
+            await self.bot.delete_role(server, bosnia)
+        if brazil in server.roles:
+            await self.bot.delete_role(server, brazil)
+        if bulgaria in server.roles:
+            await self.bot.delete_role(server, bulgaria)
+        if canada in server.roles:
+            await self.bot.delete_role(server, canada)
+        if croatia in server.roles:
+            await self.bot.delete_role(server, croatia)
+        if czech in server.roles:
+            await self.bot.delete_role(server, czech)
+        if denmark in server.roles:
+            await self.bot.delete_role(server, denmark)
+        if estonia in server.roles:
+            await self.bot.delete_role(server, estonia)
+        if europe in server.roles:
+            await self.bot.delete_role(server, europe)
+        if finland in server.roles:
+            await self.bot.delete_role(server, finland)
+        if france in server.roles:
+            await self.bot.delete_role(server, france)
+        if germany in server.roles:
+            await self.bot.delete_role(server, germany)
+        if hungary in server.roles:
+            await self.bot.delete_role(server, hungary)
+        if ireland in server.roles:
+            await self.bot.delete_role(server, ireland)
+        if israel in server.roles:
+            await self.bot.delete_role(server, israel)
+        if italy in server.roles:
+            await self.bot.delete_role(server, italy)
+        if latvia in server.roles:
+            await self.bot.delete_role(server, latvia)
+        if lithuania in server.roles:
+            await self.bot.delete_role(server, lithuania)
+        if macedonia in server.roles:
+            await self.bot.delete_role(server, macedonia)
+        if mexico in server.roles:
+            await self.bot.delete_role(server, mexico)
+        if middleeast in server.roles:
+            await self.bot.delete_role(server, middleeast)
+        if netherlands in server.roles:
+            await self.bot.delete_role(server, netherlands)
+        if norway in server.roles:
+            await self.bot.delete_role(server, norway)
+        if newzealand in server.roles:
+            await self.bot.delete_role(server, newzealand)
+        if philippines in server.roles:
+            await self.bot.delete_role(server, philippines)
+        if poland in server.roles:
+            await self.bot.delete_role(server, poland)
+        if portugal in server.roles:
+            await self.bot.delete_role(server, portugal)
+        await asyncio.sleep(2.0)
+        if romania in server.roles:
+            await self.bot.delete_role(server, romania)
+        if russia in server.roles:
+            await self.bot.delete_role(server, russia)
+        if saudi in server.roles:
+            await self.bot.delete_role(server, saudi)
+        if scotland in server.roles:
+            await self.bot.delete_role(server, scotland)
+        if serbia in server.roles:
+            await self.bot.delete_role(server, serbia)
+        if singapore in server.roles:
+            await self.bot.delete_role(server, singapore)
+        if slovakia in server.roles:
+            await self.bot.delete_role(server, slovakia)
+        if slovenia in server.roles:
+            await self.bot.delete_role(server, slovenia)
+        if southamerica in server.roles:
+            await self.bot.delete_role(server, southamerica)
+        if spain in server.roles:
+            await self.bot.delete_role(server, spain)
+        if sweden in server.roles:
+            await self.bot.delete_role(server, sweden)
+        if switzerland in server.roles:
+            await self.bot.delete_role(server, switzerland)
+        if turkey in server.roles:
+            await self.bot.delete_role(server, turkey)
+        if uk in server.roles:
+            await self.bot.delete_role(server, uk)
+        await self.bot.say("All Done!")
+
     @commands.command(name="register", pass_context=True)
     async def registration(self, ctx):
         """"make a Introduction by following the prompts"""
