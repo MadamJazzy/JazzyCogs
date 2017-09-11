@@ -107,7 +107,7 @@ class partnerapp:
             await self.bot.say("Partner Applications enabled.")
 
     @commands.command(name="partner", pass_context=True)
-    async def application(self, ctx):
+    async def application(self, ctx, member1):
         """"make an application by following the prompts"""
         author = ctx.message.author
         server = ctx.message.server
@@ -125,6 +125,7 @@ class partnerapp:
         else:
             await self.bot.say("{}Ok lets start the application".format(author.mention))
             while True:
+
                 avatar = author.avatar_url if author.avatar \
                     else author.default_avatar_url
                 em = discord.Embed(timestamp=ctx.message.timestamp, title="ID: {}".format(author.id), color=discord.Color.blue())
@@ -133,6 +134,7 @@ class partnerapp:
                     membermsg = await self.bot.send_message(author, "How many members does your server have")
                     while True:
                         member = await self.bot.wait_for_message(channel=membermsg.channel, author=author, timeout=30)
+                        member1 = int(member.content)
                         if member is None:
                             await self.bot.send_message(author, "Sorry you took to long, please try again later!")
                             break
@@ -154,11 +156,40 @@ class partnerapp:
                             break
                     if member is None:
                         break
+
                     elif member1 < usermin:
                         break
                 except discord.Forbidden:
                     await self.bot.reply("You have your DMs turned off. I cannot DM you. Please enable your DMs to "
                                          "continue. You can turn them back off after we are done.")
+
+                namemsg = await self.bot.send_message(author, "What is the name of your Server?")
+                while True:
+                    name = await self.bot.wait_for_message(channel=namemsg.channel, author=author, timeout=30)
+                    if name is None:
+                        await self.bot.send_message(author, "Entry timed  out, Please try again by running the command"
+                                                            "again. The bot waits for 30 seconds on this question.")
+                        break
+                    else:
+                        em.add_field(name="Server Name:", value=name.content, inline=True)
+                        break
+                if name is None:
+                    break
+
+                typemsg = await self.bot.send_message(author, "What type of server do you have? Some example types are"
+                                                              "Community, Gaming, Bot, RPG, ect.. ")
+                while True:
+                    type = await self.bot.wait_for_message(channel=typemsg.channel, author=author, timeout=30)
+                    if type is None:
+                        await self.bot.send_message(author, "Command has timed out. Please rerun the command to try again")
+                        break
+                    else:
+                        em.add_field(name="Server Type:", value=type.content, inline=True)
+                        break
+                if type is None:
+                    break
+
+
                 linkmsg = await self.bot.send_message(author, "What is the Invite link to your server? Please be aware "
                                                               "that you need to make sure to set this invite to never "
                                                               "expire. If the link expires then we will remove it "
