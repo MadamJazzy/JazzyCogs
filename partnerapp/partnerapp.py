@@ -107,7 +107,7 @@ class partnerapp:
             await self.bot.say("Partner Applications enabled.")
 
     @commands.command(name="partner", pass_context=True)
-    async def application(self, ctx, member1):
+    async def application(self, ctx,):
         """"make an application by following the prompts"""
         author = ctx.message.author
         server = ctx.message.server
