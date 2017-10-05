@@ -28,6 +28,7 @@ class partnerapp:
                                         'cleanup': False,
                                         'usercache': [],
                                         'usermin': 0,
+                                        'partnermsg': None,
                                         'multiout': False
                                         }
             self.save_json()
@@ -45,6 +46,20 @@ class partnerapp:
             await self.bot.create_role(server, name="Partner Applicant")
         await self.bot.say("All done!")
 
+
+    @checks.admin_or_permissions(Manage_server=True)
+    @pset.command(name="msg", pass_context=True, no_pm=True)
+    async def pmsg(self, ctx, pmsg):
+        """Set your servers Partner message"""
+        server = ctx.message.server
+        if pmsg is not None:
+            try:
+                await self.bot.say("Partner Message has been set")
+                self.settings[server.id]['partnermsg'] = pmsg
+            except AttributeError:
+                pass
+        else:
+            await self.bot.say("You must enter a partner message. Do not include quotes or block text")
     @checks.admin_or_permissions(Manage_server=True)
     @pset.command(name="reset", pass_context=True, no_pm=True)
     async def fix_cache(self, ctx):
@@ -123,7 +138,7 @@ class partnerapp:
         elif aprole in author.roles:
             await self.bot.say("{}You have already applied for partnership on this server!".format(author.mention))
         else:
-            await self.bot.say("{}Ok lets start the application".format(author.mention))
+            await self.bot.say("{} Ok I will DM you to start the application!".format(author.name))
             while True:
 
                 avatar = author.avatar_url if author.avatar \
@@ -131,7 +146,10 @@ class partnerapp:
                 em = discord.Embed(timestamp=ctx.message.timestamp, title="ID: {}".format(author.id), color=discord.Color.blue())
                 em.set_author(name='Partnership Application for {}'.format(author.name), icon_url=avatar)
                 try:
-                    membermsg = await self.bot.send_message(author, "How many members does your server have")
+                    membermsg = await self.bot.send_message(author, "How many members does your server have. "
+                                                                    "Please only put the number, do not include anything"
+                                                                    "but numbers in this response or you will get an error"
+                                                                    "Example:1214 is acceptable 1000+ is **NOT**")
                     while True:
                         member = await self.bot.wait_for_message(channel=membermsg.channel, author=author, timeout=30)
                         member1 = int(member.content)
@@ -152,7 +170,7 @@ class partnerapp:
                                         em.add_field(name="MemberCount: ", value=member.content, inline=True)
                                     break
                             except ValueError:
-                                await self.bot.send_message(author, "MemberCount must be a number. Try again. This field is required!")
+                                await self.bot.send_message(author, "Member count must be a number, try again")
                             break
                     if member is None:
                         break
@@ -220,7 +238,17 @@ class partnerapp:
                         break
                 aprole = discord.utils.get(server.roles, name="Partner Applicant")
                 await self.bot.add_roles(author, aprole)
-                await self.bot.send_message(author, "You have finished the application. Thank you")
+                pmsg = self.settings[server.id]['partnermsg']
+                if pmsg is not None:
+                    await self.bot.send_message(author, "This is our partner message, Once approved you will be required to "
+                                                        "post this into your partner channel.\n" + "```" + pmsg + "```")
+                    await self.bot.send_message(author, "You have completed the application process, your application "
+                                                        "has been submitted to the partner request queue and a member"
+                                                        "of staff will be with you asap.")
+                else:
+                    await self.bot.send_message(author, "You have completed the application process, your application "
+                                                        "has been submitted to the partner request queue and a member"
+                                                        "of staff will be with you asap.")
                 for output in self.settings[server.id]['output']:
                     where = server.get_channel(output)
                     if where is not None:
