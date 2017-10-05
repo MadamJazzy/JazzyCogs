@@ -243,8 +243,8 @@ class partnerapp:
                         break
                 aprole = discord.utils.get(server.roles, name="Partner Applicant")
                 if self.settings[server.id]['partnermsg'] is not None:
-                    await self.bot.send_message(author, "This is our partner message, Once approved you will be required to "
-                                                        "post this into your partner channel.\n" + "```" + pmsg + "```")
+                    await self.bot.send_message(author, "Our Partnership message is ...")
+                    await self.bot.send_message(author, "``` {} ```".format(pmsg.content))
                     await self.bot.send_message(author, "You have completed the application process, your application "
                                                         "has been submitted to the partner request queue and a member"
                                                         "of staff will be with you asap.")
