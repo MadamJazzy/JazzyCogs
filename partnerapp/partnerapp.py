@@ -49,9 +49,13 @@ class partnerapp:
 
     @checks.admin_or_permissions(Manage_server=True)
     @pset.command(name="msg", pass_context=True, no_pm=True)
-    async def pmsg(self, ctx, pmsg):
+    async def pmsg(self, ctx,):
         """Set your servers Partner message"""
         server = ctx.message.server
+        author = ctx.message.author
+        msg = await self.bot.say("Please enter your Parter message, Do not include code blocks as they will be added"
+                                 "by the bot later")
+        pmsg = await self.bot.wait_for_message(channel=msg.channel, author=author, timeout=120)
         if pmsg is not None:
             try:
                 await self.bot.say("Partner Message has been set")
