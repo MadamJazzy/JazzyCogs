@@ -28,7 +28,7 @@ class partnerapp:
                                         'cleanup': False,
                                         'usercache': [],
                                         'usermin': 0,
-                                        'partnermsg': [],
+                                        'partnermsg': "",
                                         'multiout': False
                                         }
             self.save_json()
@@ -133,6 +133,7 @@ class partnerapp:
         aprole = discord.utils.get(server.roles, name="Partner Applicant")
         partnerrole = discord.utils.get(server.roles, name="Partners")
         usermin = self.settings[server.id]['usermin']
+        pmsg = self.settings[server.id]['partnermsg']
         if server.id not in self.settings:
             return await self.bot.say("Partner Applications are not setup on this server!")
         if self.settings[server.id]['inactive']:
@@ -241,11 +242,9 @@ class partnerapp:
                     else:
                         break
                 aprole = discord.utils.get(server.roles, name="Partner Applicant")
-                await self.bot.add_roles(author, aprole)
-
                 if self.settings[server.id]['partnermsg'] is not None:
                     await self.bot.send_message(author, "This is our partner message, Once approved you will be required to "
-                                                        "post this into your partner channel.\n" + "```" + self.settings[server.id]['partnermsg'] + "```")
+                                                        "post this into your partner channel.\n" + "```" + pmsg + "```")
                     await self.bot.send_message(author, "You have completed the application process, your application "
                                                         "has been submitted to the partner request queue and a member"
                                                         "of staff will be with you asap.")
@@ -263,8 +262,10 @@ class partnerapp:
                         else:
                             await self.bot.send_message(where, embed=em)
                             await self.bot.send_message(where, content="```\n" + info.content + "\n```")
+                            await self.bot.add_roles(author, aprole)
                             break
                         break
+
                     break
                 return
 
