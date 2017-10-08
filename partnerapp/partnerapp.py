@@ -269,7 +269,7 @@ class partnerapp:
                                                                 "no less than {} members in your server!".format(usermin))
                         else:
                             await self.bot.send_message(where, embed=em)
-                            await self.bot.say("Partner Message for {}".format(author.mention))
+                            await self.bot.send_message(where, "Partner Message for {}".format(author.mention))
                             await self.bot.add_roles(author, aprole)
                             break
                         break
