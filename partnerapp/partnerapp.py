@@ -139,7 +139,7 @@ class partnerapp:
                 avatar = author.avatar_url if author.avatar \
                     else author.default_avatar_url
                 em = discord.Embed(timestamp=ctx.message.timestamp, title="ID: {}".format(author.id), color=discord.Color.blue())
-                em.set_author(name='Partnership Application for {}'.format(author.name), icon_url=avatar)
+                em.set_author(name='Partnership Application for {}'.format(author.mention), icon_url=avatar)
                 try:
                     membermsg = await self.bot.send_message(author, "How many members does your server have. "
                                                                     "Please only put the number, do not include anything"
