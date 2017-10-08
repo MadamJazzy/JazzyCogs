@@ -58,8 +58,12 @@ class partnerapp:
         pmsg = await self.bot.wait_for_message(channel=msg.channel, author=author, timeout=120)
         if pmsg is not None:
             try:
-                await self.bot.say("Partner Message has been set")
-                self.settings[server.id]['partnermsg'] = pmsg
+                if server.id not in self.settings:
+                    self.initial_config(server.id)
+                else:
+                    self.settings[server.id]['partnermsg'] = pmsg
+                    self.save_json()
+                    await self.bot.say("Partner Message has been set")
             except AttributeError:
                 pass
         else:
@@ -97,6 +101,7 @@ class partnerapp:
                 self.initial_config(server.id)
             else:
                 self.settings[server.id]['usermin'] = usermin
+                self.save_json()
                 await self.bot.say("{} has been set as min number of users".format(usermin))
         else:
             await self.bot.say("{} Input must be a number please try again".format(author.mention))
