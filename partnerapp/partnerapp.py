@@ -64,15 +64,6 @@ class partnerapp:
                 pass
         else:
             await self.bot.say("You must enter a partner message. Do not include quotes or block text")
-    @checks.admin_or_permissions(Manage_server=True)
-    @pset.command(name="reset", pass_context=True, no_pm=True)
-    async def fix_cache(self, ctx):
-        """Reset cache for applications"""
-        server = ctx.message.server
-        self.initial_config(ctx.message.server.id)
-        self.settings[server.id]['usercache'] = []
-        self.save_json()
-        await self.bot.say("Cache has been reset")
 
     @checks.admin_or_permissions(Manage_server=True)
     @pset.command(name="channel", pass_context=True, no_pm=True)
@@ -141,11 +132,10 @@ class partnerapp:
         if partnerrole in author.roles:
             await self.bot.say("{}, You have already partnered with this server!".format(author.mention))
         elif aprole in author.roles:
-            await self.bot.say("{}You have already applied for partnership on this server!".format(author.mention))
+            await self.bot.say("{}, You have already applied for partnership on this server!".format(author.mention))
         else:
-            await self.bot.say("{} Ok I will DM you to start the application!".format(author.name))
+            await self.bot.say("{}, Ok I will DM you to start the application!".format(author.name))
             while True:
-
                 avatar = author.avatar_url if author.avatar \
                     else author.default_avatar_url
                 em = discord.Embed(timestamp=ctx.message.timestamp, title="ID: {}".format(author.id), color=discord.Color.blue())
@@ -159,7 +149,7 @@ class partnerapp:
                         member = await self.bot.wait_for_message(channel=membermsg.channel, author=author, timeout=30)
                         member1 = int(member.content)
                         if member is None:
-                            await self.bot.send_message(author, "Sorry you took to long, please try again later!")
+                            await self.bot.send_message(author, "Sorry you took to long, please try again!")
                             break
                         else:
                             try:
@@ -173,20 +163,25 @@ class partnerapp:
                                         break
                                     elif member1 >= usermin:
                                         em.add_field(name="MemberCount: ", value=member.content, inline=True)
-                                    break
-                            except ValueError:
-                                await self.bot.send_message(author, "Member count must be a number, try again")
-                            break
+                                        break
+                                else:
+                                    await self.bot.send_message(author, "You have entered an invalid response. "
+                                                                        "Please only use positve numbers and no + signs "
+                                                                        "Number only. Example: 1524 and not 1500+ ")
+                            except ValueError or AttributeError:
+                                await self.bot.send_message(author, "Member count must be a number, try again do not "
+                                                                    "include any symbols like + or - ")
                     if member is None:
                         break
-
                     elif member1 < usermin:
                         break
                 except discord.Forbidden:
                     await self.bot.reply("You have your DMs turned off. I cannot DM you. Please enable your DMs to "
                                          "continue. You can turn them back off after we are done.")
+                    pass
+                    break
 
-                namemsg = await self.bot.send_message(author, "What is the name of your Server?")
+                namemsg = await self.bot.send_message(author, "What is your Server's Name?")
                 while True:
                     name = await self.bot.wait_for_message(channel=namemsg.channel, author=author, timeout=30)
                     if name is None:
@@ -198,9 +193,20 @@ class partnerapp:
                         break
                 if name is None:
                     break
+                ownermsg = await self.bot.send_message(author, "Who is the Owner of this Server? Example Owner#1234"
+                                                               "Be sure to include the full name and discrim.")
+                while True:
+                    owner = await self.bot.wait_for_message(channel=ownermsg.channel, author=author, timeout=45)
+                    if owner is None:
+                        await self.bot.send_message(author, "Entry has timed out, Please start over and try again")
+                        break
+                    else:
+                        em.add_field(name="Server Owner:", value=owner.content, inline=True)
+                if owner is None:
+                    break
 
-                typemsg = await self.bot.send_message(author, "What type of server do you have? Some example types are"
-                                                              "Community, Gaming, Bot, RPG, ect.. ")
+                typemsg = await self.bot.send_message(author, "What type of server is this? Examples include:"
+                                                              " Community, Gaming, Bot, Adult, Dating. ect.")
                 while True:
                     type = await self.bot.wait_for_message(channel=typemsg.channel, author=author, timeout=30)
                     if type is None:
@@ -212,11 +218,9 @@ class partnerapp:
                 if type is None:
                     break
 
-
-                linkmsg = await self.bot.send_message(author, "What is the Invite link to your server? Please be aware "
-                                                              "that you need to make sure to set this invite to never "
-                                                              "expire. If the link expires then we will remove it "
-                                                              "from the partnership page. ")
+                linkmsg = await self.bot.send_message(author, "What is your Invite link? This must be a discord.gg/INVITE "
+                                                              "type of link. Please make sure that this link is set to "
+                                                              "not expire.")
                 while True:
                     link = await self.bot.wait_for_message(channel=linkmsg.channel, author=author, timeout=30)
                     if link is None:
@@ -235,11 +239,12 @@ class partnerapp:
                                                               "You have 2 Mins to write your info. Otherwise the "
                                                               "application will time out and you will have to start over!")
                 while True:
-                    info = await self.bot.wait_for_message(channel=infomsg.channel, author=author, timeout=60)
+                    info = await self.bot.wait_for_message(channel=infomsg.channel, author=author, timeout=120)
                     if info is None:
                         await self.bot.send_message(author, "Timed out Please run command again")
                         break
                     else:
+                        em.add_field(name="Partner Message:", value="```" + pmsg.content + "```", inline=False)
                         break
                 aprole = discord.utils.get(server.roles, name="Partner Applicant")
                 if self.settings[server.id]['partnermsg'] is not None:
