@@ -60,7 +60,7 @@ class partnerapp:
                 if server.id not in self.settings:
                     self.initial_config(server.id)
                 else:
-                    self.settings[server.id]['partnermsg'] = pmsg
+                    self.settings[server.id]['partnermsg'] = [pmsg]
                     self.save_json()
                     await self.bot.say("Partner Message has been set")
             except AttributeError:
