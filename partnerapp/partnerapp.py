@@ -168,6 +168,8 @@ class partnerapp:
                                     await self.bot.send_message(author, "You have entered an invalid response. "
                                                                         "Please only use positve numbers and no + signs "
                                                                         "Number only. Example: 1524 and not 1500+ ")
+                            except AttributeError:
+                                break
                     if member is None:
                         break
                     elif member1 < usermin:
