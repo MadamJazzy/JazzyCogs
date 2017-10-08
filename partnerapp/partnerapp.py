@@ -244,7 +244,7 @@ class partnerapp:
                         await self.bot.send_message(author, "Timed out Please run command again")
                         break
                     else:
-                        em.add_field(name="Partner Message:", value="```" + pmsg.content + "```", inline=False)
+                        em.add_field(name="Partner Message:", value="```" + info.content + "```", inline=False)
                         break
                 aprole = discord.utils.get(server.roles, name="Partner Applicant")
                 if self.settings[server.id]['partnermsg'] is not None:
