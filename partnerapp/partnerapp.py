@@ -27,7 +27,7 @@ class partnerapp:
                                         'output': [],
                                         'usercache': [],
                                         'usermin': 0,
-                                        'partnermsg': ,
+                                        'partnermsg': 0,
                                         'multiout': False
                                         }
             self.save_json()
