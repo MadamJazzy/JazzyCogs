@@ -168,6 +168,7 @@ class partnerapp:
                                     await self.bot.send_message(author, "You have entered an invalid response. "
                                                                         "Please only use positve numbers and no + signs "
                                                                         "Number only. Example: 1524 and not 1500+ ")
+                                    break
                             except ValueError or AttributeError:
                                 await self.bot.send_message(author, "Member count must be a number, try again do not "
                                                                     "include any symbols like + or - ")
@@ -237,7 +238,7 @@ class partnerapp:
                                                               "this will be what is posted in the partners channel if your "
                                                               "application gets approved. Please make sure to perfect "
                                                               "your description formatting BEFORE sending it here. "
-                                                              "If you need to change it later speak to Partner Manager! "
+                                                              "If you need to change it later speak to a staff member! "
                                                               "You have 2 Mins to write your info. Otherwise the "
                                                               "application will time out and you will have to start over!")
                 while True:
@@ -268,7 +269,6 @@ class partnerapp:
                                                                 "no less than {} members in your server!".format(usermin))
                         else:
                             await self.bot.send_message(where, embed=em)
-                            await self.bot.send_message(where, content="```\n" + info.content + "\n```")
                             await self.bot.add_roles(author, aprole)
                             break
                         break
