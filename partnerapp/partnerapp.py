@@ -203,6 +203,7 @@ class partnerapp:
                         break
                     else:
                         em.add_field(name="Server Owner:", value=owner.content, inline=True)
+                        break
                 if owner is None:
                     break
 
