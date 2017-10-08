@@ -25,10 +25,9 @@ class partnerapp:
         if server_id not in self.settings:
             self.settings[server_id] = {'inactive': True,
                                         'output': [],
-                                        'cleanup': False,
                                         'usercache': [],
                                         'usermin': 0,
-                                        'partnermsg': "",
+                                        'partnermsg': [],
                                         'multiout': False
                                         }
             self.save_json()
