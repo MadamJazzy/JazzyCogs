@@ -268,13 +268,15 @@ class partnerapp:
                                                                 "parternship at this time. You must have "
                                                                 "no less than {} members in your server!".format(usermin))
                         else:
-                            await self.bot.send_message(where, embed=em)
+                            await self.bot.reply(where, embed=em)
+
                             await self.bot.add_roles(author, aprole)
                             break
                         break
 
                     break
                 return
+
 
 def check_folder():
     f = 'data/partner'
