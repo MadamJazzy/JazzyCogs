@@ -136,9 +136,9 @@ class partnerapp:
         """"make an application by following the prompts"""
         author = ctx.message.author
         server = ctx.message.server
-        usermin = r.table('settings').get(server.id)["usermin"].run()
-        pmsg = r.table('settings').get(server.id)["message"].run()
         setting = self.get_settings(str(server.id))
+        pmsg = setting["message"]
+        usermin = setting["usermin"]
         app = self.get_app(str(server.id))
         if setting is None:
             return await self.bot.say("Partner Applications are not setup on this server!")
@@ -293,20 +293,15 @@ class partnerapp:
                                                     "has been submitted to the partner request queue and a member"
                                                     "of staff will be with you asap.")
 
-                channel = self.get_settings(setting)["channel"]
+                channel = setting["channel"]
                 where = server.get_channel(str(channel))
                 if where is not None:
                     await self.bot.send_message(where, embed=em)
                     await self.bot.send_message(where, "Partner Message for {}".format(author.mention))
                     appid = "{}-{}".format(server.id, id.content)
-                    self.save_app({"id": appid,
-                                   "userid": author.id,
-                                   "username": author.name,
-                                   "members": member.content,
-                                   "invite": link.content,
-                                   "info": info.content,
-                                   "status": "Pending"
-                                   })
+                    r.table("apps").insert({"id": appid, "userid": author.id, "username": author.name,
+                                            "members": member.content, "invite": link.content, "info": info.content,
+                                            "status": "Pending"}, conflict="update").run()
 
                     break
                 return
