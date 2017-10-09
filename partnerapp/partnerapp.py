@@ -166,7 +166,8 @@ class partnerapp:
                             break
                         else:
                             try:
-                                if app["pid"] is True:
+                                appid = server.id + "-" + id.content
+                                if app[appid] is True:
                                     await self.bot.send_message(author, "{}, You have already applied to this "
                                                                         "server!".format(author.mention))
                                     await self.bot.send.message(author, "You application was {}".format(app["status"]))
