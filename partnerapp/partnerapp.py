@@ -292,12 +292,11 @@ class partnerapp:
                                                     "has been submitted to the partner request queue and a member"
                                                     "of staff will be with you asap.")
 
-                for channel in r.table('settings').get(server.id)["channel"].run():
+                channel = r.table('settings').get(setting)["channel"].run()
                     where = server.get_channel(channel)
                     if where is not None:
                         await self.bot.send_message(where, embed=em)
                         await self.bot.send_message(where, "Partner Message for {}".format(author.mention))
-                        await self.bot.add_roles(author, aprole)
                         appid = "{}-{}".format(server.id, id.content)
                         self.save_app({"id": appid,
                                        "userid": author.id,
