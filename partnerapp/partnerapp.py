@@ -48,6 +48,7 @@ class partnerapp:
         except:
             pass
         self.save_settings({"id": server_id,
+                            "channel": [],
                             "inactive": True,
                             "usermin": 0,
                             "message": 0})
@@ -90,7 +91,7 @@ class partnerapp:
         if chan is not None:
             try:
                 if setting is not None:
-                    setting["channel"] = chan
+                    setting["channel"] = [chan]
                     self.save_settings(setting)
                     await self.bot.say("The <#{}> will be used to post applications!".format(chan))
                 else:
