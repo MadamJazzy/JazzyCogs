@@ -287,7 +287,7 @@ class partnerapp:
                         em.add_field(name="Partner Message:", value="```" + info.content + "```", inline=False)
                         break
                 await self.bot.send_message(author, "Our Partnership message is ...")
-                await self.bot.send_message(author, "``` {} ```".format(pmsg.content))
+                await self.bot.send_message(author, "``` {} ```".format(pmsg))
                 await self.bot.send_message(author, "You have completed the application process, your application "
                                                     "has been submitted to the partner request queue and a member"
                                                     "of staff will be with you asap.")
