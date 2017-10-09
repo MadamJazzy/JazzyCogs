@@ -166,7 +166,7 @@ class partnerapp:
                             break
                         else:
                             try:
-                                appid = server.id + "-" + id
+                                appid = str(server.id + "-" + id)
                                 if app[appid] is True:
                                     await self.bot.send_message(author, "{}, You have already applied to this "
                                                                         "server!".format(author.mention))
@@ -311,7 +311,7 @@ class partnerapp:
                             await self.bot.send_message(where, embed=em)
                             await self.bot.send_message(where, "Partner Message for {}".format(author.mention))
                             await self.bot.add_roles(author, aprole)
-                            appid = server.id + "-" + id.content
+                            appid = str(server.id + "-" + id.content)
                             self.save_app({"id": appid,
                                            "userid": author.id,
                                            "username": author.name,
@@ -336,7 +336,7 @@ class partnerapp:
     @pmod.command(name="approve", pass_context=True, no_pm=True)
     async def approve(self, ctx, id=None):
         server = ctx.message.server
-        appid = server.id + "-" + id.content
+        appid = str(server.id + "-" + id.content)
         app = self.get_app(str(appid))
         if app is True:
             app["status"] = "Approved"
@@ -349,7 +349,7 @@ class partnerapp:
     @pmod.command(name="deny", pass_context=True, no_pm=True)
     async def deny(self, ctx, id=None):
         server = ctx.message.server
-        appid = server.id + "-" + id.content
+        appid = str(server.id + "-" + id.content)
         app = self.get_app(str(appid))
         if app is True:
             app["status"] = "Denied"
