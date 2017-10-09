@@ -293,19 +293,19 @@ class partnerapp:
                                                     "of staff will be with you asap.")
 
                 channel = r.table('settings').get(setting)["channel"].run()
-                    where = server.get_channel(channel)
-                    if where is not None:
-                        await self.bot.send_message(where, embed=em)
-                        await self.bot.send_message(where, "Partner Message for {}".format(author.mention))
-                        appid = "{}-{}".format(server.id, id.content)
-                        self.save_app({"id": appid,
-                                       "userid": author.id,
-                                       "username": author.name,
-                                       "members": member.content,
-                                       "invite": link.content,
-                                       "info": info.content,
-                                       "status": "Pending"
-                                       })
+                where = server.get_channel(channel)
+                if where is not None:
+                    await self.bot.send_message(where, embed=em)
+                    await self.bot.send_message(where, "Partner Message for {}".format(author.mention))
+                    appid = "{}-{}".format(server.id, id.content)
+                    self.save_app({"id": appid,
+                                   "userid": author.id,
+                                   "username": author.name,
+                                   "members": member.content,
+                                   "invite": link.content,
+                                   "info": info.content,
+                                   "status": "Pending"
+                                   })
 
                     break
                 return
