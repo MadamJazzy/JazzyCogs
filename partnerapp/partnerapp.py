@@ -3,66 +3,79 @@ import discord
 from discord.ext import commands
 from cogs.utils.dataIO import dataIO
 from cogs.utils import checks
+import rethinkdb as r
+
+r.connect('localhost', 28015, db="partner").repl()
 
 
 class partnerapp:
     """Custom Cog for applications"""
+
     def __init__(self, bot):
         self.bot = bot
-        self.settings = dataIO.load_json('data/partner/settings.json')
-        for s in self.settings:
-            self.settings[s]['usercache'] = []
-    def save_json(self):
-        dataIO.save_json("data/partner/settings.json", self.settings)
+
+    def get_app(self, server_id):
+        try:
+            return r.table("apps").get(str(server_id)).run()
+        except:
+            return None
+
+    def get_settings(self, server_id):
+        try:
+            return r.table("settings").get(str(server_id)).run()
+        except:
+            return None
+
+    def save_app(self, app):
+        try:
+            r.table("apps").insert(app, conflict="update").run()
+        except:
+            pass
+
+    def save_settings(self, setting):
+        try:
+            r.table("settings").insert(setting, conflict="update").run()
+        except:
+            pass
+
+    def initial_config(self, server_id):
+        try:
+            r.table_create("settings").run()
+        except:
+            pass
+        try:
+            r.table_create("apps").run()
+        except:
+            pass
+        self.save_settings({"id": server_id,
+                            "inactive": True,
+                            "usermin": 0,
+                            "message": 0})
 
     @commands.group(name="pset", pass_context=True, no_pm=True)
     async def pset(self, ctx):
         """configuration settings"""
         if ctx.invoked_subcommand is None:
             await self.bot.send_cmd_help(ctx)
-    def initial_config(self, server_id):
-        """makes an entry for the server, defaults to turned off"""
-        if server_id not in self.settings:
-            self.settings[server_id] = {'inactive': True,
-                                        'output': [],
-                                        'usercache': [],
-                                        'usermin': 0,
-                                        'partnermsg': 0,
-                                        'multiout': False
-                                        }
-            self.save_json()
-
-    @checks.admin_or_permissions(Manage_server=True)
-    @pset.command(name="roles", pass_context=True, no_pm=True)
-    async def rolecreation(self, ctx):
-        author = ctx.message.author
-        server = ctx.message.server
-        aprole = discord.utils.get(server.roles, name="Partner Applicant")
-        partnerrole = discord.utils.get(server.roles, name="Partners")
-        if partnerrole not in server.roles:
-            await self.bot.create_role(server, name="Partners")
-        if aprole not in server.roles:
-            await self.bot.create_role(server, name="Partner Applicant")
-        await self.bot.say("All done!")
-
 
     @checks.admin_or_permissions(Manage_server=True)
     @pset.command(name="msg", pass_context=True, no_pm=True)
-    async def pmsg(self, ctx,):
+    async def pmsg(self, ctx, ):
         """Set your servers Partner message"""
         server = ctx.message.server
         author = ctx.message.author
+        setting = self.get_settings(str(server.id))
         msg = await self.bot.say("Please enter your Parter message, Do not include code blocks as they will be added"
                                  "by the bot later")
         pmsg = await self.bot.wait_for_message(channel=msg.channel, author=author, timeout=120)
         if pmsg is not None:
             try:
-                if server.id not in self.settings:
-                    self.initial_config(server.id)
+                if setting is not None:
+                    setting["message"] = pmsg
+                    self.save_settings(setting)
+                    await self.bot.say("Partner Message has been set.")
                 else:
-                    self.settings[server.id]['partnermsg'] = pmsg.content
-                    self.save_json()
-                    await self.bot.say("Partner Message has been set")
+                    self.initial_config(str(server.id))
             except AttributeError:
                 pass
         else:
@@ -73,21 +86,17 @@ class partnerapp:
     async def setoutput(self, ctx, chan=None):
         """sets the place to output application embed to when finished."""
         server = ctx.message.server
-        if server.id not in self.settings:
-            self.initial_config(server.id)
-        if chan in self.settings[server.id]['output']:
-            return await self.bot.say("Channel already set as output")
-        for channel in server.channels:
-            if str(chan) == str(channel.id):
-                if self.settings[server.id]['multiout']:
-                    self.settings[server.id]['output'].append(chan)
-                    self.save_json()
-                    return await self.bot.say("Channel added to output list")
+        setting = self.get_settings(str(server.id))
+        if chan is not None:
+            try:
+                if setting is not None:
+                    setting["channel"] = chan
+                    self.save_settings(setting)
+                    await self.bot.say("The <#{}> will be used to post applications!".format(chan))
                 else:
-                    self.settings[server.id]['output'] = [chan]
-                    self.save_json()
-                    return await self.bot.say("Channel set as output")
-        await self.bot.say("I could not find a channel with that id")
+                    self.initial_config(str(server.id))
+            except AttributeError:
+                pass
 
     @checks.admin_or_permissions(Manage_server=True)
     @pset.command(name="usermin", pass_context=True, no_pm=True)
@@ -95,13 +104,14 @@ class partnerapp:
         """set a min number of users a server must have to apply"""
         server = ctx.message.server
         author = ctx.message.author
+        setting = self.get_settings(str(server.id))
         if usermin >= 0:
-            if server.id not in self.settings:
-                self.initial_config(server.id)
-            else:
-                self.settings[server.id]['usermin'] = usermin
-                self.save_json()
+            if setting is not None:
+                setting["usermin"] = usermin
+                self.save_settings(setting)
                 await self.bot.say("{} has been set as min number of users".format(usermin))
+            else:
+                self.initial_config(str(server.id))
         else:
             await self.bot.say("{} Input must be a number please try again".format(author.mention))
 
@@ -110,12 +120,11 @@ class partnerapp:
     async def reg_toggle(self, ctx):
         """Toggles applications for the server"""
         server = ctx.message.server
-        if server.id not in self.settings:
-            self.initial_config(server.id)
-        self.settings[server.id]['inactive'] = \
-            not self.settings[server.id]['inactive']
-        self.save_json()
-        if self.settings[server.id]['inactive']:
+        setting = self.get_settings(str(server.id))
+        if setting is not None:
+            setting["inactive"] = \
+            self.save_settings(setting)
+        if setting['inactive'] is False:
             await self.bot.say("Partner Applications disabled.")
         else:
             await self.bot.say("Partner Applications enabled.")
@@ -125,26 +134,45 @@ class partnerapp:
         """"make an application by following the prompts"""
         author = ctx.message.author
         server = ctx.message.server
-        aprole = discord.utils.get(server.roles, name="Partner Applicant")
-        partnerrole = discord.utils.get(server.roles, name="Partners")
-        usermin = self.settings[server.id]['usermin']
-        pmsg = self.settings[server.id]['partnermsg']
-        if server.id not in self.settings:
+        usermin = r.table('settings').get(server.id)["usermin"]
+        pmsg = r.table('settings').get(server.id)["partnermsg"]
+        setting = self.get_settings(str(server.id))
+        app = self.get_app(str(server.id))
+        if setting is None:
             return await self.bot.say("Partner Applications are not setup on this server!")
-        if self.settings[server.id]['inactive']:
+        if setting["inactive"] is True:
             return await self.bot.say("We are not currently accepting partnership applications, Try again later")
-        if partnerrole in author.roles:
-            await self.bot.say("{}, You have already partnered with this server!".format(author.mention))
-        elif aprole in author.roles:
-            await self.bot.say("{}, You have already applied for partnership on this server!".format(author.mention))
+        if app["pid"] is True:
+            await self.bot.say("{}, You have already applied to this server!".format(author.mention))
+            await self.bot.say("You application was {}".format(app["status"]))
         else:
-            await self.bot.say("{}, Ok I will DM you to start the application!".format(author.name))
+            await self.bot.say("{}, Ok I will DM you to start the application! For this application you "
+                               "will need to have your Server ID, Server Name, Owner Name, Number of Members "
+                               "Perm Invite link, and your servers partner message. ".format(author.name))
+
+
             while True:
                 avatar = author.avatar_url if author.avatar \
                     else author.default_avatar_url
                 em = discord.Embed(timestamp=ctx.message.timestamp, title="ID: {}".format(author.id), color=discord.Color.blue())
                 em.set_author(name='Partnership Application for {}'.format(author.name), icon_url=avatar)
                 try:
+                    idmsg = await self.bot.send_message(author, "What is your servers ID? You can obtain this by doing "
+                                                                "serverinfo on almost any bot. If you need help contant a "
+                                                                "staff member. if this number is not correct then the "
+                                                                "application cannot be approved.")
+                    while True:
+                        id = await self.bot.wait_for_message(channel=idmsg.channel, author=author, timeout=30)
+                        if id is None:
+                            await self.bot.send_message(author, "Sorry you took to long, Try again later")
+                            break
+                        else:
+                            try:
+                                em.add_field(name="Server ID", value=id.content, inline=True)
+                            except AttributeError:
+                                pass
+                    if id is None:
+                        break
                     membermsg = await self.bot.send_message(author, "How many members does your server have. "
                                                                     "Please only put the number, do not include anything"
                                                                     "but numbers in this response or you will get an error"
@@ -167,6 +195,8 @@ class partnerapp:
                                         break
                                     elif member1 >= usermin:
                                         em.add_field(name="MemberCount: ", value=member.content, inline=True)
+                                        app["members"] = member1
+                                        self.save_app(app)
                                         break
                                 else:
                                     await self.bot.send_message(author, "You have entered an invalid response. "
@@ -186,6 +216,8 @@ class partnerapp:
                                          "continue. You can turn them back off after we are done.")
                     pass
                     break
+                idmsg = await self.bot.send_message(author, "What is your Server ID? (You can get this by doing serverinfo"
+                                                            "command on almost any bot.")
 
                 namemsg = await self.bot.send_message(author, "What is your Server's Name?")
                 while True:
@@ -254,7 +286,7 @@ class partnerapp:
                         em.add_field(name="Partner Message:", value="```" + info.content + "```", inline=False)
                         break
                 aprole = discord.utils.get(server.roles, name="Partner Applicant")
-                if self.settings[server.id]['partnermsg'] is not None:
+                if self.get_settings(setting)["message"] is not None:
                     await self.bot.send_message(author, "Our Partnership message is ...")
                     await self.bot.send_message(author, "``` {} ```".format(pmsg))
                     await self.bot.send_message(author, "You have completed the application process, your application "
@@ -264,8 +296,8 @@ class partnerapp:
                     await self.bot.send_message(author, "You have completed the application process, your application "
                                                         "has been submitted to the partner request queue and a member"
                                                         "of staff will be with you asap.")
-                for output in self.settings[server.id]['output']:
-                    where = server.get_channel(output)
+                for channel in r.table('settings').get(server.id)["channel"]:
+                    where = server.get_channel(channel)
                     if where is not None:
                         if member1 < usermin:
                             await self.bot.send_message(author, "You do not meet our member guidelines for "
@@ -275,27 +307,55 @@ class partnerapp:
                             await self.bot.send_message(where, embed=em)
                             await self.bot.send_message(where, "Partner Message for {}".format(author.mention))
                             await self.bot.add_roles(author, aprole)
+                            appid = server.id + "-" + id.content
+                            self.save_app({"id": appid
+                                           "pid": id.content, {
+                                           "servername": name,
+                                           "userid": author.id,
+                                           "username": author.name,
+                                           "members": member.content,
+                                           "invite": link.content,
+                                           "info": info.content,
+                                           "status": "Pending"}
+                                           })
+
                             break
                         break
 
                     break
                 return
 
+    @commands.group(name="pmod", pass_context=True, no_pm=True)
+    async def pmod(self, ctx):
+        """Moderate the Partner Applications"""
+        if ctx.invoked_subcommand is None:
+            await self.bot.send_cmd_help(ctx)
+    @checks.mod_or_permissions(ManageMessages=True)
+    @pmod.command(name="approve", pass_context=True, no_pm=True)
+    async def approve(self, ctx, id=None):
+        server = ctx.message.server
+        appid = server.id + "-" + id.content
+        app = self.get_app(str(appid))
+        if app is True:
+            app["status"] = "Approved"
+            self.save_app(app)
+        else:
+            await self.bot.say("Ooops, This does not seem to be a valid Application ID, Make sure you are using the "
+                               "Server ID that they entered when they applied")
 
-def check_folder():
-    f = 'data/partner'
-    if not os.path.exists(f):
-        os.makedirs(f)
-
-
-def check_file():
-    f = 'data/partner/settings.json'
-    if dataIO.is_valid_json(f) is False:
-        dataIO.save_json(f, {})
-
+    @checks.mod_or_permissions(ManageMessages=True)
+    @pmod.command(name="deny", pass_context=True, no_pm=True)
+    async def deny(self, ctx, id=None):
+        server = ctx.message.server
+        appid = server.id + "-" + id.content
+        app = self.get_app(str(appid))
+        if app is True:
+            app["status"] = "Denied"
+            self.save_app(app)
+        else:
+            await self.bot.say("Ooops, This does not seem to be a valid Application ID, Make sure you are using the "
+                               "Server ID that they entered when they applied")
 
 def setup(bot):
-    check_folder()
-    check_file()
     n = partnerapp(bot)
     bot.add_cog(n)
