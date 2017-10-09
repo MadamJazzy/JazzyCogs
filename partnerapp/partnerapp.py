@@ -166,8 +166,8 @@ class partnerapp:
                             break
                         else:
                             try:
-                                appid = server.id + "-" + id
-                                if app[str(appid)] is True:
+                                appid = "{}-{}".format(server.id, id.content)
+                                if app[appid] is True:
                                     await self.bot.send_message(author, "{}, You have already applied to this "
                                                                         "server!".format(author.mention))
                                     await self.bot.send.message(author, "You application was {}".format(app["status"]))
@@ -311,8 +311,8 @@ class partnerapp:
                             await self.bot.send_message(where, embed=em)
                             await self.bot.send_message(where, "Partner Message for {}".format(author.mention))
                             await self.bot.add_roles(author, aprole)
-                            appid = server.id + "-" + id.content
-                            self.save_app({"id": str(appid),
+                            appid = "{}-{}".format(server.id, id.content)
+                            self.save_app({"id": appid,
                                            "userid": author.id,
                                            "username": author.name,
                                            "members": member.content,
@@ -336,8 +336,8 @@ class partnerapp:
     @pmod.command(name="approve", pass_context=True, no_pm=True)
     async def approve(self, ctx, id=None):
         server = ctx.message.server
-        appid = server.id + "-" + id.content
-        app = self.get_app(str(appid))
+        appid = "{}-{}".format(server.id, id.content)
+        app = self.get_app(appid)
         if app is True:
             app["status"] = "Approved"
             self.save_app(app)
@@ -349,8 +349,8 @@ class partnerapp:
     @pmod.command(name="deny", pass_context=True, no_pm=True)
     async def deny(self, ctx, id=None):
         server = ctx.message.server
-        appid = server.id + "-" + id.content
-        app = self.get_app(str(appid))
+        appid = "{}-{}".format(server.id, id.content)
+        app = self.get_app(appid)
         if app is True:
             app["status"] = "Denied"
             self.save_app(app)
