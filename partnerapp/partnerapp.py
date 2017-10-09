@@ -125,10 +125,11 @@ class partnerapp:
             if setting["inactive"] is True:
                 setting["inactive"] = False
                 await self.bot.say("Partner Applications disabled.")
+                self.save_settings(setting)
             else:
                 setting["inactive"] = True
                 await self.bot.say("Partner Applications enabled.")
-
+                self.save_settings(setting)
     @commands.command(name="partner", pass_context=True)
     async def application(self, ctx,):
         """"make an application by following the prompts"""
