@@ -167,7 +167,7 @@ class partnerapp:
                         else:
                             try:
                                 appid = "{}-{}".format(server.id, id.content)
-                                if appid in app:
+                                if appid in r.table("apps").run():
                                     await self.bot.send_message(author, "{}, You have already applied to this "
                                                                         "server!".format(author.mention))
                                     await self.bot.send.message(author, "You application was {}".format(app["status"]))
