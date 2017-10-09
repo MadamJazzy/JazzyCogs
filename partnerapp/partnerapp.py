@@ -201,8 +201,6 @@ class partnerapp:
                                         break
                                     elif member1 >= usermin:
                                         em.add_field(name="MemberCount: ", value=member.content, inline=True)
-                                        app["members"] = member1
-                                        self.save_app(app)
                                         break
                                 else:
                                     await self.bot.send_message(author, "You have entered an invalid response. "
