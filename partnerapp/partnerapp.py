@@ -293,8 +293,8 @@ class partnerapp:
                                                     "has been submitted to the partner request queue and a member"
                                                     "of staff will be with you asap.")
 
-                channel = r.table('settings').get(setting)["channel"].run()
-                where = server.get_channel(channel)
+                channel = self.get_settings(setting)["channel"]
+                where = server.get_channel(str(channel))
                 if where is not None:
                     await self.bot.send_message(where, embed=em)
                     await self.bot.send_message(where, "Partner Message for {}".format(author.mention))
