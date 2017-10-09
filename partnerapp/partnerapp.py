@@ -166,12 +166,13 @@ class partnerapp:
                             break
                         else:
                             try:
-                                appid = server.id + "-" + id.content
+                                appid = server.id + "-" + id
                                 if app[appid] is True:
                                     await self.bot.send_message(author, "{}, You have already applied to this "
                                                                         "server!".format(author.mention))
                                     await self.bot.send.message(author, "You application was {}".format(app["status"]))
-                                em.add_field(name="Server ID", value=id.content, inline=True)
+                                else:
+                                    em.add_field(name="Server ID", value=id.content, inline=True)
                             except AttributeError:
                                 pass
                     if id is None:
