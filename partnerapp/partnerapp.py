@@ -292,7 +292,7 @@ class partnerapp:
                                                     "has been submitted to the partner request queue and a member"
                                                     "of staff will be with you asap.")
 
-                for channel in r.table('settings').get(server.id)["channel"]:
+                for channel in r.table('settings').get(server.id)["channel"].run():
                     where = server.get_channel(channel)
                     if where is not None:
                         if member1 < usermin:
