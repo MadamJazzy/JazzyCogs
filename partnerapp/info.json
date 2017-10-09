@@ -3,6 +3,7 @@
     "INSTALL_MSG" : "Thank you for installing the partnerapp cog by Jazzibell.",
     "NAME" : "partnerapp",
     "SHORT" : "Partner Application Cog",
+	"REQUIREMENTS" : ["rethinkdb"]
     "DESCRIPTION" : "A quick and easy way to handle partnerships. use [p]pset to set variables.",
     "TAGS" : ["partner", "app", "utility", "application"]
 }     
