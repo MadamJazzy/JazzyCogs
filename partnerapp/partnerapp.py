@@ -167,7 +167,7 @@ class partnerapp:
                         else:
                             try:
                                 appid = "{}-{}".format(server.id, id.content)
-                                if app[appid] is True:
+                                if appid in app:
                                     await self.bot.send_message(author, "{}, You have already applied to this "
                                                                         "server!".format(author.mention))
                                     await self.bot.send.message(author, "You application was {}".format(app["status"]))
@@ -338,7 +338,7 @@ class partnerapp:
         server = ctx.message.server
         appid = "{}-{}".format(server.id, id.content)
         app = self.get_app(appid)
-        if app is True:
+        if appid in app:
             app["status"] = "Approved"
             self.save_app(app)
         else:
@@ -351,7 +351,7 @@ class partnerapp:
         server = ctx.message.server
         appid = "{}-{}".format(server.id, id.content)
         app = self.get_app(appid)
-        if app is True:
+        if appid in app:
             app["status"] = "Denied"
             self.save_app(app)
         else:
