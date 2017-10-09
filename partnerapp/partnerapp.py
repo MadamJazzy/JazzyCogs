@@ -289,7 +289,6 @@ class partnerapp:
                     else:
                         em.add_field(name="Partner Message:", value="```" + info.content + "```", inline=False)
                         break
-                aprole = discord.utils.get(server.roles, name="Partner Applicant")
                 if self.get_settings(setting)["message"] is not None:
                     await self.bot.send_message(author, "Our Partnership message is ...")
                     await self.bot.send_message(author, "``` {} ```".format(pmsg))
