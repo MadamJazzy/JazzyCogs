@@ -171,8 +171,10 @@ class partnerapp:
                                     await self.bot.send_message(author, "{}, You have already applied to this "
                                                                         "server!".format(author.mention))
                                     await self.bot.send.message(author, "You application was {}".format(app["status"]))
+                                    break
                                 else:
                                     em.add_field(name="Server ID", value=id.content, inline=True)
+                                    break
                             except AttributeError:
                                 pass
                     if id is None:
