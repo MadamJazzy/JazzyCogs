@@ -135,8 +135,8 @@ class partnerapp:
         """"make an application by following the prompts"""
         author = ctx.message.author
         server = ctx.message.server
-        usermin = r.table('settings').get(server.id)["usermin"]
-        pmsg = r.table('settings').get(server.id)["partnermsg"]
+        usermin = r.table('settings').get(server.id)["usermin"].run()
+        pmsg = r.table('settings').get(server.id)["partnermsg"].run()
         setting = self.get_settings(str(server.id))
         app = self.get_app(str(server.id))
         if setting is None:
