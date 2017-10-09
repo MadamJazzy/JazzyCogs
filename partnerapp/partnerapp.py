@@ -287,7 +287,7 @@ class partnerapp:
                         em.add_field(name="Partner Message:", value="```" + info.content + "```", inline=False)
                         break
                 await self.bot.send_message(author, "Our Partnership message is ...")
-                await self.bot.send_message(author, "``` {} ```".format(pmsg))
+                await self.bot.send_message(author, "``` {} ```".format(pmsg.content))
                 await self.bot.send_message(author, "You have completed the application process, your application "
                                                     "has been submitted to the partner request queue and a member"
                                                     "of staff will be with you asap.")
@@ -295,26 +295,18 @@ class partnerapp:
                 for channel in r.table('settings').get(server.id)["channel"].run():
                     where = server.get_channel(channel)
                     if where is not None:
-                        if member1 < usermin:
-                            await self.bot.send_message(author, "You do not meet our member guidelines for "
-                                                                "parternship at this time. You must have "
-                                                                "no less than {} members in your server!".format(usermin))
-                        else:
-                            await self.bot.send_message(where, embed=em)
-                            await self.bot.send_message(where, "Partner Message for {}".format(author.mention))
-                            await self.bot.add_roles(author, aprole)
-                            appid = "{}-{}".format(server.id, id.content)
-                            self.save_app({"id": appid,
-                                           "userid": author.id,
-                                           "username": author.name,
-                                           "members": member.content,
-                                           "invite": link.content,
-                                           "info": info.content,
-                                           "status": "Pending"
-                                           })
-
-                            break
-                        break
+                        await self.bot.send_message(where, embed=em)
+                        await self.bot.send_message(where, "Partner Message for {}".format(author.mention))
+                        await self.bot.add_roles(author, aprole)
+                        appid = "{}-{}".format(server.id, id.content)
+                        self.save_app({"id": appid,
+                                       "userid": author.id,
+                                       "username": author.name,
+                                       "members": member.content,
+                                       "invite": link.content,
+                                       "info": info.content,
+                                       "status": "Pending"
+                                       })
 
                     break
                 return
