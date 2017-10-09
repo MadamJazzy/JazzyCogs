@@ -309,14 +309,14 @@ class partnerapp:
                             await self.bot.add_roles(author, aprole)
                             appid = server.id + "-" + id.content
                             self.save_app({"id": appid
-                                           "pid": id, {
-                                           "servername": name,
+                                           "pid": id.content,
+                                           "servername": name.content,
                                            "userid": author.id,
                                            "username": author.name,
-                                           "members": member,
-                                           "invite": link,
-                                           "info": info,
-                                           "status": "Pending"}
+                                           "members": member.content,
+                                           "invite": link.content,
+                                           "info": info.content,
+                                           "status": "Pending"
                                            })
 
                             break
