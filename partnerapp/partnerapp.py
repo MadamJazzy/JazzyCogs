@@ -308,7 +308,7 @@ class partnerapp:
                             await self.bot.send_message(where, "Partner Message for {}".format(author.mention))
                             await self.bot.add_roles(author, aprole)
                             appid = server.id + "-" + id.content
-                            self.save_app({"id": appid
+                            self.save_app({"id": appid,
                                            "pid": id.content,
                                            "servername": name.content,
                                            "userid": author.id,
