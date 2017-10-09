@@ -122,12 +122,12 @@ class partnerapp:
         server = ctx.message.server
         setting = self.get_settings(str(server.id))
         if setting is not None:
-            setting["inactive"] = \
-            self.save_settings(setting)
-        if setting['inactive'] is False:
-            await self.bot.say("Partner Applications disabled.")
-        else:
-            await self.bot.say("Partner Applications enabled.")
+            if setting["inactive"] is True:
+                setting["inactive"] = False
+                await self.bot.say("Partner Applications disabled.")
+            else:
+                setting["inactive"] = True
+                await self.bot.say("Partner Applications enabled.")
 
     @commands.command(name="partner", pass_context=True)
     async def application(self, ctx,):
@@ -309,8 +309,6 @@ class partnerapp:
                             await self.bot.add_roles(author, aprole)
                             appid = server.id + "-" + id.content
                             self.save_app({"id": appid,
-                                           "pid": id.content,
-                                           "servername": name.content,
                                            "userid": author.id,
                                            "username": author.name,
                                            "members": member.content,
