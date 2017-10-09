@@ -220,9 +220,6 @@ class partnerapp:
                                          "continue. You can turn them back off after we are done.")
                     pass
                     break
-                idmsg = await self.bot.send_message(author, "What is your Server ID? (You can get this by doing serverinfo"
-                                                            "command on almost any bot.")
-
                 namemsg = await self.bot.send_message(author, "What is your Server's Name?")
                 while True:
                     name = await self.bot.wait_for_message(channel=namemsg.channel, author=author, timeout=30)
@@ -289,16 +286,12 @@ class partnerapp:
                     else:
                         em.add_field(name="Partner Message:", value="```" + info.content + "```", inline=False)
                         break
-                if self.get_settings(setting)["message"] is not None:
-                    await self.bot.send_message(author, "Our Partnership message is ...")
-                    await self.bot.send_message(author, "``` {} ```".format(pmsg))
-                    await self.bot.send_message(author, "You have completed the application process, your application "
-                                                        "has been submitted to the partner request queue and a member"
-                                                        "of staff will be with you asap.")
-                else:
-                    await self.bot.send_message(author, "You have completed the application process, your application "
-                                                        "has been submitted to the partner request queue and a member"
-                                                        "of staff will be with you asap.")
+                await self.bot.send_message(author, "Our Partnership message is ...")
+                await self.bot.send_message(author, "``` {} ```".format(pmsg))
+                await self.bot.send_message(author, "You have completed the application process, your application "
+                                                    "has been submitted to the partner request queue and a member"
+                                                    "of staff will be with you asap.")
+
                 for channel in r.table('settings').get(server.id)["channel"]:
                     where = server.get_channel(channel)
                     if where is not None:
