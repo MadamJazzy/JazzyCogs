@@ -141,11 +141,8 @@ class partnerapp:
         app = self.get_app(str(server.id))
         if setting is None:
             return await self.bot.say("Partner Applications are not setup on this server!")
-        if setting["inactive"] is True:
+        if setting["inactive"] is False:
             return await self.bot.say("We are not currently accepting partnership applications, Try again later")
-        if app["pid"] is True:
-            await self.bot.say("{}, You have already applied to this server!".format(author.mention))
-            await self.bot.say("You application was {}".format(app["status"]))
         else:
             await self.bot.say("{}, Ok I will DM you to start the application! For this application you "
                                "will need to have your Server ID, Server Name, Owner Name, Number of Members "
@@ -169,6 +166,10 @@ class partnerapp:
                             break
                         else:
                             try:
+                                if app["pid"] is True:
+                                    await self.bot.send_message(author, "{}, You have already applied to this "
+                                                                        "server!".format(author.mention))
+                                    await self.bot.send.message(author, "You application was {}".format(app["status"]))
                                 em.add_field(name="Server ID", value=id.content, inline=True)
                             except AttributeError:
                                 pass
