@@ -136,7 +136,7 @@ class partnerapp:
         author = ctx.message.author
         server = ctx.message.server
         usermin = r.table('settings').get(server.id)["usermin"].run()
-        pmsg = r.table('settings').get(server.id)["partnermsg"].run()
+        pmsg = r.table('settings').get(server.id)["message"].run()
         setting = self.get_settings(str(server.id))
         app = self.get_app(str(server.id))
         if setting is None:
