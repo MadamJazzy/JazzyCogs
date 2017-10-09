@@ -50,7 +50,7 @@ class partnerapp:
         self.save_settings({"id": server_id,
                             "inactive": True,
                             "usermin": 0,
-                            "message": 0})
+                            "message": ""})
 
     @commands.group(name="pset", pass_context=True, no_pm=True)
     async def pset(self, ctx):
@@ -71,7 +71,7 @@ class partnerapp:
         if pmsg is not None:
             try:
                 if setting is not None:
-                    setting["message"] = pmsg
+                    setting["message"] = pmsg.content
                     self.save_settings(setting)
                     await self.bot.say("Partner Message has been set.")
                 else:
