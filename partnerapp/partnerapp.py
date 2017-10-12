@@ -153,15 +153,7 @@ class partnerapp:
                             await self.bot.send_message(author, "Sorry you took to long, please try again!")
                             break
                         else:
-                            try:
-                                if member is not None:
-                                    em.add_field(name="MemberCount: ", value=member.content, inline=True)
-                                else:
-                                    await self.bot.send_message(author, "You have not entered an answer, please start "
-                                                                        "over and try again. Timeout is 30 Seconds. ")
-                                    break
-                            except AttributeError:
-                                pass
+                            em.add_field(name="Member Count:", value=member.content, inline=True)
                     if member is None:
                         break
                 except discord.Forbidden:
@@ -185,7 +177,8 @@ class partnerapp:
                 ownermsg = await self.bot.send_message(author, "Who is the Owner of this Server? Example Owner#1234"
                                                                "Be sure to include the full name and discrim.")
                 while True:
-                    owner = await self.bot.wait_for_message(channel=ownermsg.channel, author=author, timeout=45)
+                    owner = a
+                    wait self.bot.wait_for_message(channel=ownermsg.channel, author=author, timeout=45)
                     if owner is None:
                         await self.bot.send_message(author, "Entry has timed out, Please start over and try again")
                         break
