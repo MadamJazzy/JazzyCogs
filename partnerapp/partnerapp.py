@@ -154,6 +154,7 @@ class partnerapp:
                             break
                         else:
                             em.add_field(name="Member Count:", value=member.content, inline=True)
+                            break
                     if member is None:
                         break
                 except discord.Forbidden:
