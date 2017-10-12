@@ -240,6 +240,14 @@ class Social:
             await self.upload_random_gif(sender.mention + " wants to kick " + user.mention + " in the NUTS! OUCH!! ",
                                          folder)
 
+    @commands.command(pass_context=True, invoke_without_command=True)
+    async def fever(self, ctx):
+        """Do you have the Fever?"""
+        sender = ctx.message.author
+        folder = "fever"
+        await self.upload_random_gif(sender.mention + "I see you have the fever.... The Bieber fever", folder)
+
+
     async def upload_random_gif(self, msg, folder):
         if msg:
             await self.bot.say(msg)

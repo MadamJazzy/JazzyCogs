@@ -145,41 +145,24 @@ class partnerapp:
                 em = discord.Embed(timestamp=ctx.message.timestamp, title="ID: {}".format(author.id), color=discord.Color.blue())
                 em.set_author(name='Partnership Application for {}'.format(author.name), icon_url=avatar)
                 try:
-                    membermsg = await self.bot.send_message(author, "How many members does your server have. "
-                                                                    "Please only put the number, do not include anything"
-                                                                    "but numbers in this response or you will get an error"
-                                                                    "Example:1214 is acceptable 1000+ is **NOT**")
+                    membermsg = await self.bot.send_message(author, "What is the **EXACT** user count in your server. "
+                                                            "Please use the number and not an estimate.")
                     while True:
                         member = await self.bot.wait_for_message(channel=membermsg.channel, author=author, timeout=30)
-                        member1 = int(member.content)
                         if member is None:
                             await self.bot.send_message(author, "Sorry you took to long, please try again!")
                             break
                         else:
                             try:
-                                member1 = int(member.content)
-                                if member1 > 0:
-                                    if member1 < usermin:
-                                        await self.bot.send_message(author, "You do not meet our member guidelines for "
-                                                                            "parternship at this time. You must have "
-                                                                            "no less than {} members in your server!"
-                                                                            "".format(usermin))
-                                        break
-                                    elif member1 >= usermin:
-                                        em.add_field(name="MemberCount: ", value=member.content, inline=True)
-                                        break
+                                if member is not None:
+                                    em.add_field(name="MemberCount: ", value=member.content, inline=True)
                                 else:
-                                    await self.bot.send_message(author, "You have entered an invalid response. "
-                                                                        "Please only use positve numbers and no + signs "
-                                                                        "Number only. Example: 1524 and not 1500+ ")
+                                    await self.bot.send_message(author, "You have not entered an answer, please start "
+                                                                        "over and try again. Timeout is 30 Seconds. ")
                                     break
-                            except ValueError or AttributeError:
-                                await self.bot.send_message(author, "Member count must be a number, try again do not "
-                                                                    "include any symbols like + or - ")
-                                break
+                            except AttributeError:
+                                pass
                     if member is None:
-                        break
-                    elif member1 < usermin:
                         break
                 except discord.Forbidden:
                     await self.bot.reply("You have your DMs turned off. I cannot DM you. Please enable your DMs to "
@@ -267,17 +250,10 @@ class partnerapp:
                 for output in self.settings[server.id]['output']:
                     where = server.get_channel(output)
                     if where is not None:
-                        if member1 < usermin:
-                            await self.bot.send_message(author, "You do not meet our member guidelines for "
-                                                                "parternship at this time. You must have "
-                                                                "no less than {} members in your server!".format(usermin))
-                        else:
-                            await self.bot.send_message(where, embed=em)
-                            await self.bot.send_message(where, "Partner Message for {}".format(author.mention))
-                            await self.bot.add_roles(author, aprole)
-                            break
+                        await self.bot.send_message(where, embed=em)
+                        await self.bot.send_message(where, "Partner Message for {}".format(author.mention))
+                        await self.bot.add_roles(author, aprole)
                         break
-
                     break
                 return
 
