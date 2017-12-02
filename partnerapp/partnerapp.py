@@ -146,7 +146,7 @@ class partnerapp:
                 em.set_author(name='Partnership Application for {}'.format(author.name), icon_url=avatar)
                 try:
                     membermsg = await self.bot.send_message(author, "What is the **EXACT** user count in your server. "
-                                                            "Please use the number and not an estimate.")
+                                                                    "Please use the number and not an estimate.")
                     while True:
                         member = await self.bot.wait_for_message(channel=membermsg.channel, author=author, timeout=30)
                         if member is None:
@@ -214,21 +214,6 @@ class partnerapp:
                         break
                 if link is None:
                     break
-                infomsg = await self.bot.send_message(author, "Please provide us with a short description of your server "
-                                                              "this will be what is posted in the partners channel if your "
-                                                              "application gets approved. Please make sure to perfect "
-                                                              "your description formatting BEFORE sending it here. "
-                                                              "If you need to change it later speak to a staff member! "
-                                                              "You have 2 Mins to write your info. Otherwise the "
-                                                              "application will time out and you will have to start over!")
-                while True:
-                    info = await self.bot.wait_for_message(channel=infomsg.channel, author=author, timeout=120)
-                    if info is None:
-                        await self.bot.send_message(author, "Timed out Please run command again")
-                        break
-                    else:
-                        em.add_field(name="Partner Message:", value="```" + info.content + "```", inline=False)
-                        break
                 aprole = discord.utils.get(server.roles, name="Partner Applicant")
                 if self.settings[server.id]['partnermsg'] is not None:
                     await self.bot.send_message(author, "Our Partnership message is ...")
