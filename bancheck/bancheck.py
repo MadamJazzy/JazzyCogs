@@ -1,104 +1,97 @@
 import discord
 from discord.ext import commands
-from cogs.utils import checks
-import aiohttp
-import re
-import traceback
-import asyncio
-from datetime import timedelta
+from requests import post, get
 import json
 
+from cogs.utils.checks import *
 
-class bancheck:
+
+class DiscordBans:
+    """Uses discordlist.net to check and list gloabal bans"""
+    version = 1
+    url = "https://raw.githubusercontent.com/Bluscream/ASCII/master/cogs/discordbans.json"
+
+    class author(discord.ClientUser):
+        name = "Jazzibell"
+        discriminator = "7630"
+        id = 209219778206760961
+        email = ""
+
+    # Cog Variables
+    token = 'rnRKaAhkVX'
+    imgur_clientid = 'aa3bde928fe4e09'
+
     def __init__(self, bot):
         self.bot = bot
-        self.session = aiohttp.ClientSession(loop=self.bot.loop)
+        self.discordbans = json.loads(post('https://bans.discordlist.net/listing', data=[('token', self.token)]).text)[
+            "data"]
 
-    @commands.cooldown(1, 5000, type=commands.BucketType.server)
-    @commands.command(pass_context=True)
-    @checks.admin_or_permissions(administrator=True)
-    async def mban(self, ctx):
-        """Bans all users on https://bans.discordlist.net.
-        """
-        server = ctx.message.server
-        channel = ctx.message.channel
-        me = server.me
-        if not channel.permissions_for(me).ban_members:
-            await self.bot.say("\U0000274c I don't have **ban_members** permissions.\nHow am i supposed to ban Hmmm?")
-            return
-        await self.bot.say('Please wait this will take a while \U0001f559')
-        payload = {"token": "1PtZj1zNRL"}
-        async with self.session.post('https://bans.discordlist.net/api', data=payload) as resp:
-            oldlist = await resp.json()
-            newlist = []
-            for ban in oldlist:
-                newlist.append(ban[0])
-            server = ctx.message.server.id
-            counter = 0
-            for userid in newlist:
-                try:
-                    await self.bot.http.ban(userid, server)
-                    counter += 1
-                    await asyncio.sleep(5)
-                except:
-                    traceback.print_exc()
-                    await self.bot.say('\U0000274c some kinda of error')
-        await self.bot.say('You have banned \U0001f528 {} bad users\U0001f44c'.format(counter))
+    def banned(self, uid):
+        if len(self.discordbans) > 0:
+            for ban in self.discordbans:
+                if str(uid) == ban[1]:
+                    return ban
+            return False
 
-    @mban.error
-    async def mban_error(self, error, ctx):
-        if type(error) is commands.CommandOnCooldown:
-            fmt = (str(error)).split()
-            word = fmt[7].strip("s")
-            time = float(word)
-            timer = round(time, 0)
-            tdelta = str(timedelta(seconds=int(timer))).lstrip("0").lstrip(":")
-            await self.bot.say("You can ban again in `{}`".format(tdelta))
+    @commands.command()
+    async def bancheck(self, ctx, uid: int = None, reload: bool = True):
+        """bancheck [userid] will list if and why a user was banned!"""
+        await ctx.message.delete()
+        if not uid: uid = self.bot.user.id
+        if reload: self.discordbans = \
+        json.loads(post('https://bans.discordlist.net/listing', data=[('token', self.token)]).text)["data"]
+        embed = discord.Embed(description='\ðŸ”¨ **Global Ban Lookup for** <@{}>'.format(uid),
+                              colour=discord.Color.green())
+        _gban = self.banned(uid)
+        if _gban is not None:
+            if not _gban:
+                embed.description = embed.description + '\n\nNot banned \âœ…'
+            else:
+                embed.add_field(name=':hammer: Banned', value='Yes \âŒ')
+                embed.add_field(name=':pencil2: Name', value='`{}`'.format(_gban[0]))
+                embed.add_field(name=':card_index: ID', value=_gban[1])
+                embed.add_field(name=':notepad_spiral: Reason', value='``` {} ```'.format(_gban[2]))
+                proof = _gban[3].replace('<a href="', '').replace('">Proof</a>', '')
+                if 'imgur.com/a/' in proof:
+                    embed.add_field(name=':camera_with_flash: Proof', value=proof, inline=False)
+                    embed.set_image(url=json.loads(
+                        get('https://api.imgur.com/3/album/' + proof.split('imgur.com/a/')[1] + '/images',
+                            headers={'authorization': 'Client-ID ' + self.imgur_clientid}).text)["data"][0]['link'])
+                else:
+                    extensions = {".jpg", ".jpeg", ".png", ".gif"}
+                    if any(proof.lower().endswith(ext) for ext in extensions):
+                        embed.set_image(url=proof)
+                        embed.add_field(name=':camera_with_flash: Proof', value=proof, inline=False)
+                    else:
+                        embed.add_field(name=':camera_with_flash: Proof', value=proof, inline=False)
+                embed.colour = discord.Color.red()
+        else:
+            embed.add_field(name='Banned', value='Unknown âš ')
+            embed.colour = discord.Color.orange()
+        await self.bot.say(embed=embed)
 
-    @commands.command(pass_context=True)
-    @checks.admin_or_permissions(ban_members=True)
-    async def bancheck(self, ctx):
-        """Checks users for people who appear on https://bans.discordlist.net"""
-        payload = {"token": "1PtZj1zNRL"}
-        async with self.session.post('https://bans.discordlist.net/api', data=payload) as resp:
-            oldlist = await resp.json()
-            newlist = []
-            for ban in oldlist:
-                newlist.append(ban[0])
-        server = ctx.message.server
-        print(newlist)
+    @commands.command()
+    async def banlist(self, ctx, reload: bool = True):
+        """Checks user for gloabal bans, use banlist true to refresh"""
+
+        if reload: self.discordbans = \
+            json.loads(post('https://bans.discordlist.net/listing', data=[('token', self.token)]).text)["data"]
         names = []
-        for r in server.members:
-            if r.id in newlist:
-                names.append(str(r))
-
-        await self.bot.say(
-            "**Found `{}` members out of `{}` bans**\n\nNames:```[{}]```".format(len(names), len(newlist),
-                                                                                 ", ".join(names)))
-
-    @commands.command(pass_context=True)
-    @checks.is_owner()
-    async def munban(self, ctx):
-        """Unban all users!"""
-        server = ctx.message.server
-        channel = ctx.message.channel
-        me = server.me
-        if not channel.permissions_for(me).ban_members:
-            await self.bot.say("\U0000274c I don't have **ban_members** permissions.\nHow am i supposed to ban Hmmm?")
-            return
-        counter = 0
-        await self.bot.say("just a sec")
-        for user in await self.bot.get_bans(server):
-            try:
-                await self.bot.unban(server, user)
-                counter += 1
-                await asyncio.sleep(1.5)
-            except:
-                pass
-                traceback.print_exc()
-
-        await self.bot.say('You have unbanned \U0001f528 {} bad users\U0001f44c'.format(counter))
-
-
+        for member in ctx.guild.members:
+            if self.banned(member.id):
+                names.append("``{}`` -- ``{}`` \n".format(str(member), str(member.id),))
+        em = discord.Embed(
+            description="**Found `{}` members out of `{}` Global Bans on DiscordList.net!**".format(len(names), len(
+                self.discordbans)), colour=discord.Color.red())
+        for member in ctx.guild.members:
+            if self.banned(member.id):
+                names.append("``{}`` -- ``{}`` \n".format(str(member), str(member.id),))
+                em.add_field(name=member, value=member.id)
+        embedperm = ctx.message.guild.me.permissions_in(ctx.message.channel).embed_links
+        if embedperm is True:
+            await self.bot.say(embed=em)
+        else:
+            await self.bot.say("**Found `{}` members out of `{}` Global Bans on DiscordList.net!**".format(len(names), len
+            (self.discordbans)) + ("\n\nUsername -- ID\n" + "".join(names) + "" if len(names) > 0 else ""))
 def setup(bot):
-    bot.add_cog(bancheck(bot))
+    bot.add_cog(DiscordBans(bot))
