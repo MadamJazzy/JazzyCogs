@@ -162,6 +162,31 @@ class BanList():
             await self.bot.say("I cannot display this data, I do not have Embed permissions in this channel. "
                                "Please correct and run this command again!")
 
+        async with self.session.get('http://discord.services/api/bans/') as resp:
+            r = await resp.json()
+            oldlist = r["bans"]
+            newlist = []
+            for ban in oldlist:
+                newlist.append(ban["id"])
+        server = ctx.message.server
+        names = []
+        for r in server.members:
+            if r.id in newlist:
+                names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id),))
+        em = discord.Embed(description="**Found `{}` members out of "
+                                       "`{}` Global Bans on Discord.Services!**"
+                           .format(len(names), len(newlist)), colour=discord.Color.red())
+        for r in server.members:
+            if r.id in newlist:
+                names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id)))
+                em.add_field(name=r, value=r.id)
+        embedperm = ctx.message.server.me.permissions_in(ctx.message.channel).embed_links
+        if embedperm is True:
+            await self.bot.say(embed=em)
+        else:
+            await self.bot.say("I cannot display this data, I do not have Embed permissions in this channel. "
+                               "Please correct and run this command again!")
+
 def setup(bot):
     n = BanList(bot)
     bot.add_cog(n)
