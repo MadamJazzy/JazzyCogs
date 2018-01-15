@@ -5,5 +5,5 @@
     "SHORT" : "Partner Application Cog",
 	"REQUIREMENTS" : ["rethinkdb"]
     "DESCRIPTION" : "A quick and easy way to handle partnerships. use [p]pset to set variables.",
-    "TAGS" : ["partner", "app", "utility", "application"]
+    "TAGS" : ["partner", "app", "utility", "application", "jazzy", "jazzycogs"]
 }     

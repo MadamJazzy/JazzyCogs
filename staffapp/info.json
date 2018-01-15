@@ -4,5 +4,5 @@
     "NAME" : "staffapp",
     "SHORT" : "Staff Application Cog",
     "DESCRIPTION" : "A quick and easy way to handle Staff Applications. use [p]staffset to set variables.",
-    "TAGS" : ["staff", "app", "utility", "application"]
+    "TAGS" : ["staff", "app", "utility", "application", "jazzy", "jazzycogs"]
 }     

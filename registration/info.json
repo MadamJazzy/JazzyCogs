@@ -5,5 +5,5 @@
     "SHORT" : "Registration Cog",
     "DESCRIPTION" : "A quick and easy to use Intro/Registration cog for servers. Collects info to post in an introduction channel.",
 	"REQUIREMENTS" : ["BS4", "aiohttp"]
-    "TAGS" : ["info", "register", "utility", "registration"]
+    "TAGS" : ["info", "register", "utility", "registration", "jazzy", "jazzycogs"]
 }     

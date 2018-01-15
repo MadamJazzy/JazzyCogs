@@ -5,5 +5,5 @@
     "SHORT" : "Reverse Image Cog",
     "DESCRIPTION" : "Gives you the ability to reverse search an image and display results within discord",
 	"REQUIREMENTS" : ["BS4", "aiohttp"]
-    "TAGS" : ["reverse image", "image", "utility", "image search"]
+    "TAGS" : ["reverse image", "image", "utility", "image search", "jazzy", "jazzycogs"]
 }     

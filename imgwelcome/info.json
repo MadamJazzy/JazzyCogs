@@ -1,0 +1,8 @@
+{
+    "AUTHOR" : "Jazzibell",
+    "NAME" : "imgwelcome",
+    "SHORT" : "Image welcomer with global bancheck",
+    "DESCRIPTION" : "Welcomes users to your server with an image and checks them against DBans and Discord.Servers ban lists.",
+    "REQUIREMENTS": ["Pillow", "aiohttp", "requests", "os", "re", "datetime"],
+    "TAGS": ["welcome", "welcome image", "jazzy", "jazzycogs"]
+}

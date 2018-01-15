@@ -1,97 +1,167 @@
 import discord
 from discord.ext import commands
-from requests import post, get
-import json
+import aiohttp
+import re
+import os
+from cogs.utils import checks
+from __main__ import send_cmd_help
+from .utils.dataIO import dataIO
+import requests
 
-from cogs.utils.checks import *
+URL = "https://bans.discordlist.net/api"
 
-
-class DiscordBans:
-    """Uses discordlist.net to check and list gloabal bans"""
-    version = 1
-    url = "https://raw.githubusercontent.com/Bluscream/ASCII/master/cogs/discordbans.json"
-
-    class author(discord.ClientUser):
-        name = "Jazzibell"
-        discriminator = "7630"
-        id = 209219778206760961
-        email = ""
-
-    # Cog Variables
-    token = 'rnRKaAhkVX'
-    imgur_clientid = 'aa3bde928fe4e09'
-
+class BanList():
     def __init__(self, bot):
         self.bot = bot
-        self.discordbans = json.loads(post('https://bans.discordlist.net/listing', data=[('token', self.token)]).text)[
-            "data"]
+        self.session = aiohttp.ClientSession(loop=self.bot.loop)
 
-    def banned(self, uid):
-        if len(self.discordbans) > 0:
-            for ban in self.discordbans:
-                if str(uid) == ban[1]:
-                    return ban
-            return False
 
-    @commands.command()
-    async def bancheck(self, ctx, uid: int = None, reload: bool = True):
-        """bancheck [userid] will list if and why a user was banned!"""
-        await ctx.message.delete()
-        if not uid: uid = self.bot.user.id
-        if reload: self.discordbans = \
-        json.loads(post('https://bans.discordlist.net/listing', data=[('token', self.token)]).text)["data"]
-        embed = discord.Embed(description='\ðŸ”¨ **Global Ban Lookup for** <@{}>'.format(uid),
-                              colour=discord.Color.green())
-        _gban = self.banned(uid)
-        if _gban is not None:
-            if not _gban:
-                embed.description = embed.description + '\n\nNot banned \âœ…'
-            else:
-                embed.add_field(name=':hammer: Banned', value='Yes \âŒ')
-                embed.add_field(name=':pencil2: Name', value='`{}`'.format(_gban[0]))
-                embed.add_field(name=':card_index: ID', value=_gban[1])
-                embed.add_field(name=':notepad_spiral: Reason', value='``` {} ```'.format(_gban[2]))
-                proof = _gban[3].replace('<a href="', '').replace('">Proof</a>', '')
-                if 'imgur.com/a/' in proof:
-                    embed.add_field(name=':camera_with_flash: Proof', value=proof, inline=False)
-                    embed.set_image(url=json.loads(
-                        get('https://api.imgur.com/3/album/' + proof.split('imgur.com/a/')[1] + '/images',
-                            headers={'authorization': 'Client-ID ' + self.imgur_clientid}).text)["data"][0]['link'])
-                else:
-                    extensions = {".jpg", ".jpeg", ".png", ".gif"}
-                    if any(proof.lower().endswith(ext) for ext in extensions):
-                        embed.set_image(url=proof)
-                        embed.add_field(name=':camera_with_flash: Proof', value=proof, inline=False)
-                    else:
-                        embed.add_field(name=':camera_with_flash: Proof', value=proof, inline=False)
-                embed.colour = discord.Color.red()
-        else:
-            embed.add_field(name='Banned', value='Unknown âš ')
-            embed.colour = discord.Color.orange()
-        await self.bot.say(embed=embed)
+    def embed_maker(self, title, color, description, avatar):
+        embed=discord.Embed(title=title, color=color, description=description)
+        embed.set_thumbnail(url=avatar)
+        return embed
 
-    @commands.command()
-    async def banlist(self, ctx, reload: bool = True):
-        """Checks user for gloabal bans, use banlist true to refresh"""
+    def payload(self, user):
+        passthis = {
+        "token": "X9i69SJRQf",
+        "userid": user,
+        "version": 3}
+        return passthis
 
-        if reload: self.discordbans = \
-            json.loads(post('https://bans.discordlist.net/listing', data=[('token', self.token)]).text)["data"]
+    def cleanurl(self, tag):
+        re1='.*?'
+        re2='((?:http|https)(?::\\/{2}[\\w]+)(?:[\\/|\\.]?)(?:[^\\s"]*))'
+        rg = re.compile(re1+re2,re.IGNORECASE|re.DOTALL)
+        m = rg.search(tag)
+        if m:
+            theurl=m.group(1)
+            return theurl
+
+    async def lookup(self, user):
+        resp = await aiohttp.post(URL, data=self.payload(user))
+        final = await resp.json()
+        resp.close()
+        return final
+
+    @commands.group(pass_context=True)
+    async def bancheck(self, ctx):
+        """Checks for global bans on Discord.Services and DiscordList.net"""
+        if ctx.invoked_subcommand is None:
+            await send_cmd_help(ctx)
+
+    @bancheck.command(pass_context=True)
+    async def user(self, ctx, user: discord.Member=None):
+        """Check by username mention! [p]bancheck user @username"""
+        if not user:
+            user = ctx.message.author
+        user1 = await self.bot.get_user_info(str(user.id))
+        avatar = user1.avatar_url
+        ds = requests.get("http://discord.services/api/ban/{}/".format(user.id))
+        try:
+            name = ds.json()["ban"]["name"]
+            userid = ds.json()["ban"]["id"]
+            reason = ds.json()["ban"]["reason"]
+            proof = ds.json()["ban"]["proof"]
+            niceurl = "[Click Here]({})".format(proof)
+            description = (
+                """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
+                    name, userid, reason, niceurl))
+            await self.bot.say(
+                embed=self.embed_maker(":x: **Ban Found on Discord.Services!**", discord.Color.red(),
+                                       description, avatar))
+        except KeyError:
+            await self.bot.say(
+                embed=self.embed_maker(":white_check_mark: Not listed on Discord.Services", 0x008000, None, avatar))
+        try:
+            final = await self.lookup(user.id)
+        except ValueError:
+            return await self.bot.say(embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ", 0x008000, None, avatar))
+        name = (final[1].replace("<Aspect>", ""))
+        userid = final[2]
+        reason = final[3]
+        proof = self.cleanurl(final[4])
+        niceurl = "[Click Here]({})".format(proof)
+        description = (
+            """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
+                name, userid, reason, niceurl))
+        await self.bot.say(embed=self.embed_maker(":x: **Ban Found on Discordlist.net!** ", discord.Color.red(), description, avatar))
+
+    @bancheck.command(pass_context=True)
+    async def id(self, ctx, id: str):
+        """Check by UserID [p]bancheck id UserID"""
+        if (not id.isdigit()):
+            await self.bot.say('User ids only\nExample:`248294452307689473`')
+            return
+        try:
+            user = await self.bot.get_user_info(id)
+        except discord.errors.NotFound:
+            await self.bot.say('No user with the id `{}` found.'.format(id))
+            return
+        except:
+            await self.bot.say('❌ An error has occured.')
+            return
+        user1 = await self.bot.get_user_info(str(user.id))
+        avatar = user1.avatar_url
+        ds = requests.get("http://discord.services/api/ban/{}/".format(user.id))
+        try:
+            name = ds.json()["ban"]["name"]
+            userid = ds.json()["ban"]["id"]
+            reason = ds.json()["ban"]["reason"]
+            proof = ds.json()["ban"]["proof"]
+            niceurl = "[Click Here]({})".format(proof)
+            description = (
+                """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
+                    name, userid, reason, niceurl))
+            await self.bot.say(
+                embed=self.embed_maker(":x: Ban Found on Discord.Services!", discord.Color.red(),
+                                       description, avatar))
+        except KeyError:
+            await self.bot.say(
+                embed=self.embed_maker(":white_check_mark: Not listed on Discord.Services", 0x008000, None, avatar))
+        try:
+            final = await self.lookup(user.id)
+        except ValueError:
+            return await self.bot.say(
+                embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ", 0x008000, None, avatar))
+        name = (final[1].replace("<Aspect>", ""))
+        userid = final[2]
+        reason = final[3]
+        proof = self.cleanurl(final[4])
+        niceurl = "[Click Here]({})".format(proof)
+        description = (
+            """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
+                name, userid, reason, niceurl))
+        await self.bot.say(
+            embed=self.embed_maker(":x: Ban Found on Discordlist.net!",discord.Color.red(),
+                                   description, avatar))
+    @commands.command(pass_context=True)
+    async def banlist(self, ctx):
+        payload = {"token": "Sb2gFUYIk0"}
+        async with self.session.post('https://bans.discordlist.net/api', data=payload) as resp:
+            oldlist = await resp.json()
+            newlist = []
+            for ban in oldlist:
+                newlist.append(ban[0])
+        server = ctx.message.server
+#        print(newlist)
         names = []
-        for member in ctx.guild.members:
-            if self.banned(member.id):
-                names.append("``{}`` -- ``{}`` \n".format(str(member), str(member.id),))
-        em = discord.Embed(
-            description="**Found `{}` members out of `{}` Global Bans on DiscordList.net!**".format(len(names), len(
-                self.discordbans)), colour=discord.Color.red())
-        for member in ctx.guild.members:
-            if self.banned(member.id):
-                names.append("``{}`` -- ``{}`` \n".format(str(member), str(member.id),))
-                em.add_field(name=member, value=member.id)
-        embedperm = ctx.message.guild.me.permissions_in(ctx.message.channel).embed_links
+        for r in server.members:
+            if r.id in newlist:
+                names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id),))
+        em = discord.Embed(description="**Found `{}` members out of "
+                                       "`{}` Global Bans on DiscordList.net!**"
+                           .format(len(names), len(newlist)), colour=discord.Color.red())
+        for r in server.members:
+            if r.id in newlist:
+                names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id)))
+                em.add_field(name=r, value=r.id)
+        embedperm = ctx.message.server.me.permissions_in(ctx.message.channel).embed_links
         if embedperm is True:
             await self.bot.say(embed=em)
         else:
-            await self.bot.say("**Found `{}` members out of `{}` Global Bans on DiscordList.net!**".format(len(names), len
-            (self.discordbans)) + ("\n\nUsername -- ID\n" + "".join(names) + "" if len(names) > 0 else ""))
+            await self.bot.say("I cannot display this data, I do not have Embed permissions in this channel. "
+                               "Please correct and run this command again!")
+
 def setup(bot):
-    bot.add_cog(DiscordBans(bot))
+    n = BanList(bot)
+    bot.add_cog(n)

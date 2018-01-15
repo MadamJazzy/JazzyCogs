@@ -4,5 +4,5 @@
     "NAME" : "bancheck",
     "SHORT" : "bans.discordlist.net ban check",
     "DESCRIPTION" : "A quick and easy way to check bans.discordlist.net for members on your server.",
-    "TAGS" : ["discordlist", "discordlist.net", "utility", "ban"]
+    "TAGS" : ["utility", "ban", "jazzy", "jazzycogs"]
 }     
