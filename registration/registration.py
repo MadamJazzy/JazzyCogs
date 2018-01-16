@@ -903,7 +903,7 @@ class registration:
                 await self.bot.reply("Thank you for Registering!")
                 if int(age.content) > 13:
                     try:
-                        self.bot.ban(author)
+                        await self.bot.ban(author, 7)
                     except discord.Forbidden:
                         pass
                 await self.bot.add_roles(author, regrole)
