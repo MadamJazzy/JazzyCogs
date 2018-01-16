@@ -689,13 +689,14 @@ class registration:
                                                              "To bypass this question enter None")
                 while True:
                     over18 = discord.utils.get(server.roles, name="Over 18")
+                    unage = ["1","2","3","4","5","6","7","8","9","10","11","12"]
                     age = await self.bot.wait_for_message(channel=agemsg.channel, author=author, timeout=60)
                     if age is None:
                         break
                     if age.content.lower() == "none":
                         em.add_field(name="Age", value="To scared to tell", inline=True)
                     elif int(age.content) > 0:
-                        if int(age.content) < 13:
+                        if age.content in unage:
                             self.bot.send_message(author, "You have entered that you are under the minimum legal limit "
                                                           "to be allowed on discord. Apologies but due to Discord ToS "
                                                           "you will be banned and reported to discord!\nHave a Nice day!")
