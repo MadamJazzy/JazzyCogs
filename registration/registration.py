@@ -563,7 +563,7 @@ class registration:
                                        color=discord.Color.blue())
                     em.set_author(name='Introduction for {}'.format(author.name), icon_url=avatar)
                     gendermsg = await self.bot.send_message(author, "What is your Gender? Please choose from Male, "
-                                                                    "Female, Trans, Trans MTF, Trans FTM, or None")
+                                                                    "Female, Trans, Trans MTF, or Trans FTM")
                     while True:
                         genders = ["male", "female", "trans", "trans mtf", "trans ftm", "none"]
                         gender = await self.bot.wait_for_message(channel=gendermsg.channel, author=author, timeout=60)
@@ -607,7 +607,7 @@ class registration:
 
                 otmsg = await self.bot.send_message(author,
                                                     "What is your Sexual Orientation? Please choose from Straight,"
-                                                    " Bisexual, Pansexual, Asexual, Gay, or None.")
+                                                    " Bisexual, Pansexual, Asexual, or Gay.")
                 while True:
                     orient = ["straight", "bisexual", "pansexual", "gay", "asexual", "none"]
                     ot = await self.bot.wait_for_message(channel=otmsg.channel, author=author, timeout=60)
@@ -652,7 +652,7 @@ class registration:
                                                                   ":two:Dominant - This means you are aggressive in "
                                                                   "relationships\n:three:Switch - This means you are "
                                                                   "both passive and aggressive or you 'switch' roles "
-                                                                  "in relationships. Choose None to bypass")
+                                                                  "in relationships.")
                 while True:
                     pos = ["submissive", "dominant", "switch", "none"]
                     position = await self.bot.wait_for_message(channel=positionmsg.channel, author=author, timeout=60)
@@ -684,8 +684,7 @@ class registration:
                     break
 
                 agemsg = await self.bot.send_message(author, "What is your Age? ** :warning: Bypassing this question "
-                                                             "means you will not be able to access NSFW in the server** "
-                                                             "To bypass enter none")
+                                                             "means you will not be able to access NSFW in the server**")
                 while True:
                     over18 = discord.utils.get(server.roles, name="Over 18")
                     age = await self.bot.wait_for_message(channel=agemsg.channel, author=author, timeout=60)
