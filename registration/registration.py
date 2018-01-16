@@ -694,7 +694,6 @@ class registration:
                         break
                     if age.content.lower() == "none":
                         em.add_field(name="Age", value="To scared to tell", inline=True)
-                        return
                     if int(age.content) > 0:
                         if int(age.content) >= 18:
                             await self.bot.add_roles(author, over18)
