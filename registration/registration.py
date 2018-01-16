@@ -8,7 +8,7 @@ from cogs.utils import checks
 
 
 class registration:
-    """Custom Cog for Intros"""
+    """Custom Cog for Registration and Info Printout"""
 
     def __init__(self, bot):
         self.bot = bot
