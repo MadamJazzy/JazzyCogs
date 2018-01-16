@@ -143,7 +143,6 @@ class BanList():
             for ban in oldlist:
                 newlist.append(ban[0])
         server = ctx.message.server
-#        print(newlist)
         names = []
         for r in server.members:
             if r.id in newlist:

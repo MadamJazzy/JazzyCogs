@@ -698,6 +698,17 @@ class registration:
                         if int(age.content) >= 18:
                             await self.bot.add_roles(author, over18)
                             em.add_field(name="Age", value=age.content, inline=True)
+                        elif int(age.content) < 13:
+                            self.bot.send_message(author, "You have entered that you are under the minimum legal limit "
+                                                          "to be allowed on discord. Apologies but due to Discord ToS "
+                                                          "you will be banned and reported to discord!\nHave a Nice day!")
+                            try:
+                                self.bot.ban(author)
+                            except discord.Forbidden:
+                                try:
+                                    self.bot.kick(author)
+                                except discord.Forbidden:
+                                    break
                         else:
                             under = discord.utils.get(server.roles, name="Under 18")
                             em.add_field(name="Age", value=age.content, inline=True)
