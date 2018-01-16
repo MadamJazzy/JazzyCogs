@@ -692,17 +692,18 @@ class registration:
                     age = await self.bot.wait_for_message(channel=agemsg.channel, author=author, timeout=60)
                     if age is None:
                         break
+                    if age.content.lower() == "none":
+                        em.add_field(name="Age", value="To scared to tell", inline=True)
+                        return
                     if int(age.content) > 0:
                         if int(age.content) >= 18:
                             await self.bot.add_roles(author, over18)
                             em.add_field(name="Age", value=age.content, inline=True)
-                        elif int(age.content) < 18:
+                        else:
                             under = discord.utils.get(server.roles, name="Under 18")
                             em.add_field(name="Age", value=age.content, inline=True)
                             await self.bot.add_roles(author, under)
                         break
-                    else:
-                        em.add_field(name="Age", value="To scared to tell", inline=True)
                     break
                 if age is None:
                     break
