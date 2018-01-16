@@ -596,7 +596,7 @@ class registration:
                             elif gender.content.lower() == "trans":
                                 await self.bot.add_roles(author, trans)
                                 em.add_field(name="Gender", value="Transgender", inline=True)
-                            else:
+                            elif gender.content.lower() == "none":
                                 em.add_field(name="Gender", value="Attack Helicopter")
                             break
                     if gender is None:
@@ -640,7 +640,7 @@ class registration:
                         elif ot.content.lower() == "bisexual":
                             await self.bot.add_roles(author, bi)
                             em.add_field(name="Orientation", value="Bisexual", inline=True)
-                        else:
+                        elif ot.content.lower() == "none":
                             em.add_field(name="Orientation", value="Unknown", inline=True)
                         break
                 if ot is None:
@@ -678,7 +678,7 @@ class registration:
                         elif position.content.lower() == "submissive":
                             await self.bot.add_roles(author, sub)
                             em.add_field(name="Position/Role", value="Submissive", inline=True)
-                        else:
+                        elif position.content.lower() == "none":
                             em.add_field(name="Position/Role", value="Undecided", inline=True)
                         break
                 if position is None:
@@ -709,7 +709,7 @@ class registration:
                                 em.add_field(name="Age", value=age.content, inline=True)
                                 await self.bot.add_roles(author, under)
                             break
-                        else:
+                        elif age.content.lower() == "none":
                             em.add_field(name="Age", value="To scared to tell", inline=True)
                 if age is None:
                     break
