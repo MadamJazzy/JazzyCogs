@@ -694,23 +694,17 @@ class registration:
                         break
                     else:
                         if int(age.content) > 0:
-                            if int(age.content) < 13:
-                                await self.bot.send_message(author, "Children under the age of 13 are not allowed"
-                                                                    "to be on the discord platform. You have been"
-                                                                    "kicked from this server. If you attempt to "
-                                                                    "rejoin you will be banned and reported to "
-                                                                    "discord.\nthank you")
-                                self.bot.kick(author)
-                            elif int(age.content) >= 18:
+                            if int(age.content) >= 18:
                                 await self.bot.add_roles(author, over18)
                                 em.add_field(name="Age", value=age.content, inline=True)
-                            else:
+                            elif int(age.content) < 18:
                                 under = discord.utils.get(server.roles, name="Under 18")
                                 em.add_field(name="Age", value=age.content, inline=True)
                                 await self.bot.add_roles(author, under)
-                            break
+                                break
                         elif age.content.lower() == "none":
                             em.add_field(name="Age", value="To scared to tell", inline=True)
+                        break
                 if age is None:
                     break
                 locationmsg = await self.bot.send_message(author, 'Please select your location from the following\n'
