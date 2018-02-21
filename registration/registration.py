@@ -566,6 +566,7 @@ class registration:
                     em = discord.Embed(timestamp=ctx.message.timestamp, title="UserID: {}".format(author.id),
                                        color=discord.Color.blue())
                     em.set_author(name='Registration for {}'.format(author.name), icon_url=avatar)
+                    em.set_footer(text="Created with Discordia Bot!")
                     em.set_thumbnail(url=avatar)
                     gendermsg = await self.bot.send_message(author, "What is your Gender? Enter only the **Number** \n"
                                                                     "1. Male\n"
@@ -582,22 +583,22 @@ class registration:
                         mtf = discord.utils.get(server.roles, name="Trans MTF")
                         ftm = discord.utils.get(server.roles, name="Trans FTM")
                         if gender is int:
-                            if gender == 1:
+                            if int(gender) == 1:
                                 await self.bot.add_roles(author, male)
                                 em.add_field(name="Gender", value="Male", inline=True)
-                            elif gender == 2:
+                            elif int(gender) == 2:
                                 await self.bot.add_roles(author, female)
                                 em.add_field(name="Gender", value="Female", inline=True)
-                            elif gender == 4:
+                            elif int(gender) == 4:
                                 await self.bot.add_roles(author, mtf)
                                 em.add_field(name="Gender", value="Trans MTF", inline=True)
-                            elif gender == 5:
+                            elif int(gender) == 5:
                                 await self.bot.add_roles(author, ftm)
                                 em.add_field(name="Gender", value="Trans FTM", inline=True)
-                            elif gender == 3:
+                            elif int(gender) == 3:
                                 await self.bot.add_roles(author, trans)
                                 em.add_field(name="Gender", value="Transgender", inline=True)
-                            elif gender == 6:
+                            elif int(gender) == 6:
                                 em.add_field(name="Gender", value="Attack Helicopter")
                         else:
                             self.bot.send_message(author, "You have entered an invalid response. Registration has been canceled.")
@@ -673,12 +674,12 @@ class registration:
                         self.bot.send_message(author,
                                               "You have entered an invalid response. Registration has been canceled.")
                         break
-                agemsg = await self.bot.send_message(author, "What is your Age Range?"
-                                                             "1. 13-16"
-                                                             "2. 16-18"
-                                                             "3. 18-22"
-                                                             "4. 22-30"
-                                                             "5. 30+"
+                agemsg = await self.bot.send_message(author, "What is your Age Range?\n"
+                                                             "1. 13-16\n"
+                                                             "2. 16-18\n"
+                                                             "3. 18-22\n"
+                                                             "4. 22-30\n"
+                                                             "5. 30+\n"
                                                              "6. Prefer Not to Answer")
                 while True:
                     over18 = discord.utils.get(server.roles, name="Over 18")
@@ -700,7 +701,7 @@ class registration:
                 if age is None:
                     break
                 locationmsg = await self.bot.send_message(author, "Please select your location from the following. Enter only the **NUMBER**\n"
-                                                                  "*This is for ROLE only. It will not be displayed on your Profile*"
+                                                                  "*This is for ROLE only. It will not be displayed on your Profile*\n"
                                                                   " 1. USA-Eastern    2. USA-Central    3. USA-Pacific\n"
                                                                   " 4. USA-Mountain   5. Africa         6. Asia\n"
                                                                   " 7. Australia      8. Belgium        9. Bosnia\n"
