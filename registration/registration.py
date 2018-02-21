@@ -585,7 +585,7 @@ class registration:
                         if gender == 1:
                             await self.bot.add_roles(author, male)
                             em.add_field(name="Gender", value="Male", inline=True)
-                        elif gender == 2:
+                        elif int(gender) == 2:
                             await self.bot.add_roles(author, female)
                             em.add_field(name="Gender", value="Female", inline=True)
                         elif gender == 4:
