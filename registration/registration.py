@@ -24,10 +24,6 @@ class registration:
         """configuration settings"""
         if ctx.invoked_subcommand is None:
             await self.bot.send_cmd_help(ctx)
-            await self.bot.say("How to use this cog\n"
-                               "1. Run command `setreg channel *channelid*` - This will set the channel for the output"
-                               "2. Run command `setreg roles` - This will create the roles needed for the cog to function"
-                               "3. Run command `setreg toggle` This will turn on the registration cog")
 
     def initial_config(self, server_id):
         """makes an entry for the server, defaults to turned off"""
@@ -566,162 +562,182 @@ class registration:
                     em = discord.Embed(timestamp=ctx.message.timestamp, title="UserID: {}".format(author.id),
                                        color=discord.Color.blue())
                     em.set_author(name='Registration for {}'.format(author.name), icon_url=avatar)
-                    em.set_footer(text="Created with Discordia Bot!")
                     em.set_thumbnail(url=avatar)
-                    gendermsg = await self.bot.send_message(author, "What is your Gender? Enter only the **Number** \n"
-                                                                    "1. Male\n"
-                                                                    "2. Female\n"
-                                                                    "3. Trans\n"
-                                                                    "4. Trans MTF\n"
-                                                                    "5. Trans FTM\n"
-                                                                    "6. Prefer not to Answer")
+                    gendermsg = await self.bot.send_message(author, "What is your Gender? Please choose from Male, "
+                                                                    "Female, Trans, Trans MTF, or Trans FTM, or none.")
                     while True:
+                        genders = ["male", "female", "trans", "trans mtf", "trans ftm", "none"]
                         gender = await self.bot.wait_for_message(channel=gendermsg.channel, author=author, timeout=60)
-                        male = discord.utils.get(server.roles, name='Male')
-                        female = discord.utils.get(server.roles, name='Female')
-                        trans = discord.utils.get(server.roles, name='Transgender')
-                        mtf = discord.utils.get(server.roles, name="Trans MTF")
-                        ftm = discord.utils.get(server.roles, name="Trans FTM")
-                        if int(gender.content) == 1:
-                            await self.bot.add_roles(author, male)
-                            em.add_field(name="Gender", value="Male", inline=True)
-                        elif int(gender.content) == 2:
-                            await self.bot.add_roles(author, female)
-                            em.add_field(name="Gender", value="Female", inline=True)
-                        elif int(gender.content) == 4:
-                            await self.bot.add_roles(author, mtf)
-                            em.add_field(name="Gender", value="Trans MTF", inline=True)
-                        elif int(gender.content) == 5:
-                            await self.bot.add_roles(author, ftm)
-                            em.add_field(name="Gender", value="Trans FTM", inline=True)
-                        elif int(gender.content) == 3:
-                            await self.bot.add_roles(author, trans)
-                            em.add_field(name="Gender", value="Transgender", inline=True)
-                        elif int(gender.content) == 6:
-                            em.add_field(name="Gender", value="Attack Helicopter")
-                        else:
-                            self.bot.send_message(author, "You have entered an invalid response. Registration has been canceled.")
+                        if gender is None:
+                            await self.bot.send_message(author,
+                                                        "Registration has timed out. Please run register command again to continue!")
                             break
+                        elif gender.content.lower() not in genders:
+                            await self.bot.send_message(author,
+                                                        "You have chosen an incorrect response. Please choose Male, Female, "
+                                                        "Trans, Trans MTF, or Trans FTM, or none. Make sure that you are spelling the choice correctly!")
+                        elif gender.content.lower() in genders:
+                            male = discord.utils.get(server.roles, name='Male')
+                            female = discord.utils.get(server.roles, name='Female')
+                            trans = discord.utils.get(server.roles, name='Transgender')
+                            mtf = discord.utils.get(server.roles, name="Trans MTF")
+                            ftm = discord.utils.get(server.roles, name="Trans FTM")
+                            if gender.content.lower() == "male":
+                                await self.bot.add_roles(author, male)
+                                em.add_field(name="Gender", value="Male", inline=True)
+                            elif gender.content.lower() == "female":
+                                await self.bot.add_roles(author, female)
+                                em.add_field(name="Gender", value="Female", inline=True)
+                            elif gender.content.lower() == "trans mtf":
+                                await self.bot.add_roles(author, mtf)
+                                em.add_field(name="Gender", value="Trans MTF", inline=True)
+                            elif gender.content.lower() == "trans ftm":
+                                await self.bot.add_roles(author, ftm)
+                                em.add_field(name="Gender", value="Trans FTM", inline=True)
+                            elif gender.content.lower() == "trans":
+                                await self.bot.add_roles(author, trans)
+                                em.add_field(name="Gender", value="Transgender", inline=True)
+                            elif gender.content.lower() == "none":
+                                em.add_field(name="Gender", value="Attack Helicopter")
+                            break
+                    if gender is None:
+                        break
                 except discord.Forbidden:
                     await self.bot.reply("Sorry, You have your DMs disabled. I cannot register you if i cannot DM "
                                          "you. You are more than welcome to disable then again after we are done!")
 
-                otmsg = await self.bot.send_message(author, "What is your Orientation, Please enter only the **Number**\n"
-                                                            "1. Straight\n"
-                                                            "2. Gay\n"
-                                                            "3. Bisexual\n"
-                                                            "4. Pansexual\n"
-                                                            "5. Asexual\n"
-                                                            "6. Prefer not to answer")
+                otmsg = await self.bot.send_message(author,
+                                                    "What is your Sexual Orientation? Please choose from Straight,"
+                                                    " Bisexual, Pansexual, Asexual, Gay or None.")
                 while True:
+                    orient = ["straight", "bisexual", "pansexual", "gay", "asexual", "none"]
                     ot = await self.bot.wait_for_message(channel=otmsg.channel, author=author, timeout=60)
-                    if ot is int:
+                    if ot is None:
+                        await self.bot.send_message(author,
+                                                    "Registration has timed out. Please run register command again to continue!")
+                        break
+                    elif ot.content.lower() not in orient:
+                        await self.bot.send_message(author,
+                                                    "You have entered an incorrect repsonse. Please choose from Straigh"
+                                                    "t, Gay, Bisexual, Asexual, Pansexual, or None. Remember to check your spelling!")
+                    elif ot.content.lower() in orient:
                         str8 = discord.utils.get(server.roles, name='Straight')
                         gay = discord.utils.get(server.roles, name='Gay')
                         bi = discord.utils.get(server.roles, name='Bisexual')
                         pan = discord.utils.get(server.roles, name='Pansexual')
                         asexual = discord.utils.get(server.roles, name="Asexual")
-                        if ot == 1:
+                        if ot.content.lower() == "straight":
                             await self.bot.add_roles(author, str8)
                             em.add_field(name="Orientation", value="Straight", inline=True)
-                        elif ot == 2:
+                        elif ot.content.lower() == "gay":
                             await self.bot.add_roles(author, gay)
                             em.add_field(name="Orientation", value="Gay", inline=True)
-                        elif ot == 4:
+                        elif ot.content.lower() == "pansexual":
                             await self.bot.add_roles(author, pan)
                             em.add_field(name="Orientation", value="Pansexual", inline=True)
-                        elif ot == 5:
+                        elif ot.content.lower() == "asexual":
                             await self.bot.add_roles(author, asexual)
                             em.add_field(name="Orientation", value="Asexual", inline=True)
-                        elif ot == 3:
+                        elif ot.content.lower() == "bisexual":
                             await self.bot.add_roles(author, bi)
                             em.add_field(name="Orientation", value="Bisexual", inline=True)
-                        elif ot == 6:
+                        elif ot.content.lower() == "none":
                             em.add_field(name="Orientation", value="Unknown", inline=True)
-                        break
-                    else:
-                        self.bot.send_message(author,
-                                              "You have entered an invalid response. Registration has been canceled.")
                         break
                 if ot is None:
                     break
 
-                positionmsg = await self.bot.send_message(author,  "Which of the following matches your personality?\n"
-                                                                   "1. Submissive - Means you are passive and not aggressive\n"
-                                                                   "2. Dominant - Means you are aggresive and not passive\n"
-                                                                   "3. Switch - Means you are a little of both. \n"
-                                                                   "4. Prefer not to answer")
+                positionmsg = await self.bot.send_message(author, "Are you a Submissive, Dominant, or Switch?\n"
+                                                                  "```Explanation```\n:one:Submissive - This means you "
+                                                                  "are passive and not aggressive in relationships\n"
+                                                                  ":two:Dominant - This means you are aggressive in "
+                                                                  "relationships\n:three:Switch - This means you are "
+                                                                  "both passive and aggressive or you 'switch' roles "
+                                                                  "in relationships. You can bypass this by entering "
+                                                                  "None.")
                 while True:
+                    pos = ["submissive", "dominant", "switch", "none"]
                     position = await self.bot.wait_for_message(channel=positionmsg.channel, author=author, timeout=60)
-                    if position is int:
+                    if position is None:
+                        await self.bot.send_message(author,
+                                                    "Registration has timed out. Please run register command again to continue!")
+                        break
+                    elif position.content.lower() not in pos:
+                        await self.bot.send_message(author,
+                                                    "You have entered an incorrect response. Please choose from Submiss"
+                                                    "ive, Dominant, Switch, or None. Remember to check your spelling!")
+                    elif position.content.lower() in pos:
                         dom = discord.utils.get(server.roles, name='Dominant')
                         sub = discord.utils.get(server.roles, name='Submissive')
                         switch = discord.utils.get(server.roles, name='Switch')
-                        if position == 2:
+                        if position.content.lower() == "dominant":
                             await self.bot.add_roles(author, dom)
                             em.add_field(name="Position/Role", value="Dominant", inline=True)
-                        elif position == 3:
+                        elif position.content.lower() == "switch":
                             await self.bot.add_roles(author, switch)
                             em.add_field(name="Position/Role", value="Switch", inline=True)
-                        elif position == 1:
+                        elif position.content.lower() == "submissive":
                             await self.bot.add_roles(author, sub)
                             em.add_field(name="Position/Role", value="Submissive", inline=True)
-                        elif position == 4:
+                        elif position.content.lower() == "none":
                             em.add_field(name="Position/Role", value="Undecided", inline=True)
                         break
-                    else:
-                        self.bot.send_message(author,
-                                              "You have entered an invalid response. Registration has been canceled.")
-                        break
-                agemsg = await self.bot.send_message(author, "What is your Age Range?\n"
-                                                             "1. 13-16\n"
-                                                             "2. 16-18\n"
-                                                             "3. 18-22\n"
-                                                             "4. 22-30\n"
-                                                             "5. 30+\n"
-                                                             "6. Prefer Not to Answer")
+                if position is None:
+                    break
+
+                agemsg = await self.bot.send_message(author, "What is your Age? ** :warning: Bypassing this question "
+                                                             "means you will not be able to access NSFW in the server**"
+                                                             "To bypass this question enter None")
                 while True:
                     over18 = discord.utils.get(server.roles, name="Over 18")
-                    under = discord.utils.get(server.roles, name="Under 18")
                     age = await self.bot.wait_for_message(channel=agemsg.channel, author=author, timeout=60)
-                    if age is int:
-                        if age == 6:
-                            em.add_field(name="Age", value="To scared to tell", inline=True)
-                        elif age == 3 or 4 or 5:
+                    if age is None:
+                        break
+                    if age.content.lower() == "none":
+                        em.add_field(name="Age", value="To scared to tell", inline=True)
+                    elif int(age.content) > 0:
+                        if int(age.content) >= 18:
                             await self.bot.add_roles(author, over18)
                             em.add_field(name="Age", value=age.content, inline=True)
-                        elif age == 1 or 2:
+                        else:
+                            under = discord.utils.get(server.roles, name="Under 18")
                             em.add_field(name="Age", value=age.content, inline=True)
                             await self.bot.add_roles(author, under)
-                    else:
-                        self.bot.send_message(author,
-                                              "You have entered an invalid response. Registration has been canceled.")
                         break
+                    break
                 if age is None:
                     break
-                locationmsg = await self.bot.send_message(author, "Please select your location from the following. Enter only the **NUMBER**\n"
-                                                                  "*This is for ROLE only. It will not be displayed on your Profile*\n"
-                                                                  " 1. USA-Eastern    2. USA-Central    3. USA-Pacific\n"
-                                                                  " 4. USA-Mountain   5. Africa         6. Asia\n"
-                                                                  " 7. Australia      8. Belgium        9. Bosnia\n"
-                                                                  "10. Brazil        11. Bulgaria      12. Canada\n"
-                                                                  "13. Croatia       14. Czech         15. Denmark\n"
-                                                                  "16. Estonia       17. Europe        18. Finland\n"
-                                                                  "19. France        20. Germany       21. Hungary\n"
-                                                                  "22. Ireland       23. Israel        24. Italy\n"
-                                                                  "25. Latvia        26. Lithuania     27. Macedonia\n"
-                                                                  "28. Mexico        29. Middle East   30. Netherlands\n"
-                                                                  "31. Norway        32. New Zealand   33. Philippines\n"
-                                                                  "34. Poland        35. Portugal      36. Romania\n"
-                                                                  "37. Russia        38. Saudi         39. Scotland\n"
-                                                                  "40. Serbia        41. Singapore     42. Slovakia\n"
-                                                                  "43. Solvenia      44. South America 45. Spain\n"
-                                                                  "46. Sweden        47. Switzerland   48. Turkey\n"
-                                                                  "49. U Kingdom     50. Austria\n"
-                                                                  " 0. **NONE**")
+                locationmsg = await self.bot.send_message(author, 'Please select your location from the following\n'
+                                                                  '"usa-eastern", "usa-central", "usa-pacific", "usa-mountain",'
+                                                                  '"africa", "asia","australia", "austria", "belgium", "bosnia", "brazil", "bulgaria",'
+                                                                  '"canada", "croatia","czech", "denmark", "estonia", "europe", "finland", "france",'
+                                                                  '"germany","hungary", "ireland", "israel", "italy", "latvia", "lithuania",'
+                                                                  '"macedonia", "mexico", "middle east", "netherlands", "norway",'
+                                                                  '"new zealand", "philippines", "poland", "portugal", "romania",'
+                                                                  '"russia", "saudi", "scotland", "serbia", "singapore", "slovakia",'
+                                                                  '"slovenia", "south america", "spain", "sweden", "switzerland",'
+                                                                  '"turkey", "united kingdom"\n'
+                                                                  'If you do not wish to disclose a location you can '
+                                                                  'select none.')
                 while True:
+                    locations = ["usa-eastern", "usa-central", "usa-pacific", "usa-mountain", "africa", "asia",
+                                 "australia", "austria", "belgium", "bosnia", "brazil", "bulgaria", "canada", "croatia",
+                                 "czech", "denmark", "estonia", "europe", "finland", "france", "germany", "hungary",
+                                 "ireland", "israel", "italy", "latvia", "lithuania", "macedonia", "mexico",
+                                 "middle east", "netherlands", "norway", "new zealand", "philippines", "poland",
+                                 "portugal", "romania", "russia", "saudi", "scotland", "serbia", "singapore",
+                                 "slovakia","slovenia", "south america", "spain", "sweden", "switzerland", "turkey",
+                                 "united kingdom", "none"]
                     location = await self.bot.wait_for_message(channel=locationmsg.channel, author=author, timeout=60)
-                    if location is int:
+                    if location is None:
+                        await self.bot.send_message(author,
+                                                    "Registration has timed out. Please run register command again to continue!")
+                        break
+                    elif location.content.lower() not in locations:
+                        await self.bot.send_message(author,
+                                                    "You have chosen an incorrect response. Please select from the list"
+                                                    "above")
+                    elif location.content.lower() in locations:
                         usa1 = discord.utils.get(server.roles, name="USA-Eastern")
                         usa2 = discord.utils.get(server.roles, name="USA-Central")
                         usa3 = discord.utils.get(server.roles, name="USA-Pacific")
@@ -773,111 +789,108 @@ class registration:
                         turkey = discord.utils.get(server.roles, name="Turkey")
                         uk = discord.utils.get(server.roles, name="United Kingdom")
                         em.add_field(name="Location", value=location.content)
-                        if location == 1:
+                        if location.content.lower() == "usa-eastern":
                             await self.bot.add_roles(author, usa1)
-                        elif location == 2:
+                        elif location.content.lower() == "usa-central":
                             await self.bot.add_roles(author, usa2)
-                        elif location == 3:
+                        elif location.content.lower() == "usa-pacific":
                             await self.bot.add_roles(author, usa3)
-                        elif location == 4:
+                        elif location.content.lower() == "usa-mountain":
                             await self.bot.add_roles(author, usa4)
-                        elif location == 5:
+                        elif location.content.lower() == "africa":
                             await self.bot.add_roles(author, africa)
-                        elif location == 6:
+                        elif location.content.lower() == "asia":
                             await self.bot.add_roles(author, asia)
-                        elif location == 7:
+                        elif location.content.lower() == "australia":
                             await self.bot.add_roles(author, australia)
-                        elif location == 50:
+                        elif location.content.lower() == "austria":
                             await self.bot.add_roles(author, austria)
-                        elif location == 8:
+                        elif location.content.lower() == "belgium":
                             await self.bot.add_roles(author, belgium)
-                        elif location == 9:
+                        elif location.content.lower() == "bosnia":
                             await self.bot.add_roles(author, bosnia)
-                        elif location == 10:
+                        elif location.content.lower() == "brazil":
                             await self.bot.add_roles(author, brazil)
-                        elif location == 11:
+                        elif location.content.lower() == "bulgaria":
                             await self.bot.add_roles(author, bulgaria)
-                        elif location == 12:
+                        elif location.content.lower() == "canada":
                             await self.bot.add_roles(author, canada)
-                        elif location == 13:
+                        elif location.content.lower() == "croatia":
                             await self.bot.add_roles(author, croatia)
-                        elif location == 14:
+                        elif location.content.lower() == "czech":
                             await self.bot.add_roles(author, czech)
-                        elif location == 15:
+                        elif location.content.lower() == "denmark":
                             await self.bot.add_roles(author, denmark)
-                        elif location == 16:
+                        elif location.content.lower() == "estonia":
                             await self.bot.add_roles(author, estonia)
-                        elif location == 17:
+                        elif location.content.lower() == "europe":
                             await self.bot.add_roles(author, europe)
-                        elif location == 18:
+                        elif location.content.lower() == "finland":
                             await self.bot.add_roles(author, finland)
-                        elif location == 19:
+                        elif location.content.lower() == "france":
                             await self.bot.add_roles(author, france)
-                        elif location == 20:
+                        elif location.content.lower() == "germany":
                             await self.bot.add_roles(author, germany)
-                        elif location == 21:
+                        elif location.content.lower() == "hungary":
                             await self.bot.add_roles(author, hungary)
-                        elif location == 22:
+                        elif location.content.lower() == "ireland":
                             await self.bot.add_roles(author, ireland)
-                        elif location == 23:
+                        elif location.content.lower() == "israel":
                             await self.bot.add_roles(author, israel)
-                        elif location == 24:
+                        elif location.content.lower() == "italy":
                             await self.bot.add_roles(author, italy)
-                        elif location == 25:
+                        elif location.content.lower() == "latvia":
                             await self.bot.add_roles(author, latvia)
-                        elif location == 26:
+                        elif location.content.lower() == "lithuania":
                             await self.bot.add_roles(author, lithuania)
-                        elif location == 27:
+                        elif location.content.lower() == "macedonia":
                             await self.bot.add_roles(author, macedonia)
-                        elif location == 28:
+                        elif location.content.lower() == "mexico":
                             await self.bot.add_roles(author, mexico)
-                        elif location == 29:
+                        elif location.content.lower() == "middle east":
                             await self.bot.add_roles(author, middleeast)
-                        elif location == 30:
+                        elif location.content.lower() == "netherlands":
                             await self.bot.add_roles(author, netherlands)
-                        elif location == 31:
+                        elif location.content.lower() == "norway":
                             await self.bot.add_roles(author, norway)
-                        elif location == 32:
+                        elif location.content.lower() == "new zealand":
                             await self.bot.add_roles(author, newzealand)
-                        elif location == 33:
+                        elif location.content.lower() == "philippines":
                             await self.bot.add_roles(author, philippines)
-                        elif location == 34:
+                        elif location.content.lower() == "poland":
                             await self.bot.add_roles(author, poland)
-                        elif location == 35:
+                        elif location.content.lower() == "portugal":
                             await self.bot.add_roles(author, portugal)
-                        elif location == 36:
+                        elif location.content.lower() == "romania":
                             await self.bot.add_roles(author, romania)
-                        elif location == 37:
+                        elif location.content.lower() == "russia":
                             await self.bot.add_roles(author, russia)
-                        elif location == 38:
+                        elif location.content.lower() == "saudi":
                             await self.bot.add_roles(author, saudi)
-                        elif location == 39:
+                        elif location.content.lower() == "scotland":
                             await self.bot.add_roles(author, scotland)
-                        elif location == 40:
+                        elif location.content.lower() == "serbia":
                             await self.bot.add_roles(author, serbia)
-                        elif location == 41:
+                        elif location.content.lower() == "singapore":
                             await self.bot.add_roles(author, singapore)
-                        elif location == 42:
+                        elif location.content.lower() == "slovakia":
                             await self.bot.add_roles(author, slovakia)
-                        elif location == 43:
+                        elif location.content.lower() == "slovenia":
                             await self.bot.add_roles(author, slovenia)
-                        elif location == 44:
+                        elif location.content.lower() == "south america":
                             await self.bot.add_roles(author, southamerica)
-                        elif location == 45:
+                        elif location.content.lower() == "spain":
                             await self.bot.add_roles(author, spain)
-                        elif location == 46:
+                        elif location.content.lower() == "sweden":
                             await self.bot.add_roles(author, sweden)
-                        elif location == 47:
+                        elif location.content.lower() == "switzerland":
                             await self.bot.add_roles(author, switzerland)
-                        elif location == 48:
+                        elif location.content.lower() == "turkey":
                             await self.bot.add_roles(author, turkey)
-                        elif location == 49:
+                        elif location.content.lower() == "united kingdom":
                             await self.bot.add_roles(author, uk)
-                        elif location == 0:
+                        else:
                             pass
-                    else:
-                        self.bot.send_message(author,
-                                              "You have entered an invalid response. Registration has been canceled.")
                         break
                 if location is None:
                     break
