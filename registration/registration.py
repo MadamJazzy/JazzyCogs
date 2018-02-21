@@ -726,7 +726,7 @@ class registration:
                                                                   "43. Solvenia      44. South America 45. Spain\n"
                                                                   "46. Sweden        47. Switzerland   48. Turkey\n"
                                                                   "49. U Kingdom     50. Austria\n"
-                                                                  " 0. **NONE**"
+                                                                  " 0. **NONE**")
                 while True:
                     location = await self.bot.wait_for_message(channel=locationmsg.channel, author=author, timeout=60)
                     if location is int:
