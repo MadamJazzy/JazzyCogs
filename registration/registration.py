@@ -559,9 +559,10 @@ class registration:
                 try:
                     avatar = author.avatar_url if author.avatar \
                         else author.default_avatar_url
-                    em = discord.Embed(timestamp=ctx.message.timestamp, title="Registration {}".format(author.id),
+                    em = discord.Embed(timestamp=ctx.message.timestamp, title="UserID: {}".format(author.id),
                                        color=discord.Color.blue())
-                    em.set_author(name='Introduction for {}'.format(author.name), icon_url=avatar)
+                    em.set_author(name='Registration for {}'.format(author.name), icon_url=avatar)
+                    em.set_thumbnail(url=avatar)
                     gendermsg = await self.bot.send_message(author, "What is your Gender? Please choose from Male, "
                                                                     "Female, Trans, Trans MTF, or Trans FTM, or none.")
                     while True:
