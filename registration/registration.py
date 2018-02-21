@@ -656,7 +656,7 @@ class registration:
                                                                    "1. Submissive - Means you are passive and not aggressive"
                                                                    "2. Dominant - Means you are aggresive and not passive"
                                                                    "3. Switch - Means you are a little of both. "
-                                                                   "4. Prefer not to answer"
+                                                                   "4. Prefer not to answer")
                 while True:
                     position = await self.bot.wait_for_message(channel=positionmsg.channel, author=author, timeout=60)
                     if position is int:
