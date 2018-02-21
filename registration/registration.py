@@ -576,10 +576,6 @@ class registration:
                                                                     "6. Prefer not to Answer")
                     while True:
                         gender = await self.bot.wait_for_message(channel=gendermsg.channel, author=author, timeout=60)
-                        if gender is None:
-                            await self.bot.send_message(author,
-                                                        "Registration has timed out. Please run register command again to continue!")
-                            break
                         male = discord.utils.get(server.roles, name='Male')
                         female = discord.utils.get(server.roles, name='Female')
                         trans = discord.utils.get(server.roles, name='Transgender')
@@ -605,9 +601,7 @@ class registration:
                                 em.add_field(name="Gender", value="Attack Helicopter")
                         else:
                             self.bot.send_message(author, "You have entered an invalid response. Registration has been canceled.")
-                        break
-                    if gender is None:
-                        break
+                            break
                 except discord.Forbidden:
                     await self.bot.reply("Sorry, You have your DMs disabled. I cannot register you if i cannot DM "
                                          "you. You are more than welcome to disable then again after we are done!")
@@ -653,9 +647,9 @@ class registration:
                     break
 
                 positionmsg = await self.bot.send_message(author,  "Which of the following matches your personality?\n"
-                                                                   "1. Submissive - Means you are passive and not aggressive"
-                                                                   "2. Dominant - Means you are aggresive and not passive"
-                                                                   "3. Switch - Means you are a little of both. "
+                                                                   "1. Submissive - Means you are passive and not aggressive\n"
+                                                                   "2. Dominant - Means you are aggresive and not passive\n"
+                                                                   "3. Switch - Means you are a little of both. \n"
                                                                    "4. Prefer not to answer")
                 while True:
                     position = await self.bot.wait_for_message(channel=positionmsg.channel, author=author, timeout=60)
@@ -679,8 +673,6 @@ class registration:
                         self.bot.send_message(author,
                                               "You have entered an invalid response. Registration has been canceled.")
                         break
-                if position is None:
-                    break
                 agemsg = await self.bot.send_message(author, "What is your Age Range?"
                                                              "1. 13-16"
                                                              "2. 16-18"
