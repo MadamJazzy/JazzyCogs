@@ -582,22 +582,22 @@ class registration:
                         trans = discord.utils.get(server.roles, name='Transgender')
                         mtf = discord.utils.get(server.roles, name="Trans MTF")
                         ftm = discord.utils.get(server.roles, name="Trans FTM")
-                        if gender == 1:
+                        if int(gender.content) == 1:
                             await self.bot.add_roles(author, male)
                             em.add_field(name="Gender", value="Male", inline=True)
                         elif int(gender.content) == 2:
                             await self.bot.add_roles(author, female)
                             em.add_field(name="Gender", value="Female", inline=True)
-                        elif gender == 4:
+                        elif int(gender.content) == 4:
                             await self.bot.add_roles(author, mtf)
                             em.add_field(name="Gender", value="Trans MTF", inline=True)
-                        elif gender == 5:
+                        elif int(gender.content) == 5:
                             await self.bot.add_roles(author, ftm)
                             em.add_field(name="Gender", value="Trans FTM", inline=True)
-                        elif gender == 3:
+                        elif int(gender.content) == 3:
                             await self.bot.add_roles(author, trans)
                             em.add_field(name="Gender", value="Transgender", inline=True)
-                        elif gender == 6:
+                        elif int(gender.content) == 6:
                             em.add_field(name="Gender", value="Attack Helicopter")
                         else:
                             self.bot.send_message(author, "You have entered an invalid response. Registration has been canceled.")
