@@ -689,7 +689,8 @@ class registration:
 
                 agemsg = await self.bot.send_message(author, "What is your Age? ** :warning: Bypassing this question "
                                                              "means you will not be able to access NSFW in the server**"
-                                                             "To bypass this question enter None")
+                                                             " To bypass this question enter None"
+                                                             "**Your age will NOT be shown in your public profile. Only Over 18 or Under 18")
                 while True:
                     over18 = discord.utils.get(server.roles, name="Over 18")
                     age = await self.bot.wait_for_message(channel=agemsg.channel, author=author, timeout=60)
