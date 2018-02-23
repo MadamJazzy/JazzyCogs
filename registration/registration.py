@@ -700,10 +700,10 @@ class registration:
                     elif int(age.content) > 0:
                         if int(age.content) >= 18:
                             await self.bot.add_roles(author, over18)
-                            em.add_field(name="Age", value=age.content, inline=True)
+                            em.add_field(name="Age", value="Over 18", inline=True)
                         else:
                             under = discord.utils.get(server.roles, name="Under 18")
-                            em.add_field(name="Age", value=age.content, inline=True)
+                            em.add_field(name="Age", value="Under 18", inline=True)
                             await self.bot.add_roles(author, under)
                         break
                     break
