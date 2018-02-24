@@ -3,6 +3,7 @@ import discord
 from discord.ext import commands
 from cogs.utils.dataIO import dataIO
 from cogs.utils import checks
+import datetime
 
 
 class partnerapp:
@@ -20,13 +21,18 @@ class partnerapp:
         """configuration settings"""
         if ctx.invoked_subcommand is None:
             await self.bot.send_cmd_help(ctx)
+            await self.bot.say("```In order for this cog to work you need to follow these steps. **NOTICE** You must have MANAGE SERVER perms in discord to setup this cog! \n"
+                               "1. ``pset channel ID`` This is the channel **ID** that you want to output your applications to\n"
+                               "2. ``pset roles`` This will create the roles needed for the cog to function correctly\n"
+                               "3. ``pset msg`` Using this command will allow you to set your partner message that will be DMed to the applicant when their application is submitted. \n"
+                               "4. ``pset toggle`` this will turn on the cog to start accepting applications"
+                               "**If you cannot see these command set your admin and mod roles with set adminrole and set modrole**```")
     def initial_config(self, server_id):
         """makes an entry for the server, defaults to turned off"""
         if server_id not in self.settings:
             self.settings[server_id] = {'inactive': True,
                                         'output': [],
                                         'usercache': [],
-                                        'usermin': 0,
                                         'partnermsg': 0,
                                         'multiout': False
                                         }
@@ -52,7 +58,7 @@ class partnerapp:
         """Set your servers Partner message"""
         server = ctx.message.server
         author = ctx.message.author
-        msg = await self.bot.say("Please enter your Parter message, Do not include code blocks as they will be added"
+        msg = await self.bot.say("Please enter your Partner message, Do not include code blocks as they will be added"
                                  "by the bot later")
         pmsg = await self.bot.wait_for_message(channel=msg.channel, author=author, timeout=120)
         if pmsg is not None:
@@ -90,22 +96,6 @@ class partnerapp:
         await self.bot.say("I could not find a channel with that id")
 
     @checks.admin_or_permissions(Manage_server=True)
-    @pset.command(name="usermin", pass_context=True, no_pm=True)
-    async def usermin(self, ctx, usermin=0):
-        """set a min number of users a server must have to apply"""
-        server = ctx.message.server
-        author = ctx.message.author
-        if usermin >= 0:
-            if server.id not in self.settings:
-                self.initial_config(server.id)
-            else:
-                self.settings[server.id]['usermin'] = usermin
-                self.save_json()
-                await self.bot.say("{} has been set as min number of users".format(usermin))
-        else:
-            await self.bot.say("{} Input must be a number please try again".format(author.mention))
-
-    @checks.admin_or_permissions(Manage_server=True)
     @pset.command(name="toggle", pass_context=True, no_pm=True)
     async def reg_toggle(self, ctx):
         """Toggles applications for the server"""
@@ -127,7 +117,6 @@ class partnerapp:
         server = ctx.message.server
         aprole = discord.utils.get(server.roles, name="Partner Applicant")
         partnerrole = discord.utils.get(server.roles, name="Partners")
-        usermin = self.settings[server.id]['usermin']
         pmsg = self.settings[server.id]['partnermsg']
         if server.id not in self.settings:
             return await self.bot.say("Partner Applications are not setup on this server!")
@@ -142,8 +131,12 @@ class partnerapp:
             while True:
                 avatar = author.avatar_url if author.avatar \
                     else author.default_avatar_url
-                em = discord.Embed(timestamp=ctx.message.timestamp, title="ID: {}".format(author.id), color=discord.Color.blue())
-                em.set_author(name='Partnership Application for {}'.format(author.name), icon_url=avatar)
+                time = datetime.datetime.now()
+                fmt = '[ %I:%M:%S ] %B, %d %Y'
+                em = discord.Embed(color=author.color)
+                em.set_author(name='Partner Application for {}'.format(author.name), icon_url=avatar)
+                em.set_footer(text='ID: {} | {}'.format(author.id, time.strftime(fmt)))
+                em.set_thumbnail(url=avatar)
                 try:
                     membermsg = await self.bot.send_message(author, "What is the **EXACT** user count in your server. "
                                                                     "Please use the number and not an estimate.")
@@ -229,7 +222,7 @@ class partnerapp:
                     where = server.get_channel(output)
                     if where is not None:
                         await self.bot.send_message(where, embed=em)
-                        await self.bot.send_message(where, "Partner Message for {}".format(author.mention))
+                        await self.bot.send_message(where, "Partner Application for {}".format(author.mention))
                         await self.bot.add_roles(author, aprole)
                         break
                     break
