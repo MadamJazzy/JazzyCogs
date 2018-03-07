@@ -16,30 +16,63 @@ class partnerapp:
     def save_json(self):
         dataIO.save_json("data/partner/settings.json", self.settings)
 
-    @commands.group(name="pset", pass_context=True, no_pm=True)
-    async def pset(self, ctx):
+    @commands.group(name="psetup", pass_context=True, no_pm=True)
+    async def psetup(self, ctx):
         """configuration settings"""
         if ctx.invoked_subcommand is None:
             await self.bot.send_cmd_help(ctx)
-            await self.bot.say("```In order for this cog to work you need to follow these steps. **NOTICE** You must have MANAGE SERVER perms in discord to setup this cog! \n"
-                               "1. ``pset channel ID`` This is the channel **ID** that you want to output your applications to\n"
-                               "2. ``pset roles`` This will create the roles needed for the cog to function correctly\n"
-                               "3. ``pset msg`` Using this command will allow you to set your partner message that will be DMed to the applicant when their application is submitted. \n"
-                               "4. ``pset toggle`` this will turn on the cog to start accepting applications"
-                               "**If you cannot see these command set your admin and mod roles with set adminrole and set modrole**```")
     def initial_config(self, server_id):
         """makes an entry for the server, defaults to turned off"""
         if server_id not in self.settings:
             self.settings[server_id] = {'inactive': True,
                                         'output': [],
                                         'usercache': [],
+                                        'usermin': 0,
                                         'partnermsg': 0,
                                         'multiout': False
                                         }
             self.save_json()
+    @checks.admin_or_permissions(Manage_server=True)
+    @psetup.command(name="auto", pass_context=True, no_pm=True)
+    async def auto(self, ctx):
+        """Use this command to setup Partner Applications"""
+        author =ctx.message.author
+        server = ctx.message.server
+        msg1 = await self.bot.say("How many member does a server need to partner with your server?")
+        usermin = await self.bot.wait_for_message(channel=msg1.channel, author=author, timeout=120)
+        if usermin is int:
+            if server.id not in self.settings:
+                self.initial_config(server.id)
+            else:
+                self.settings[server.id]['usermin'] = int(usermin.content)
+                self.save_json()
+        else:
+            return await self.bot.say("You have entered an invalid response. Please try again. Only enter a number here!")
+        msg2 = await self.bot.say("Where do you want me to put your applications? (Use the Channel ID here)")
+        chan = await self.bot.wait_for_message(channel=msg2.channel, author=author, timeout=120)
+        if server.id not in self.settings:
+            self.initial_config(server.id)
+        if chan in self.settings[server.id]['output']:
+            return await self.bot.say("Channel already set as output")
+        if str(chan) in server.channels:
+            self.settings[server.id]['output'] = [chan]
+            self.save_json()
+        else:
+            return await self.bot.say("I cannot find that channel. Please use ONLY channel IDs!")
+        msg3 = await self.bot.say("What is your Partner Message? DO NOT include code marks. Paste your partner message only.")
+        pmsg = await self.bot.wait_for_message(channel=msg3.channel, author=author, timout=160)
+        if pmsg is not None:
+            if server.id not in self.settings:
+                self.initial_config(server.id)
+            else:
+                self.settings[server.id]['partnermsg'] = pmsg.content
+                self.save_json()
+        else:
+            return await self.bot.say("You must enter a partner message. Do not include quotes or block text")
+
 
     @checks.admin_or_permissions(Manage_server=True)
-    @pset.command(name="roles", pass_context=True, no_pm=True)
+    @psetup.command(name="roles", pass_context=True, no_pm=True)
     async def rolecreation(self, ctx):
         author = ctx.message.author
         server = ctx.message.server
