@@ -54,17 +54,11 @@ class partnerapp:
             self.initial_config(server.id)
         if chan in self.settings[server.id]['output']:
             return await self.bot.say("Channel already set as output")
-        for channel in server.channels:
-            if str(chan) == str(channel.id):
-                if self.settings[server.id]['multiout']:
-                    self.settings[server.id]['output'].append(chan)
-                    self.save_json()
-                    return await self.bot.say("Channel added to output list")
-                else:
-                    self.settings[server.id]['output'] = [chan]
-                    self.save_json()
-                    return await self.bot.say("Channel set as output")
-        await self.bot.say("I could not find a channel with that id")
+        else:
+            self.settings[server.id]['output'] = [chan]
+            self.save_json()
+        else:
+            return await self.bot.say("I cannot find that channel. Please use ONLY channel IDs!")
         msg3 = await self.bot.say("What is your Partner Message? DO NOT include code marks. Paste your partner message only.")
         pmsg = await self.bot.wait_for_message(channel=msg3.channel, author=author, timout=160)
         if pmsg is not None:
