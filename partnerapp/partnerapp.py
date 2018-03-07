@@ -54,7 +54,7 @@ class partnerapp:
             self.initial_config(server.id)
         if chan in self.settings[server.id]['output']:
             return await self.bot.say("Channel already set as output")
-        if str(chan) in server.channels:
+        if chan in server.channels:
             self.settings[server.id]['output'] = [chan]
             self.save_json()
         else:
