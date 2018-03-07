@@ -86,7 +86,7 @@ class partnerapp:
 
 
     @checks.admin_or_permissions(Manage_server=True)
-    @pset.command(name="msg", pass_context=True, no_pm=True)
+    @psetup.command(name="msg", pass_context=True, no_pm=True)
     async def pmsg(self, ctx,):
         """Set your servers Partner message"""
         server = ctx.message.server
@@ -108,7 +108,7 @@ class partnerapp:
             await self.bot.say("You must enter a partner message. Do not include quotes or block text")
 
     @checks.admin_or_permissions(Manage_server=True)
-    @pset.command(name="channel", pass_context=True, no_pm=True)
+    @psetup.command(name="channel", pass_context=True, no_pm=True)
     async def setoutput(self, ctx, chan=None):
         """sets the place to output application embed to when finished."""
         server = ctx.message.server
@@ -129,7 +129,7 @@ class partnerapp:
         await self.bot.say("I could not find a channel with that id")
 
     @checks.admin_or_permissions(Manage_server=True)
-    @pset.command(name="toggle", pass_context=True, no_pm=True)
+    @psetup.command(name="toggle", pass_context=True, no_pm=True)
     async def reg_toggle(self, ctx):
         """Toggles applications for the server"""
         server = ctx.message.server
