@@ -40,7 +40,7 @@ class partnerapp:
         server = ctx.message.server
         msg1 = await self.bot.say("How many member does a server need to partner with your server?")
         usermin = await self.bot.wait_for_message(channel=msg1.channel, author=author, timeout=120)
-        if usermin is int:
+        if usermin is not None:
             if server.id not in self.settings:
                 self.initial_config(server.id)
             else:
