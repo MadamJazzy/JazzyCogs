@@ -575,6 +575,7 @@ class ImgWelcome:
         await self.bot.send_typing(channel_object)
         image_object = await self._create_welcome(member, member.avatar_url)
         await self.bot.send_file(channel_object, image_object, filename="welcome.png")
+        await self.bot.send_message(channel_object, content="Welcome {} to {}. Please enjoy your stay".format(member.mention, server.name))
         if (len(member.server.members) % 100) == 0 or (len(member.server.members) == 1337) and self.settings[server.id]["SPECIAL_USERS"]:
             msg = "\N{PARTY POPPER} Thanks <@" + member.id + ">, you're the ***" + str(len(member.server.members)) + "*** th user on this server! \N{PARTY POPPER}"
             await self.bot.send_message(channel_object, msg)
@@ -588,20 +589,17 @@ class ImgWelcome:
         Dbans = requests.post(url1, data=payload)
         if since_join.days < 7:
             age=discord.Embed(color=discord.Colour.red(), title=':warning:', description='This account was created' + str(since_join.days) + " days ago!")
-            age.set_thumbnail(url=member.avatar_url)
             await self.bot.send_message(channel_object, embed=age)
         try:
             if ds.json()["msg"] == "No ban found":
                 DSban=discord.Embed(title="")
         except KeyError:
             DSban=discord.Embed(title=":warning:", description="Globally banned on Discord.Services")
-            DSban.set_thumbnail(url=member.avatar_url)
             await self.bot.send_message(channel_object, embed=DSban)
         if Dbans.text == "False":
             Dban=discord.Embed(title='')
         else:
             Dban=discord.Embed(title=':warning:', description="Globally banned on Discordlist.net")
-            Dban.set_thumbnail(url=member.avatar_url)
             await self.bot.send_message(channel_object, embed=Dban)
 def check_folders():
     if not os.path.exists('data/imgwelcome/'):
