@@ -588,12 +588,18 @@ class ImgWelcome:
         Dservice = requests.get(url)
         Dbans = requests.post(url1, data=payload)
         if since_join.days < 7:
-            desc = ":warning: This account was created " + str(since_join.days) + " days ago!"
-        if Dservice.json()["msg"] != "No ban found":
-            desc += ":warning: Globally banned on Discord.Services"
-        if Dbans.text != "False":
-            desc += ":warning: Globally banned on Discordlist.net"
-        embed = discord.Embed(title="Security Check", description=desc)
+            age = ":warning: This account was created " + str(since_join.days) + " days ago!"
+        else:
+            age = ":white_check_mark: This account was created " + str(since_join.days) + " days ago"
+        if Dservice.json()["msg"] == "No ban found":
+            DSban = ":white_check_mark: No Global Ban on Discord.Services"
+        else:
+            DSban = ":warning: Globally banned on Discord.Services"
+        if Dbans.text == "False":
+            Dban = ":white_check_mark: No Global Ban on Discordlist.net "
+        else:
+            Dban = ":warning: Globally banned on Discordlist.net"
+        embed = discord.Embed(title="Security Check", description= age + "\n" + DSban + "\n" + Dban)
         embed.set_thumbnail(url=member.avatar_url)
         await self.bot.send_message(channel_object, embed=embed)
 def check_folders():
