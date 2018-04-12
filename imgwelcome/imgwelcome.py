@@ -599,7 +599,7 @@ class ImgWelcome:
             Dban = ":white_check_mark: No Global Ban on Discordlist.net "
         else:
             Dban = ":warning: Globally banned on Discordlist.net"
-        embed = discord.Embed(title="Security Check", description= age + "\n" + DSban + "\n" + Dban)
+        embed = discord.Embed(title="Security Check", description=age + "\n" + DSban + "\n" + Dban)
         embed.set_thumbnail(url=member.avatar_url)
         await self.bot.send_message(channel_object, embed=embed)
 def check_folders():
