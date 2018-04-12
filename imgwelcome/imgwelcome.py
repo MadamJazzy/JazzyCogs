@@ -584,24 +584,25 @@ class ImgWelcome:
         since_join = date_now - date_join
         payload = {"token": "REKlxFjDbU", "userid": str(member.id)}
         url1="https://bans.discordlist.net/api"
-        url="https://discord.services/api/ban/{}/".format(member.id)
-        Dservice = requests.get(url)
+        ds = requests.get('http://discord.services/api/ban/{}/'.format(member.id))
         Dbans = requests.post(url1, data=payload)
         if since_join.days < 7:
-            age = ":warning: This account was created " + str(since_join.days) + " days ago!"
-        else:
-            age = ":white_check_mark: This account was created " + str(since_join.days) + " days ago"
-        if Dservice.json()["msg"] == "No ban found":
-            DSban = ":white_check_mark: No Global Ban on Discord.Services"
-        else:
-            DSban = ":warning: Globally banned on Discord.Services"
+            age=discord.Embed(color=discord.Colour.red(), title=':warning:', description='This account was created' + str(since_join.days) + " days ago!")
+            age.set_thumbnail(url=member.avatar_url)
+            await self.bot.send_message(channel_object, embed=age)
+        try:
+            if ds.json()["msg"] == "No ban found":
+                DSban=discord.Embed(title="")
+        except KeyError:
+            DSban=discord.Embed(title=":warning:", description="Globally banned on Discord.Services")
+            DSban.set_thumbnail(url=member.avatar_url)
+            await self.bot.send_message(channel_object, embed=DSban)
         if Dbans.text == "False":
-            Dban = ":white_check_mark: No Global Ban on Discordlist.net "
+            Dban=discord.Embed(title='')
         else:
-            Dban = ":warning: Globally banned on Discordlist.net"
-        embed = discord.Embed(title="Security Check", description= age + "\n" + DSban + "\n" + Dban)
-        embed.set_thumbnail(url=member.avatar_url)
-        await self.bot.send_message(channel_object, embed=embed)
+            Dban=discord.Embed(title=':warning:', description="Globally banned on Discordlist.net")
+            Dban.set_thumbnail(url=member.avatar_url)
+            await self.bot.send_message(channel_object, embed=Dban)
 def check_folders():
     if not os.path.exists('data/imgwelcome/'):
         os.mkdir('data/imgwelcome/')
