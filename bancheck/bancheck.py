@@ -136,6 +136,7 @@ class BanList():
                                    description, avatar))
     @banlist.command(pass_context=True)
     async def all(self, ctx):
+        """Checks all members of the server against Banlists!"""
         payload = {"token": "Sb2gFUYIk0"}
         async with self.session.post('https://bans.discordlist.net/api', data=payload) as resp:
             oldlist = await resp.json()
