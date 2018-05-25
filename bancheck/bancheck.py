@@ -51,7 +51,7 @@ class BanList():
 
     @banlist.command(pass_context=True)
     async def user(self, ctx, user: discord.Member=None):
-        """Check by username mention! [p]bancheck user @username"""
+        """Check by username mention! [p]banlist user @username"""
         if not user:
             user = ctx.message.author
         user1 = await self.bot.get_user_info(str(user.id))
@@ -88,7 +88,7 @@ class BanList():
 
     @banlist.command(pass_context=True)
     async def id(self, ctx, id: str):
-        """Check by UserID [p]bancheck id UserID"""
+        """Check by UserID [p]banlist id UserID"""
         if (not id.isdigit()):
             await self.bot.say('User ids only\nExample:`248294452307689473`')
             return
