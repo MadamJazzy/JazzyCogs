@@ -44,12 +44,12 @@ class BanList():
         return final
 
     @commands.group(pass_context=True)
-    async def bancheck(self, ctx):
+    async def banlist(self, ctx):
         """Checks for global bans on Discord.Services and DiscordList.net"""
         if ctx.invoked_subcommand is None:
             await send_cmd_help(ctx)
 
-    @bancheck.command(pass_context=True)
+    @banlist.command(pass_context=True)
     async def user(self, ctx, user: discord.Member=None):
         """Check by username mention! [p]bancheck user @username"""
         if not user:
@@ -86,7 +86,7 @@ class BanList():
                 name, userid, reason, niceurl))
         await self.bot.say(embed=self.embed_maker(":x: **Ban Found on Discordlist.net!** ", discord.Color.red(), description, avatar))
 
-    @bancheck.command(pass_context=True)
+    @banlist.command(pass_context=True)
     async def id(self, ctx, id: str):
         """Check by UserID [p]bancheck id UserID"""
         if (not id.isdigit()):
@@ -134,8 +134,8 @@ class BanList():
         await self.bot.say(
             embed=self.embed_maker(":x: Ban Found on Discordlist.net!",discord.Color.red(),
                                    description, avatar))
-    @commands.command(pass_context=True)
-    async def banlist(self, ctx):
+    @banlist.command(pass_context=True)
+    async def all(self, ctx):
         payload = {"token": "Sb2gFUYIk0"}
         async with self.session.post('https://bans.discordlist.net/api', data=payload) as resp:
             oldlist = await resp.json()
