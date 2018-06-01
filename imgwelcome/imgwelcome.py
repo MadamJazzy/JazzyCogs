@@ -574,9 +574,7 @@ class ImgWelcome:
         channel_object = self.bot.get_channel(channelid)
         await self.bot.send_typing(channel_object)
         image_object = await self._create_welcome(member, member.avatar_url)
-        await self.bot.send_message(channel_object,
-                                    content="Welcome {} to {}. Please enjoy your stay".format(member.mention,
-                                                                                              server.name))
+        await self.bot.send_message(channel_object, content="Welcome {} to {}. Please enjoy your stay".format(member.mention, server.name))
         await self.bot.send_file(channel_object, image_object, filename="welcome.png")
         if (len(member.server.members) % 100) == 0 or (len(member.server.members) == 1337) and self.settings[server.id]["SPECIAL_USERS"]:
             msg = "\N{PARTY POPPER} Thanks <@" + member.id + ">, you're the ***" + str(len(member.server.members)) + "*** th user on this server! \N{PARTY POPPER}"
@@ -603,6 +601,7 @@ class ImgWelcome:
         else:
             Dban=discord.Embed(title=':warning:', description="Globally banned on Discordlist.net")
             await self.bot.send_message(channel_object, embed=Dban)
+
 def check_folders():
     if not os.path.exists('data/imgwelcome/'):
         os.mkdir('data/imgwelcome/')
