@@ -249,12 +249,9 @@ class Social:
     @commands.command(pass_context=True, invoke_without_command=True)
     async def socialcmds(self, ctx):
         """List all Social Commands"""
-        await self.bot.say("```Social Commands```\n"
-                           "kiss, bite, slap, taunt, cuddle, hugs, feed, \n"
-                           "spank, tease, hi5, shoot, lick, shake, shoot, \n"
-                           "twerk, strip, thirsty, moist, whip, facepalm, \n"
-                           "ohno, hungry, nuts, fever, socialcmds"
-        )
+        await self.bot.say("```Social Commands\n"
+                           "kiss, bite, slap, taunt, cuddle, hugs, feed, spank, tease, hi5, shoot, lick, shake, shoot, "
+                           "twerk, strip, thirsty, moist, whip, facepalm, ohno, hungry, nuts, fever, socialcmds ```")
 
 
     async def upload_random_gif(self, msg, folder):
