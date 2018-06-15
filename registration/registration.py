@@ -604,9 +604,9 @@ class registration:
                             break
                     if gender is None:
                         break
-                except discord.Forbidden:
-                    await self.bot.reply("Sorry, You have your DMs disabled. I cannot register you if i cannot DM "
-                                         "you. You are more than welcome to disable then again after we are done!")
+                except:
+                    await self.bot.reply("Something has went wrong. The most common reason for "
+                                         "this is your DMs are disabled!")
 
                 otmsg = await self.bot.send_message(author,
                                                     "What is your Sexual Orientation? Please choose from Straight,"
@@ -690,26 +690,33 @@ class registration:
                 agemsg = await self.bot.send_message(author, "What is your Age? ** :warning: Bypassing this question "
                                                              "means you will not be able to access NSFW in the server**"
                                                              " To bypass this question enter None"
+                                                             "This **MUST** be a number. Do not put words or symbols in "
+                                                             "this response. It is just a number. Example: 19"
                                                              "**Your age will NOT be shown in your public profile. Only Over 18 or Under 18")
                 while True:
                     over18 = discord.utils.get(server.roles, name="Over 18")
-                    age = await self.bot.wait_for_message(channel=agemsg.channel, author=author, timeout=60)
-                    if age is None:
+                    try:
+                        age = await self.bot.wait_for_message(channel=agemsg.channel, author=author, timeout=60)
+                        if age is None:
+                            break
+                        if age.content.lower() == "none":
+                            em.add_field(name="Age", value="To scared to tell", inline=True)
+                        elif int(age.content) > 0:
+                            if int(age.content) >= 18:
+                                await self.bot.add_roles(author, over18)
+                                em.add_field(name="Age", value="Over 18", inline=True)
+                            else:
+                                under = discord.utils.get(server.roles, name="Under 18")
+                                em.add_field(name="Age", value="Under 18", inline=True)
+                                await self.bot.add_roles(author, under)
+                            break
                         break
-                    if age.content.lower() == "none":
-                        em.add_field(name="Age", value="To scared to tell", inline=True)
-                    elif int(age.content) > 0:
-                        if int(age.content) >= 18:
-                            await self.bot.add_roles(author, over18)
-                            em.add_field(name="Age", value="Over 18", inline=True)
-                        else:
-                            under = discord.utils.get(server.roles, name="Under 18")
-                            em.add_field(name="Age", value="Under 18", inline=True)
-                            await self.bot.add_roles(author, under)
+                    except:
+                        self.bot.say("Sorry but something has went wrong? Did you follow all the instructions? "
+                                     "Make sure that you are not putting in words for the age. This requires your "
+                                     "actual age as stated in the instructions. Don't worry, I won't post your age "
+                                     "in the intro. Its just used to give your age role!")
                         break
-                    break
-                if age is None:
-                    break
                 locationmsg = await self.bot.send_message(author, 'Please select your location from the following\n'
                                                                   '"usa-eastern", "usa-central", "usa-pacific", "usa-mountain",'
                                                                   '"africa", "asia","australia", "austria", "belgium", "bosnia", "brazil", "bulgaria",'
