@@ -690,12 +690,14 @@ class registration:
                 if position is None:
                     break
 
-                agemsg = await self.bot.send_message(author, "What is your Age? ** :warning: Bypassing this question "
-                                                             "means you will not be able to access NSFW in the server**"
-                                                             " To bypass this question enter None"
-                                                             "This **MUST** be a number. Do not put words or symbols in "
-                                                             "this response. It is just a number. Example: 19"
-                                                             "**Your age will NOT be shown in your public profile. Only Over 18 or Under 18")
+                agemsg = await self.bot.send_message(author, "What is your age? [Enter **NUMBER ONLY**]\n"
+                                                             "**Your answer is NOT visible to the server, I only use "
+                                                             "the answer you provide to give you one of two roles for "
+                                                             "age. If you do not answer this question correctly you "
+                                                             "will NOT get the age role. Therefor you will not be able"
+                                                             " to see restricted content in the server until you "
+                                                             "contact a staff member and explain why you cannot "
+                                                             "follow instructions for registration!**")
                 while True:
                     over18 = discord.utils.get(server.roles, name="Over 18")
                     try:
@@ -715,11 +717,8 @@ class registration:
                             break
                         break
                     except:
-                        self.bot.say("Sorry but something has went wrong? Did you follow all the instructions? "
-                                     "Make sure that you are not putting in words for the age. This requires your "
-                                     "actual age as stated in the instructions. Don't worry, I won't post your age "
-                                     "in the intro. Its just used to give your age role!")
                         break
+
                 locationmsg = await self.bot.send_message(author, 'Please select your location from the following\n'
                                                                   '"usa-eastern", "usa-central", "usa-pacific", "usa-mountain",'
                                                                   '"africa", "asia","australia", "austria", "belgium", "bosnia", "brazil", "bulgaria",'
