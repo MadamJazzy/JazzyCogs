@@ -82,10 +82,10 @@ class registration:
 
         else:
             author = ctx.message.author
-            msg = self.bot.say("Have you already ran the following commands to setup this cog? "
-                               "`[p]setreg roles` "
-                               "`[p]setreg output`"
-                               "[Yes/No]")
+            msg = self.bot.reply("Have you already ran the following commands to setup this cog? "
+                                 "`[p]setreg roles` "
+                                 "`[p]setreg output`"
+                                 "[Yes/No]")
             ans = await self.bot.wait_for_message(msg.channel, author=author, timeout=60)
             if ans == "yes":
                 await self.bot.say("Registration enabled.")
@@ -324,17 +324,15 @@ class registration:
     @setreg.command(name="droles", pass_context=True, no_pm=True)
     async def roles2(self, ctx):
         """Deletes roles created when you activated this cog"""
-        server = ctx.message.server
         author = ctx.message.author
         try:
-            rolemsg = self.bot.reply("Would you like me to remove the roles that were created when you started the "
-                                     "registration on the server? [Yes/No]")
-            setrole = await self.bot.wait_for_message(channel=rolemsg.channel, author=author, timeout=60)
+            msg1 = self.bot.reply("Would you like me to remove the roles that were created when you started the "
+                                  "registration on the server? [Yes/No]")
+            setrole = await self.bot.wait_for_message(channel=msg1.channel, author=author, timeout=60)
             if setrole.content.lower() == "no":
-                await self.bot.reply("OK, I wont remove the roles.")
+                await self.bot.say("OK, I wont remove the roles.")
             elif setrole.content.lower() == "yes":
                 server = ctx.message.server
-                author = ctx.message.author
                 male = discord.utils.get(server.roles, name="Male")
                 female = discord.utils.get(server.roles, name="Female")
                 trans = discord.utils.get(server.roles, name="Transgender")
