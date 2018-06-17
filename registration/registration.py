@@ -918,16 +918,13 @@ class registration:
                     where = server.get_channel(output)
                     if where is not None:
                         await self.bot.send_message(where, embed=em)
+                        await self.bot.reply("Thank you for Registering!")
+                        await self.bot.add_roles(author, regrole)
                         break
                 else:
-                    await self.bot.reply("Thank you for trying but Registration was **NOT** successful, One of your"
-                                         "responses timed out or you entered an invalid response. The most common "
-                                         "mistake to get this error is not entering your age correctly. Make sure "
-                                         "to follow the instructions on each question and try again. Please everyone "
-                                         "shame {} for making me code this exception".format(author.name))
+                    await self.bot.say("I'm sorry but your server admins cannot follow instructions. "
+                                       "This cog has not been setup correctly. Please let them know!")
                     break
-                await self.bot.reply("Thank you for Registering!")
-                await self.bot.add_roles(author, regrole)
                 return
 
 
