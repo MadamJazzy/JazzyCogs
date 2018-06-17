@@ -324,6 +324,8 @@ class registration:
     @setreg.command(name="droles", pass_context=True, no_pm=True)
     async def roles2(self, ctx):
         """Deletes roles created when you activated this cog"""
+        server = ctx.message.server
+        author = ctx.message.author
         try:
             rolemsg = self.bot.reply("Would you like me to remove the roles that were created when you started the "
                                      "registration on the server? [Yes/No]")
