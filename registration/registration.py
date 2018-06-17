@@ -923,8 +923,10 @@ class registration:
                         break
                 else:
                     await self.bot.reply("Thank you for trying but Registration was **NOT** successful, One of your"
-                                         "responses timed out. Please rerun the registration command to try again!"
-                                         "You may not have all the roles that you should have.")
+                                         "responses timed out or you entered an invalid response. The most common "
+                                         "mistake to get this error is not entering your age correctly. Make sure "
+                                         "to follow the instructions on each question and try again. Please everyone "
+                                         "shame {} for making me code this exception".format(author.name))
                     break
                 return
 
