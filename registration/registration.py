@@ -81,17 +81,11 @@ class registration:
             await self.bot.say("Registration disabled. To remove roles created with this command use `[p]setreg droles`")
 
         else:
-            author = ctx.message.author
-            msg = await self.bot.reply("Have you already ran the following commands to setup this cog? "
-                                       "`[p]setreg roles` "
-                                       "`[p]setreg output` "
-                                       "[Yes/No]")
-            ans = await self.bot.wait_for_message(msg.channel, author=author)
-            if ans == "yes":
-                await self.bot.say("Registration enabled.")
-            else:
-                await self.bot.say("Please run these commands first and then rerun the toggle command to make sure "
-                                   "all setup is completed correctly.")
+            await self.bot.say("Registration has been enabled for this server. For this to work correctly. Please "
+                               "make sure you have already run the following commands \n"
+                               "`[p]setreg output`\n"
+                               "`[p]setreg roles.")
+            await self.bot.say("Registration enabled.")
 
     @checks.admin_or_permissions(Manage_server=True)
     @setreg.command(name="roles", pass_context=True, no_pm=True)
