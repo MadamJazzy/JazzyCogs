@@ -86,7 +86,7 @@ class registration:
                                        "`[p]setreg roles` "
                                        "`[p]setreg output` "
                                        "[Yes/No]")
-            ans = await self.bot.wait_for_message(msg.channel, author=author, timeout=60)
+            ans = await self.bot.wait_for_message(msg.channel, author=author)
             if ans == "yes":
                 await self.bot.say("Registration enabled.")
             else:
