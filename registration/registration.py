@@ -82,10 +82,10 @@ class registration:
 
         else:
             author = ctx.message.author
-            msg = self.bot.reply("Have you already ran the following commands to setup this cog? "
-                                 "`[p]setreg roles` "
-                                 "`[p]setreg output`"
-                                 "[Yes/No]")
+            msg = await self.bot.reply("Have you already ran the following commands to setup this cog? "
+                                       "`[p]setreg roles` "
+                                       "`[p]setreg output` "
+                                       "[Yes/No]")
             ans = await self.bot.wait_for_message(msg.channel, author=author, timeout=60)
             if ans == "yes":
                 await self.bot.say("Registration enabled.")
