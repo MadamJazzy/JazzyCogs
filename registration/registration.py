@@ -84,7 +84,7 @@ class registration:
             await self.bot.say("Registration has been enabled for this server. For this to work correctly. Please "
                                "make sure you have already run the following commands \n"
                                "`[p]setreg output`\n"
-                               "`[p]setreg roles.")
+                               "`[p]setreg roles.`")
             await self.bot.say("Registration enabled.")
 
     @checks.admin_or_permissions(Manage_server=True)
