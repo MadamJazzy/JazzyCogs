@@ -78,13 +78,23 @@ class registration:
             not self.settings[server.id]['inactive']
         self.save_json()
         if self.settings[server.id]['inactive']:
-            self.roles2(ctx)
-            await self.bot.say("Registration disabled.")
+            await self.bot.say("Registration disabled. To remove roles created with this command use `[p]setreg droles`")
+
         else:
-            self.role_creation(ctx)
-            await self.bot.say("Registration enabled.")
+            author = ctx.message.author
+            msg = self.bot.say("Have you already ran the following commands to setup this cog? "
+                               "`[p]setreg roles` "
+                               "`[p]setreg output`"
+                               "[Yes/No]")
+            ans = await self.bot.wait_for_message(msg.channel, author=author, timeout=60)
+            if ans == "yes":
+                await self.bot.say("Registration enabled.")
+            else:
+                await self.bot.say("Please run these commands first and then rerun the toggle command to make sure "
+                                   "all setup is completed correctly.")
 
-
+    @checks.admin_or_permissions(Manage_server=True)
+    @setreg.command(name="roles", pass_context=True, no_pm=True)
     async def role_creation(self, ctx):
         """Creates roles needed for this cog"""
         server = ctx.message.server
@@ -310,7 +320,8 @@ class registration:
                                  "Permissions on the server. Please check this and try again. or check your console! "
                                  "for full error details ")
 
-
+    @checks.admin_or_permissions(Manage_server=True)
+    @setreg.command(name="droles", pass_context=True, no_pm=True)
     async def roles2(self, ctx):
         """Deletes roles created when you activated this cog"""
         try:
