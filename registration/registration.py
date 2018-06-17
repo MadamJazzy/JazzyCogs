@@ -84,8 +84,8 @@ class registration:
             self.role_creation()
             await self.bot.say("Registration enabled.")
 
-    @checks.admin_or_permissions(Manage_server=True)
-    @setreg.command(name="roles", pass_context=True, no_pm=True)
+
+
     async def role_creation(self, ctx):
         """Creates roles needed for this cog"""
         server = ctx.message.server
