@@ -326,9 +326,9 @@ class registration:
         """Deletes roles created when you activated this cog"""
         author = ctx.message.author
         try:
-            msg1 = self.bot.reply("Would you like me to remove the roles that were created when you started the "
-                                  "registration on the server? [Yes/No]")
-            setrole = await self.bot.wait_for_message(channel=msg1.channel, author=author, timeout=60)
+            rolemsg = await self.bot.reply("This will delete all roles created by this cog. Are you sure you wish to "
+                                           "continue? [Yes/No]")
+            setrole = await self.bot.wait_for_message(channel=rolemsg.channel, author=author, timeout=60)
             if setrole.content.lower() == "no":
                 await self.bot.say("OK, I wont remove the roles.")
             elif setrole.content.lower() == "yes":
