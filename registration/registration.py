@@ -914,8 +914,6 @@ class registration:
                     em.add_field(name="About Me:", value=aboutme.content, inline=False)
                 else:
                     em.add_field(name="About Me:", value="A mysterious person", inline=False)
-                await self.bot.reply("Thank you for Registering!")
-                await self.bot.add_roles(author, regrole)
                 for output in self.settings[server.id]['output']:
                     where = server.get_channel(output)
                     if where is not None:
@@ -928,6 +926,8 @@ class registration:
                                          "to follow the instructions on each question and try again. Please everyone "
                                          "shame {} for making me code this exception".format(author.name))
                     break
+                await self.bot.reply("Thank you for Registering!")
+                await self.bot.add_roles(author, regrole)
                 return
 
 
