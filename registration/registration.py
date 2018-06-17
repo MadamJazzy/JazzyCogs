@@ -81,9 +81,8 @@ class registration:
             self.roles2(ctx)
             await self.bot.say("Registration disabled.")
         else:
-            self.role_creation()
+            self.role_creation(ctx)
             await self.bot.say("Registration enabled.")
-
 
 
     async def role_creation(self, ctx):
@@ -311,8 +310,7 @@ class registration:
                                  "Permissions on the server. Please check this and try again. or check your console! "
                                  "for full error details ")
 
-    @checks.admin_or_permissions(Manage_server=True)
-    @setreg.command(name="droles", pass_context=True, no_pm=True)
+
     async def roles2(self, ctx):
         """Deletes roles created when you activated this cog"""
         try:
