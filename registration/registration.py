@@ -78,7 +78,7 @@ class registration:
             not self.settings[server.id]['inactive']
         self.save_json()
         if self.settings[server.id]['inactive']:
-            self.roles2()
+            self.roles2(self, ctx)
             await self.bot.say("Registration disabled.")
         else:
             self.role_creation()
