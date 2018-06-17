@@ -78,8 +78,10 @@ class registration:
             not self.settings[server.id]['inactive']
         self.save_json()
         if self.settings[server.id]['inactive']:
+            self.roles2()
             await self.bot.say("Registration disabled.")
         else:
+            self.role_creation()
             await self.bot.say("Registration enabled.")
 
     @checks.admin_or_permissions(Manage_server=True)
@@ -89,15 +91,11 @@ class registration:
         server = ctx.message.server
         author = ctx.message.author
         try:
-            rolemsg = await self.bot.reply("This will create the roles needed for this cog to function.\n```md\n"
-                                           "[Gender Roles](Male, Female, Transgender, MTF, and FTM)\n"
-                                           "[Orientation Roles](Straight, Gay, Bisexual, Pansexual, and Asexual)\n"
-                                           "[Position Roles](Submissive, Dominant, Switch)\n"
-                                           "[Misc Roles](Over 18, Registered, Under 18) \n"
-                                           "[Location Roles](52 location roles)```\n"
-                                           "These roles are required for the cog to function correctly. They will be made "
-                                           "with no permissions. You can modify this later through Role Management if you "
-                                           "Need/Want to. Do you wish to continue? [This command will time out in 60s]")
+            rolemsg = await self.bot.reply("This will create the roles needed for this cog to function. Each time you "
+                                           "toggle the registration to turn on it will check for these required roles "
+                                           "and create them if missing. Removing or changing the name of these roles "
+                                           "will cause the registration to stop working. Do you want to continue? "
+                                           "[Yes/No]")
             setrole = await self.bot.wait_for_message(channel=rolemsg.channel, author=author, timeout=60)
             if setrole.content.lower() == "no":
                 await self.bot.reply("OK, This must be done before the command will work correctly!")
@@ -318,9 +316,11 @@ class registration:
     async def roles2(self, ctx):
         """Deletes roles created when you activated this cog"""
         try:
+            rolemsg = self.bot.reply("Would you like me to remove the roles that were created when you started the "
+                                     "registration on the server? [Yes/No]")
             setrole = await self.bot.wait_for_message(channel=rolemsg.channel, author=author, timeout=60)
             if setrole.content.lower() == "no":
-                await self.bot.reply("OK, This must be done before the command will work correctly!")
+                await self.bot.reply("OK, I wont remove the roles.")
             elif setrole.content.lower() == "yes":
                 server = ctx.message.server
                 author = ctx.message.author
