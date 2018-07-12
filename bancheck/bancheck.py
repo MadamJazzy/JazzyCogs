@@ -104,7 +104,7 @@ class BanList():
         avatar = user1.avatar_url
         ds = requests.get("http://discord.services/api/ban/{}/".format(user.id))
         try:
-            name = ds.json()["ban"]["name"]
+            name = user1
             userid = ds.json()["ban"]["id"]
             reason = ds.json()["ban"]["reason"]
             proof = ds.json()["ban"]["proof"]
