@@ -584,24 +584,27 @@ class ImgWelcome:
         date_now = date_now.replace(tzinfo=None)
         since_join = date_now - date_join
         payload = {"token": "REKlxFjDbU", "userid": str(member.id)}
-        url1="https://bans.discordlist.net/api"
+        url1 = "https://bans.discordlist.net/api"
         ds = requests.get('http://discord.services/api/ban/{}/'.format(member.id))
+        ab = requests.get("http://generic-api.site/api/discordbans/?userid={}".format(member.id,))
+        aban = ab.json()[0]
         Dbans = requests.post(url1, data=payload)
         if since_join.days < 7:
-            age=discord.Embed(color=discord.Colour.red(), title=':warning:', description='This account was created' + str(since_join.days) + " days ago!")
+            age=discord.Embed(color=discord.Colour.red(), title=':warning:',
+                              description='This account was created' + str(since_join.days) + " days ago!")
             await self.bot.send_message(channel_object, embed=age)
         try:
             if ds.json()["msg"] == "No ban found":
                 DSban=discord.Embed(title="")
         except KeyError:
-            DSban=discord.Embed(title=":warning:", description="Globally banned on Discord.Services")
+            DSban = discord.Embed(title=":warning:", description="Globally banned on Discord.Services")
             await self.bot.send_message(channel_object, embed=DSban)
-        if Dbans.text == "False":
-            Dban=discord.Embed(title='')
-        else:
-            Dban=discord.Embed(title=':warning:', description="Globally banned on Discordlist.net")
+        if Dbans.text != "False":
+            Dban = discord.Embed(title=':warning:', description="Globally banned on Discordlist.net")
             await self.bot.send_message(channel_object, embed=Dban)
-
+        if aban["banned"] != "false":
+            abans = discord.Embed(title=':warning', description="User is listed on AlertBot Ban List!")
+            await self.bot.send_message(channel_object, embed=abans)
 def check_folders():
     if not os.path.exists('data/imgwelcome/'):
         os.mkdir('data/imgwelcome/')
