@@ -88,12 +88,12 @@ class BanList():
         try:
             key = "c35ccd3cb3b99c3597c3e74c528e000b"
             ab = requests.get("http://generic-api.site/api/discordbans/?userid={}".format(user.id))
-            abban = ab.json()["banned"]
+            abban = ab.text()["banned"]
             if abban == "true":
                 name = user.name
                 userid = user.id
-                reason = ab.json()["reason"]
-                proof = ab.json()["proof"]
+                reason = ab.text()["reason"]
+                proof = ab.text()["proof"]
                 niceurl = "[Click Here]({})".format(proof)
                 description = (
                     """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
