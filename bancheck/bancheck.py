@@ -89,7 +89,10 @@ class BanList():
             key = "c35ccd3cb3b99c3597c3e74c528e000b"
             ab = requests.get("Example: /api/discordbans/?userid={}&key={}".format(user.id, key))
             abban = ab.json()[0]["banned"]
-            if abban == "true":
+            if abban == "false":
+                await self.bot.say(
+                    embed=self.embed_maker(":white_check_mark: No ban found on AlertBot!", 0x008000, None, avatar))
+            else:
                 name = user.name
                 userid = user.id
                 reason = ab.json()[0]["reason"]
@@ -99,9 +102,6 @@ class BanList():
                     """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
                         name, userid, reason, niceurl))
                 await self.bot.say(embed=self.embed_maker(":x: **Ban Found on AlertBot!** ", discord.Color.red(), description,avatar))
-            else:
-                await self.bot.say(
-                    embed=self.embed_maker(":white_check_mark: No ban found on AlertBot!", 0x008000, None, avatar))
         except:
             pass
     @banlist.command(pass_context=True)
