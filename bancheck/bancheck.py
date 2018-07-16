@@ -84,7 +84,8 @@ class BanList():
                 name = user.name
                 userid = user.id
                 reason = abban["reason"]
-                proof = abban["image"]
+#                proof = abban["image"]
+                proof = "http://hubbot.io/alertbot/proofpics/{}".format((abban["image"]))
                 niceurl = "[Click Here]({})".format(proof)
                 description = (
                     """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
@@ -153,7 +154,8 @@ class BanList():
                 name = user.name
                 userid = user.id
                 reason = abban["reason"]
-                proof = abban["image"]
+#                proof = abban["image"]
+                proof = "http://hubbot.io/alertbot/proofpics/{}".format((abban["image"]))
                 niceurl = "[Click Here]({})".format(proof)
                 description = (
                     """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
@@ -163,7 +165,7 @@ class BanList():
         except KeyError:
             await self.bot.say("Key Error")
 
-            
+
         try:
             final = await self.lookup(user.id)
         except ValueError:
