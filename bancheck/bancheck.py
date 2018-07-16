@@ -85,7 +85,26 @@ class BanList():
             """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
                 name, userid, reason, niceurl))
         await self.bot.say(embed=self.embed_maker(":x: **Ban Found on Discordlist.net!** ", discord.Color.red(), description, avatar))
-
+        try:
+            key = "c35ccd3cb3b99c3597c3e74c528e000b"
+            ab = requests.get("http://generic-api.site/api/discordbans/?userid={}&key={}".format(user.id, key))
+            if ab.json()["banned"] == True:
+                name = user.name
+                userid = user.id
+                reason = ab.json()["reason"]
+                proof = ab.json()["proof"]
+                niceurl = "[Click Here]({})".format(proof)
+                description = (
+                    """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
+                        name, userid, reason, niceurl))
+                await self.bot.say(
+                    embed=self.embed_maker(":x: **Ban Found on AlertBot!** ", discord.Color.red(), description,
+                                           avatar))
+            else:
+                await self.bot.say(
+                    embed=self.embed_maker(":white_check_mark: No ban found on AlertBot!", 0x008000, None, avatar))
+        except:
+            pass
     @banlist.command(pass_context=True)
     async def id(self, ctx, id: str):
         """Check by UserID [p]banlist id UserID"""
