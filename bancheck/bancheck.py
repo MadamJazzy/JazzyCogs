@@ -91,8 +91,8 @@ class BanList():
                         name, userid, reason, niceurl))
                 await self.bot.say(embed=self.embed_maker(":x: **Ban Found on AlertBot!** ", discord.Color.red(),
                                                           description, avatar))
-        except:
-            await self.bot.say("error")
+        except KeyError:
+            await self.bot.say("Key Error")
         try:
             final = await self.lookup(user.id)
         except ValueError:
