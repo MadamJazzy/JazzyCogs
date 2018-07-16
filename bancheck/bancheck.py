@@ -54,11 +54,10 @@ class BanList():
         """Check by username mention! [p]banlist user @username"""
         if not user:
             user = ctx.message.author
-        em = discord.Embed(title="Ban Report!", color=discord.Colour.green())
         user1 = await self.bot.get_user_info(str(user.id))
         avatar = user1.avatar_url
         ds = requests.get("http://discord.services/api/ban/{}/".format(user.id))
-        desc = ''
+        em = discord.Embed(title="Ban Report!", color=discord.Colour.green(), description="")
         try:
             name = user1
             userid = ds.json()["ban"]["id"]
@@ -72,7 +71,7 @@ class BanList():
                 embed=self.embed_maker(":x: **Ban Found on Discord.Services!**", discord.Color.red(),
                                        description, avatar))
         except KeyError:
-            desc += ":white_check_mark: No Global ban found on Discord.Services"
+            em.description += ":white_check_mark: No Global ban found on Discord.Services"
             await self.bot.say(
                 embed=self.embed_maker(":white_check_mark: Not listed on Discord.Services", 0x008000, None, avatar))
 
@@ -81,7 +80,7 @@ class BanList():
             ab = requests.get("http://generic-api.site/api/discordbans/?userid={}&key={}".format(user.id, key))
             abban = ab.json()[0]
             if abban["banned"] == "false":
-                desc += ":white_check_mark: No Global ban found on AlertBot!"
+                em.description += ":white_check_mark: No Global ban found on AlertBot!"
                 await self.bot.say(
                     embed=self.embed_maker(":white_check_mark: No ban found on AlertBot!", 0x008000, None, avatar))
             else:
@@ -100,7 +99,7 @@ class BanList():
         try:
             final = await self.lookup(user.id)
         except ValueError:
-            desc += ":white_check_mark: No Global ban found on DiscordList.net"
+            em.description += ":white_check_mark: No Global ban found on DiscordList.net"
             return await self.bot.say(embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ",
                                                              0x008000, None, avatar))
         name = (final[1].replace("<Aspect>", ""))
@@ -113,9 +112,7 @@ class BanList():
                 name, userid, reason, niceurl))
         await self.bot.say(embed=self.embed_maker(":x: **Ban Found on Discordlist.net!** ", discord.Color.red(),
                                                   description, avatar))
-
-        if desc is not None:
-            em = discord.Embed(title="Ban Report!", color=discord.Colour.green(), description=desc)
+        if em.description is not None:
             await self.bot.say(embed=em)
     @banlist.command(pass_context=True)
     async def id(self, ctx, id: str):
