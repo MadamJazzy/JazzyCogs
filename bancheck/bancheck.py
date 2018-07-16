@@ -87,13 +87,13 @@ class BanList():
         await self.bot.say(embed=self.embed_maker(":x: **Ban Found on Discordlist.net!** ", discord.Color.red(), description, avatar))
         try:
             key = "c35ccd3cb3b99c3597c3e74c528e000b"
-            ab = requests.get("http://generic-api.site/api/discordbans/?userid={}".format(user.id))
-            abban = ab.text()["banned"]
+            ab = requests.get("Example: /api/discordbans/?userid={}&key={}".format(user.id, key))
+            abban = ab.text()[0]["banned"]
             if abban == "true":
                 name = user.name
                 userid = user.id
-                reason = ab.text()["reason"]
-                proof = ab.text()["proof"]
+                reason = ab.text()[0]["reason"]
+                proof = ab.text()[0]["proof"]
                 niceurl = "[Click Here]({})".format(proof)
                 description = (
                     """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
