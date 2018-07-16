@@ -67,7 +67,7 @@ class BanList():
                 """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
                     name, userid, reason, niceurl))
             await self.bot.say(
-                embed=self.embed_maker(":x: **Ban Found on Discord.Services!**", discord.Color.red(),
+                embed=self.embed_maker(":x: **Globally banned on Discord.Services!**", discord.Color.red(),
                                        description, avatar))
         except KeyError:
             await self.bot.say(
@@ -89,7 +89,7 @@ class BanList():
                 description = (
                     """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
                         name, userid, reason, niceurl))
-                await self.bot.say(embed=self.embed_maker(":x: **Ban Found on AlertBot!** ", discord.Color.red(),
+                await self.bot.say(embed=self.embed_maker(":x: **Globally banned on AlertBot!** ", discord.Color.red(),
                                                           description, avatar))
         except KeyError:
             await self.bot.say("Key Error")
@@ -106,7 +106,7 @@ class BanList():
         description = (
             """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
                 name, userid, reason, niceurl))
-        await self.bot.say(embed=self.embed_maker(":x: **Ban Found on Discordlist.net!** ", discord.Color.red(),
+        await self.bot.say(embed=self.embed_maker(":x: **Globally banned on DiscordList.net** ", discord.Color.red(),
                                                   description, avatar))
 
     @banlist.command(pass_context=True)
