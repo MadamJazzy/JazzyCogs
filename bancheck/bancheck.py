@@ -72,21 +72,7 @@ class BanList():
         except KeyError:
             await self.bot.say(
                 embed=self.embed_maker(":white_check_mark: Not listed on Discord.Services", 0x008000, None, avatar))
-        try:
-            final = await self.lookup(user.id)
-        except ValueError:
-            return await self.bot.say(embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ",
-                                                             0x008000, None, avatar))
-        name = (final[1].replace("<Aspect>", ""))
-        userid = final[2]
-        reason = final[3]
-        proof = self.cleanurl(final[4])
-        niceurl = "[Click Here]({})".format(proof)
-        description = (
-            """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
-                name, userid, reason, niceurl))
-        await self.bot.say(embed=self.embed_maker(":x: **Ban Found on Discordlist.net!** ", discord.Color.red(),
-                                                  description, avatar))
+
         try:
             key = "c35ccd3cb3b99c3597c3e74c528e000b"
             ab = requests.get("Example: /api/discordbans/?userid={}&key={}".format(user.id, key))
@@ -107,6 +93,22 @@ class BanList():
                                                           description, avatar))
         except:
             await self.bot.say("error")
+        try:
+            final = await self.lookup(user.id)
+        except ValueError:
+            return await self.bot.say(embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ",
+                                                             0x008000, None, avatar))
+        name = (final[1].replace("<Aspect>", ""))
+        userid = final[2]
+        reason = final[3]
+        proof = self.cleanurl(final[4])
+        niceurl = "[Click Here]({})".format(proof)
+        description = (
+            """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
+                name, userid, reason, niceurl))
+        await self.bot.say(embed=self.embed_maker(":x: **Ban Found on Discordlist.net!** ", discord.Color.red(),
+                                                  description, avatar))
+
     @banlist.command(pass_context=True)
     async def id(self, ctx, id: str):
         """Check by UserID [p]banlist id UserID"""
