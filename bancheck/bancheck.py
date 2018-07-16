@@ -87,7 +87,7 @@ class BanList():
         await self.bot.say(embed=self.embed_maker(":x: **Ban Found on Discordlist.net!** ", discord.Color.red(), description, avatar))
         try:
             key = "c35ccd3cb3b99c3597c3e74c528e000b"
-            ab = requests.get("http://generic-api.site/api/discordbans/?userid={}&key={}".format(user.id, key))
+            ab = requests.get("http://generic-api.site/api/discordbans/?userid={}".format(user.id))
             abban = ab.json()["banned"]
             if abban == "true":
                 name = user.name
