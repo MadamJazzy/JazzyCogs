@@ -75,7 +75,7 @@ class BanList():
 
         try:
             key = "c35ccd3cb3b99c3597c3e74c528e000b"
-            ab = requests.get("Example: /api/discordbans/?userid={}".format(user.id))
+            ab = requests.get("http://generic-api.site/api/discordbans/?userid={}&key={}".format(user.id, key))
             abban = ab.json()[0]
             if abban["banned"] == "false":
                 await self.bot.say(
