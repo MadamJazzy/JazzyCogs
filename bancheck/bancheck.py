@@ -106,7 +106,7 @@ class BanList():
                 await self.bot.say(embed=self.embed_maker(":x: **Ban Found on AlertBot!** ", discord.Color.red(),
                                                           description, avatar))
         except:
-            pass
+            await self.bot.say("error")
     @banlist.command(pass_context=True)
     async def id(self, ctx, id: str):
         """Check by UserID [p]banlist id UserID"""
