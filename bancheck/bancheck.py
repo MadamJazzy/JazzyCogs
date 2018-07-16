@@ -9,6 +9,7 @@ from .utils.dataIO import dataIO
 import requests
 
 URL = "https://bans.discordlist.net/api"
+URL2 = "http://generic-api.site/api/discordbans/"
 
 class BanList():
     def __init__(self, bot):
@@ -36,13 +37,20 @@ class BanList():
         if m:
             theurl=m.group(1)
             return theurl
-
+    def payload2(self, user):
+        passthis = {
+            "userid": user}
+        return passthis
     async def lookup(self, user):
         resp = await aiohttp.post(URL, data=self.payload(user))
         final = await resp.json()
         resp.close()
         return final
-
+    async def lookup2(self, user):
+        resp = await aiohttp.post(URL2, data=self.payload(user))
+        final2 = await resp.json()
+        resp.close()
+        return final2
     @commands.group(pass_context=True)
     async def banlist(self, ctx):
         """Checks for global bans on Discord.Services and DiscordList.net"""
@@ -86,17 +94,16 @@ class BanList():
                 name, userid, reason, niceurl))
         await self.bot.say(embed=self.embed_maker(":x: **Ban Found on Discordlist.net!** ", discord.Color.red(), description, avatar))
         try:
-            key = "c35ccd3cb3b99c3597c3e74c528e000b"
-            ab = requests.get("Example: /api/discordbans/?userid={}&key={}".format(user.id, key))
-            abban = ab.json()[0]["banned"]
+            final2 = await self.lookup2(user.id)
+            abban = final2[0]["banned"]
             if abban == "false":
                 await self.bot.say(
                     embed=self.embed_maker(":white_check_mark: No ban found on AlertBot!", 0x008000, None, avatar))
             else:
                 name = user.name
                 userid = user.id
-                reason = ab.json()[0]["reason"]
-                proof = ab.json()[0]["proof"]
+                reason = final2[0]["reason"]
+                proof = final2[0]["proof"]
                 niceurl = "[Click Here]({})".format(proof)
                 description = (
                     """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
