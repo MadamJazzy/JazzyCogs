@@ -71,7 +71,7 @@ class BanList():
                                        description, avatar))
         except KeyError:
             await self.bot.say(
-                embed=self.embed_maker(":white_check_mark: Not listed on Discord.Services", 0x008000, None, avatar))
+                embed=self.embed_maker(":white_check_mark: Not listed on Discord.Services", 0x008000, None, None))
 
         try:
             key = "c35ccd3cb3b99c3597c3e74c528e000b"
@@ -79,7 +79,7 @@ class BanList():
             abban = ab.json()[0]
             if abban["banned"] == "false":
                 await self.bot.say(
-                    embed=self.embed_maker(":white_check_mark: No ban found on AlertBot!", 0x008000, None, avatar))
+                    embed=self.embed_maker(":white_check_mark: No ban found on AlertBot!", 0x008000, None, None))
             else:
                 name = user.name
                 userid = user.id
@@ -97,7 +97,7 @@ class BanList():
             final = await self.lookup(user.id)
         except ValueError:
             return await self.bot.say(embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ",
-                                                             0x008000, None, avatar))
+                                                             0x008000, None, None))
         name = (final[1].replace("<Aspect>", ""))
         userid = final[2]
         reason = final[3]
