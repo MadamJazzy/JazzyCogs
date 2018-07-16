@@ -103,8 +103,8 @@ class BanList():
             else:
                 await self.bot.say(
                     embed=self.embed_maker(":white_check_mark: No ban found on AlertBot!", 0x008000, None, avatar))
-        except:
-            pass
+#        except:
+#            pass
     @banlist.command(pass_context=True)
     async def id(self, ctx, id: str):
         """Check by UserID [p]banlist id UserID"""
