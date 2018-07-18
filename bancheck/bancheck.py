@@ -246,13 +246,18 @@ class BanList():
         for r in server.members:
             if r.id in newlist:
                 names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id),))
-        em = discord.Embed(description="**Found `{}` members out of "
-                                       "`{}` Global Bans on DiscordList.net!**"
-                           .format(len(names), len(newlist)), colour=discord.Color.red())
-        for r in server.members:
-            if r.id in newlist:
-                names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id)))
-                em.add_field(name=r, value=r.id)
+        if len(names) is not 0:
+            em = discord.Embed(title="DiscordList.net Ban List",
+                               description="I found {} users listed on DBans ".format(len(names),
+                                                                                      colour=discord.Color.red()))
+        else:
+            em = discord.Embed(title="DiscordList.net Ban List", description="No users in this server found!"
+                               .format(len(names), len(newlist)), colour=discord.Color.green())
+        if len(names) is not 0:
+            for r in server.members:
+                if r.id in newlist:
+                    names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id)))
+                    em.add_field(name=r, value=r.id)
         embedperm = ctx.message.server.me.permissions_in(ctx.message.channel).embed_links
         if embedperm is True:
             await self.bot.say(embed=em)
