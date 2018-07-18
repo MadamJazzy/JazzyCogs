@@ -256,7 +256,7 @@ class BanList():
             for r in server.members:
                 if r.id in newlist:
                     names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id)))
-                    em.add_field(name=r, value=r.id + "   ")
+                    em.add_field(name=" {} ".format(r), value="  {}  ".format(r.id))
         embedperm = ctx.message.server.me.permissions_in(ctx.message.channel).embed_links
         if embedperm is True:
             await self.bot.say(embed=em)
@@ -283,7 +283,7 @@ class BanList():
             for r in server.members:
                 if r.id in newlist:
                     names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id)))
-                    em.add_field(name=r, value=r.id + "   ")
+                    em.add_field(name=" {} ".format(r), value="  {}  ".format(r.id))
         embedperm = ctx.message.server.me.permissions_in(ctx.message.channel).embed_links
         if embedperm is True:
             await self.bot.say(embed=em)
@@ -311,7 +311,7 @@ class BanList():
             for r in server.members:
                 if r.id in newlist:
                     names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id)))
-                    em.add_field(name=r, value=r.id + "   ")
+                    em.add_field(name=" {} ".format(r), value="  {}  ".format(r.id))
         embedperm = ctx.message.server.me.permissions_in(ctx.message.channel).embed_links
         if embedperm is True:
             await self.bot.say(embed=em)
