@@ -109,7 +109,7 @@ class BanList():
                 await self.bot.say(
                     embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
                 return
-            else:
+            elif final['id'] == user.id:
                 userid = final["id"]
                 name = final["name"] + ["discriminator"]
                 reason = final["reason"]
