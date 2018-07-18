@@ -53,7 +53,7 @@ class BanList():
 
     @banlist.command(pass_context=True)
     async def user(self, ctx, user: discord.Member=None):
-        """Check by username mention! [p]banlist user @username"""
+        """Check by username mention! | Useage: banlist user @username"""
         if not user:
             user = ctx.message.author
         user1 = await self.bot.get_user_info(str(user.id))
@@ -138,7 +138,7 @@ class BanList():
 
     @banlist.command(pass_context=True)
     async def id(self, ctx, id: str):
-        """Check by UserID [p]banlist id UserID"""
+        """Check by user ID | Usage: banlist id 123456789123"""
         if (not id.isdigit()):
             await self.bot.say('User ids only\nExample:`248294452307689473`')
             return
@@ -230,7 +230,7 @@ class BanList():
                                    description, avatar))
     @banlist.command(pass_context=True)
     async def all(self, ctx):
-        """Checks all members of the server against Banlists!"""
+        """Scan the **entire** server for banned users!"""
         payload = {"token": "Sb2gFUYIk0"}
         myToken = 'cf1af2a4bb8d2e22af790b66c179e49a2c733d12'
         equrl = 'https://api.ksoft.si/bans/list'
