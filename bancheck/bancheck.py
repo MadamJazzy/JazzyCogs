@@ -9,7 +9,7 @@ from .utils.dataIO import dataIO
 import requests
 
 URL = "https://bans.discordlist.net/api"
-URL2 =
+URL2 = "https://api.ksoft.si/bans/info"
 
 class BanList():
     def __init__(self, bot):
@@ -129,7 +129,7 @@ class BanList():
                                                           description, ""))
         except:
             await self.bot.say("error")
-                
+
         #Dbans lookup
         try:
             final = await self.lookup(user.id)
