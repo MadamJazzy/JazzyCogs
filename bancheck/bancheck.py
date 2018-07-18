@@ -199,14 +199,14 @@ class BanList():
             eq = requests.get(equrl, headers=head, params=params)
             final = eq.json()
             userid = final["id"]
-            name = final["name"] + ["discriminator"]
+            name = '{}#{}'.format(final['name'], final['discriminator'])
             reason = final["reason"]
             proof = self.cleanurl(final["proof"])
             niceurl = "[Click Here]({})".format(proof)
             description = (
                 """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
                     name, userid, reason, niceurl))
-            await self.bot.say(embed=self.embed_maker(":x: **Globally banned on Equalizer Bot!** ", discord.Color.red(),
+            await self.bot.say(embed=self.embed_maker(":x: **Globally banned on Ksoft Banlist!** ", discord.Color.red(),
                                                       description, ""))
         except KeyError:
             await self.bot.say(
