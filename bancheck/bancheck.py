@@ -9,6 +9,7 @@ from .utils.dataIO import dataIO
 import requests
 
 URL = "https://bans.discordlist.net/api"
+URL2 =
 
 class BanList():
     def __init__(self, bot):
@@ -28,6 +29,13 @@ class BanList():
         "version": 3}
         return passthis
 
+    def eq_payload(self, user):
+        eq = {
+            "Authorization":"cf1af2a4bb8d2e22af790b66c179e49a2c733d12",
+            "userid": user
+        }
+        return eq
+
     def cleanurl(self, tag):
         re1='.*?'
         re2='((?:http|https)(?::\\/{2}[\\w]+)(?:[\\/|\\.]?)(?:[^\\s"]*))'
@@ -39,6 +47,12 @@ class BanList():
 
     async def lookup(self, user):
         resp = await aiohttp.post(URL, data=self.payload(user))
+        final = await resp.json()
+        resp.close()
+        return final
+
+    async def eq_lookup(self, user):
+        resp = await aiohttp.get(URL2, data=self.eq_payload(user))
         final = await resp.json()
         resp.close()
         return final
@@ -56,6 +70,7 @@ class BanList():
             user = ctx.message.author
         user1 = await self.bot.get_user_info(str(user.id))
         avatar = user1.avatar_url
+        #DSban Lookup
         ds = requests.get("http://discord.services/api/ban/{}/".format(user.id))
         try:
             name = user1
@@ -72,7 +87,7 @@ class BanList():
         except KeyError:
             await self.bot.say(
                 embed=self.embed_maker(":white_check_mark: Not listed on Discord.Services", 0x008000, None, ""))
-
+        #AlertBot Lookup
         try:
             key = "c35ccd3cb3b99c3597c3e74c528e000b"
             ab = requests.get("http://generic-api.site/api/discordbans/?userid={}&key={}".format(user.id, key))
@@ -92,7 +107,30 @@ class BanList():
                 await self.bot.say(embed=self.embed_maker(":x: **Globally banned on AlertBot!** ", discord.Color.red(),
                                                           description, ""))
         except KeyError:
-            await self.bot.say("Key Error")
+            pass
+
+        #Equalizer Bot lookup
+        try:
+            final = await self.eq_lookup(user.id)
+            banned = final["is_ban_active"]
+            if banned == "false":
+                await self.bot.say(
+                    embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
+            else:
+                userid = final["id"]
+                name = final["name"] + ["discriminator"]
+                reason = final["reason"]
+                proof = self.cleanurl(final["proof"])
+                niceurl = "[Click Here]({})".format(proof)
+                description = (
+                    """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
+                        name, userid, reason, niceurl))
+                await self.bot.say(embed=self.embed_maker(":x: **Globally banned on Equalizer Bot!** ", discord.Color.red(),
+                                                          description, ""))
+        except:
+            await self.bot.say("error")
+                
+        #Dbans lookup
         try:
             final = await self.lookup(user.id)
         except ValueError:
