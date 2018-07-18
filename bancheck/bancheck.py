@@ -256,7 +256,7 @@ class BanList():
             for r in server.members:
                 if r.id in newlist:
                     names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id)))
-                    em.add_field(name="", value="{} - {}".format(r, r.id), inline=False)
+                    em.add_field(value="{} - {}".format(r, r.id), inline=False)
 #                    em.add_field(name=r, value=r.id)
         embedperm = ctx.message.server.me.permissions_in(ctx.message.channel).embed_links
         if embedperm is True:
