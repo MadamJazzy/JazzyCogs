@@ -105,23 +105,19 @@ class BanList():
             params = {"user": user.id}
             eq = requests.get(equrl, headers=head, params=params)
             final = eq.json()
-            if final['exists'] == "false":
-                await self.bot.say(
-                    embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
-                return
-            elif final['id'] == user.id:
-                userid = final["id"]
-                name = final["name"] + ["discriminator"]
-                reason = final["reason"]
-                proof = self.cleanurl(final["proof"])
-                niceurl = "[Click Here]({})".format(proof)
-                description = (
-                    """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
-                        name, userid, reason, niceurl))
-                await self.bot.say(embed=self.embed_maker(":x: **Globally banned on Equalizer Bot!** ", discord.Color.red(),
-                                                          description, ""))
-        except discord.Forbidden:
-            await self.bot.say("error")
+            userid = final["id"]
+            name = final["name"] + ["discriminator"]
+            reason = final["reason"]
+            proof = self.cleanurl(final["proof"])
+            niceurl = "[Click Here]({})".format(proof)
+            description = (
+                """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
+                    name, userid, reason, niceurl))
+            await self.bot.say(embed=self.embed_maker(":x: **Globally banned on Equalizer Bot!** ", discord.Color.red(),
+                                                      description, ""))
+        except KeyError:
+            await self.bot.say(
+                embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
 
         #Dbans lookup
         try:
