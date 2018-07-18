@@ -298,7 +298,7 @@ class BanList():
             if r.id in newlist:
                 names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id),))
         em = discord.Embed(description="**Found `{}` members out of "
-                                       "`{}` Global Bans on Discord.Services!**"
+                                       "`{}` Global Bans on KSoft API BanList**"
                            .format(len(names), len(newlist)), colour=discord.Color.red())
         for r in server.members:
             if r.id in newlist:
