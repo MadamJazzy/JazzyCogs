@@ -249,14 +249,14 @@ class BanList():
             if r.id in newlist:
                 names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id),))
         if len(names) is not 0:
-            em = discord.Embed(title="DiscordList.net Ban List", description="**Found {} users listed!**".format(len(names)), color=red)
+            em = discord.Embed(title="DiscordList.net Ban List", description="**Found {} bad users!**".format(len(names)), color=red)
         else:
             em = discord.Embed(title="DiscordList.net Ban List", description="**NO bad users found!**", color=green)
         if len(names) is not 0:
             for r in server.members:
                 if r.id in newlist:
                     names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id)))
-                    em.add_field(name="** {} **".format(r), value="   {}   ".format(r.id))
+                    em.add_field(name=" {} ".format(r), value="   {}   ".format(r.id))
         embedperm = ctx.message.server.me.permissions_in(ctx.message.channel).embed_links
         if embedperm is True:
             await self.bot.say(embed=em)
@@ -283,7 +283,7 @@ class BanList():
             for r in server.members:
                 if r.id in newlist:
                     names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id)))
-                    em.add_field(name="** {} **".format(r), value="   {}   ".format(r.id))
+                    em.add_field(name=" {} ".format(r), value="   {}   ".format(r.id))
         embedperm = ctx.message.server.me.permissions_in(ctx.message.channel).embed_links
         if embedperm is True:
             await self.bot.say(embed=em)
@@ -304,14 +304,14 @@ class BanList():
             if r.id in newlist:
                 names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id),))
         if len(names) is not 0:
-            em = discord.Embed(title="KSoft API Ban List", description="**Found `{}` bad users!** ".format(len(names)), color=red)
+            em = discord.Embed(title="KSoft API Ban List", description="**Found {} bad users!** ".format(len(names)), color=red)
         else:
-            em = discord.Embed(title="KSoft API Ban List", description="**NO bad users Found!** ",colour=green)
+            em = discord.Embed(title="KSoft API Ban List", description="**NO bad users Found!** ", color=green)
         if len(names) is not 0:
             for r in server.members:
                 if r.id in newlist:
                     names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id)))
-                    em.add_field(name="** {} **".format(r), value="   {}   ".format(r.id))
+                    em.add_field(name=" {} ".format(r), value="   {}   ".format(r.id))
         embedperm = ctx.message.server.me.permissions_in(ctx.message.channel).embed_links
         if embedperm is True:
             await self.bot.say(embed=em)
