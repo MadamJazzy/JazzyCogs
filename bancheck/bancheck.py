@@ -53,7 +53,7 @@ class BanList():
 
     @banlist.command(pass_context=True)
     async def user(self, ctx, user: discord.Member=None):
-        """Check by username mention! | Useage: banlist user @username"""
+        """Check by username mention! | Usage: banlist user @username"""
         if not user:
             user = ctx.message.author
         user1 = await self.bot.get_user_info(str(user.id))
