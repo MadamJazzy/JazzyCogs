@@ -248,7 +248,7 @@ class BanList():
                 names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id),))
         if len(names) is not 0:
             em = discord.Embed(title="DiscordList.net Ban List",description="I found {} users listed!"
-                               .format(len(names),colour=discord.Color.red()))
+                               .format(len(names), colour=discord.Color.red()))
         else:
             em = discord.Embed(title="DiscordList.net Ban List", description="No users in this server found!",
                                colour=discord.Color.green())
@@ -277,7 +277,7 @@ class BanList():
                 names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id),))
         if len(names) is not 0:
             em = discord.Embed(title="Discord.Services Ban List",description="**Found {} bad users!**"
-                               .format(len(names),colour=discord.Color.red()))
+                               .format(len(names), colour=discord.Color.red()))
         else:
             em = discord.Embed(title="Discord.Services Ban List", description="**NO bad users found!**",
                                colour=discord.Color.green())
@@ -309,7 +309,7 @@ class BanList():
             em = discord.Embed(title="KSoft API Ban List", description="**Found `{}` bad users!** "
                                .format(len(names)), colour=discord.Color.red())
         else:
-            em = discord.Embed(title="KSoft API Ban List", description="**NO bad users Found!** ",
+            em = discord.Embed(title="KSoft API Ban List", description="**NO bad users Found!** ", 
                                colour=discord.Color.green())
         if len(names) is not 0:
             for r in server.members:
