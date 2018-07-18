@@ -127,7 +127,7 @@ class BanList():
                         name, userid, reason, niceurl))
                 await self.bot.say(embed=self.embed_maker(":x: **Globally banned on Equalizer Bot!** ", discord.Color.red(),
                                                           description, ""))
-        except:
+        except discord.Forbidden:
             await self.bot.say("error")
 
         #Dbans lookup
