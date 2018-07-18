@@ -232,6 +232,10 @@ class BanList():
     async def all(self, ctx):
         """Checks all members of the server against Banlists!"""
         payload = {"token": "Sb2gFUYIk0"}
+        myToken = 'cf1af2a4bb8d2e22af790b66c179e49a2c733d12'
+        equrl = 'https://api.ksoft.si/bans/list'
+        head = {'Authorization': 'token {}'.format(myToken)}
+        params = {"per_page": 10000}
         async with self.session.post('https://bans.discordlist.net/api', data=payload) as resp:
             oldlist = await resp.json()
             newlist = []
@@ -280,6 +284,33 @@ class BanList():
         else:
             await self.bot.say("I cannot display this data, I do not have Embed permissions in this channel. "
                                "Please correct and run this command again!")
+
+
+        async with self.session.get(equrl, headers=head, params=params) as resp:
+            r = await resp.json()
+            oldlist = r['data']
+            newlist = []
+            for ban in oldlist:
+                newlist.append(ban['id'])
+        server = ctx.message.server
+        names = []
+        for r in server.members:
+            if r.id in newlist:
+                names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id),))
+        em = discord.Embed(description="**Found `{}` members out of "
+                                       "`{}` Global Bans on Discord.Services!**"
+                           .format(len(names), len(newlist)), colour=discord.Color.red())
+        for r in server.members:
+            if r.id in newlist:
+                names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id)))
+                em.add_field(name=r, value=r.id)
+        embedperm = ctx.message.server.me.permissions_in(ctx.message.channel).embed_links
+        if embedperm is True:
+            await self.bot.say(embed=em)
+        else:
+            await self.bot.say("I cannot display this data, I do not have Embed permissions in this channel. "
+                               "Please correct and run this command again!")
+
 
 def setup(bot):
     n = BanList(bot)
