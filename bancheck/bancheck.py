@@ -29,13 +29,6 @@ class BanList():
         "version": 3}
         return passthis
 
-    def eq_payload(self, user):
-        eq = {
-            "Authorization":"cf1af2a4bb8d2e22af790b66c179e49a2c733d12",
-            "userid": user
-        }
-        return eq
-
     def cleanurl(self, tag):
         re1='.*?'
         re2='((?:http|https)(?::\\/{2}[\\w]+)(?:[\\/|\\.]?)(?:[^\\s"]*))'
@@ -51,11 +44,6 @@ class BanList():
         resp.close()
         return final
 
-    async def eq_lookup(self, user):
-        resp = await aiohttp.ClientSession().get(URL2, data=self.eq_payload(user))
-        final = await resp.json()
-        resp.close()
-        return final
 
     @commands.group(pass_context=True)
     async def banlist(self, ctx):
@@ -115,9 +103,9 @@ class BanList():
             equrl = 'https://api.ksoft.si/bans/info'
             head = {'Authorization': 'token {}'.format(myToken)}
             params = {"user": user.id}
-            final = requests.get(equrl, headers=head, params=params)
-            banned = final["exists"]
-            if banned == "false":
+            eq = requests.get(equrl, headers=head, params=params)
+            final = eq.json()
+            if final['exists'] == "false":
                 await self.bot.say(
                     embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
             else:
