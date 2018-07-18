@@ -120,21 +120,21 @@ class BanList():
                 embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
 
         #Dbans lookup
-        try:
-            final = await self.lookup(user.id)
-        except ValueError:
-            return await self.bot.say(embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ",
-                                                             0x008000, None, ""))
-        name = (final[1].replace("<Aspect>", ""))
-        userid = final[2]
-        reason = final[3]
-        proof = self.cleanurl(final[4])
-        niceurl = "[Click Here]({})".format(proof)
-        description = (
-            """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
-                name, userid, reason, niceurl))
-        await self.bot.say(embed=self.embed_maker(":x: **Globally banned on DiscordList.net** ", discord.Color.red(),
-                                                  description, ""))
+#        try:
+#            final = await self.lookup(user.id)
+#        except ValueError:
+#            return await self.bot.say(embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ",
+#                                                             0x008000, None, ""))
+#        name = (final[1].replace("<Aspect>", ""))
+#        userid = final[2]
+#        reason = final[3]
+#        proof = self.cleanurl(final[4])
+#        niceurl = "[Click Here]({})".format(proof)
+#        description = (
+#            """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
+#                name, userid, reason, niceurl))
+#        await self.bot.say(embed=self.embed_maker(":x: **Globally banned on DiscordList.net** ", discord.Color.red(),
+#                                                  description, ""))
 
     @banlist.command(pass_context=True)
     async def id(self, ctx, id: str):
@@ -212,22 +212,22 @@ class BanList():
             await self.bot.say(
                 embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
 
-        try:
-            final = await self.lookup(user.id)
-        except ValueError:
-            return await self.bot.say(
-                embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ", 0x008000, None, ""))
-        name = (final[1].replace("<Aspect>", ""))
-        userid = final[2]
-        reason = final[3]
-        proof = self.cleanurl(final[4])
-        niceurl = "[Click Here]({})".format(proof)
-        description = (
-            """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
-                name, userid, reason, niceurl))
-        await self.bot.say(
-            embed=self.embed_maker(":x: Ban Found on Discordlist.net!",discord.Color.red(),
-                                   description, avatar))
+#        try:
+#            final = await self.lookup(user.id)
+#        except ValueError:
+#            return await self.bot.say(
+#                embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ", 0x008000, None, ""))
+#        name = (final[1].replace("<Aspect>", ""))
+#        userid = final[2]
+#        reason = final[3]
+#        proof = self.cleanurl(final[4])
+#        niceurl = "[Click Here]({})".format(proof)
+#        description = (
+#            """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
+#                name, userid, reason, niceurl))
+#        await self.bot.say(
+#            embed=self.embed_maker(":x: Ban Found on Discordlist.net!",discord.Color.red(),
+#                                   description, avatar))
     @banlist.command(pass_context=True)
     async def all(self, ctx):
         """Scan the **entire** server for banned users!"""
@@ -238,31 +238,31 @@ class BanList():
         params = {"per_page": 5000}
         green = discord.Color.green()
         red = discord.Color.red()
-        async with self.session.post('https://bans.discordlist.net/api', data=payload) as resp:
-            oldlist = await resp.json()
-            newlist = []
-            for ban in oldlist:
-                newlist.append(ban[0])
-        server = ctx.message.server
-        names = []
-        for r in server.members:
-            if r.id in newlist:
-                names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id),))
-        if len(names) is not 0:
-            em = discord.Embed(title="DiscordList.net Ban List", description="**Found {} bad users!**".format(len(names)), color=red)
-        else:
-            em = discord.Embed(title="DiscordList.net Ban List", description="**NO bad users found!**", color=green)
-        if len(names) is not 0:
-            for r in server.members:
-                if r.id in newlist:
-                    names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id)))
-                    em.add_field(name=" {} ".format(r), value="   {}   ".format(r.id))
-        embedperm = ctx.message.server.me.permissions_in(ctx.message.channel).embed_links
-        if embedperm is True:
-            await self.bot.say(embed=em)
-        else:
-            await self.bot.say("I cannot display this data, I do not have Embed permissions in this channel. "
-                               "Please correct and run this command again!")
+#        async with self.session.post('https://bans.discordlist.net/api', data=payload) as resp:
+#            oldlist = await resp.json()
+#            newlist = []
+#            for ban in oldlist:
+#                newlist.append(ban[0])
+#        server = ctx.message.server
+#        names = []
+#        for r in server.members:
+#            if r.id in newlist:
+#                names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id),))
+#        if len(names) is not 0:
+#            em = discord.Embed(title="DiscordList.net Ban List", description="**Found {} bad users!**".format(len(names)), color=red)
+#        else:
+#            em = discord.Embed(title="DiscordList.net Ban List", description="**NO bad users found!**", color=green)
+#        if len(names) is not 0:
+#            for r in server.members:
+#                if r.id in newlist:
+#                    names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id)))
+#                    em.add_field(name=" {} ".format(r), value="   {}   ".format(r.id))
+#        embedperm = ctx.message.server.me.permissions_in(ctx.message.channel).embed_links
+#        if embedperm is True:
+#            await self.bot.say(embed=em)
+#        else:
+#            await self.bot.say("I cannot display this data, I do not have Embed permissions in this channel. "
+#                               "Please correct and run this command again!")
 
         async with self.session.get('http://discord.services/api/bans/') as resp:
             r = await resp.json()
