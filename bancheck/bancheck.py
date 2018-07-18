@@ -47,7 +47,7 @@ class BanList():
 
     @commands.group(pass_context=True)
     async def banlist(self, ctx):
-        """Checks for global bans on Discord.Services and DiscordList.net"""
+        """Checks for global bans on Discord.Services, DiscordList.net, AlertBot, and KSoft API!!"""
         if ctx.invoked_subcommand is None:
             await send_cmd_help(ctx)
 
