@@ -589,6 +589,11 @@ class ImgWelcome:
         ab = requests.get("http://generic-api.site/api/discordbans/?userid={}".format(member.id,))
         aban = ab.json()[0]
         Dbans = requests.post(url1, data=payload)
+        myToken = 'cf1af2a4bb8d2e22af790b66c179e49a2c733d12'
+        equrl = 'https://api.ksoft.si/bans/check'
+        head = {'Authorization': 'token {}'.format(myToken)}
+        params = {"user": member.id}
+        eq = requests.get(equrl, headers=head, params=params)
         if since_join.days < 7:
             age=discord.Embed(color=discord.Colour.red(), title=':warning:',
                               description='This account was created' + str(since_join.days) + " days ago!")
@@ -605,6 +610,9 @@ class ImgWelcome:
         if aban["banned"] != "false":
             abans = discord.Embed(title=':warning', description="User is listed on AlertBot Ban List!")
             await self.bot.send_message(channel_object, embed=abans)
+        if eq.json()['is_banned'] == "true":
+            eqbans = discord.Embed(title=':warning', description="User is listed on Ksoft API Ban List!")
+            await self.bot.send_message(channel_object, embed=eqbans)
 def check_folders():
     if not os.path.exists('data/imgwelcome/'):
         os.mkdir('data/imgwelcome/')
