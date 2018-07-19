@@ -588,7 +588,7 @@ class ImgWelcome:
         ds = requests.get('http://discord.services/api/ban/{}/'.format(member.id))
         ab = requests.get("http://generic-api.site/api/discordbans/?userid={}".format(member.id,))
         aban = ab.json()[0]
-        Dbans = requests.post(url1, data=payload)
+#        Dbans = requests.post(url1, data=payload)
         myToken = 'cf1af2a4bb8d2e22af790b66c179e49a2c733d12'
         equrl = 'https://api.ksoft.si/bans/check'
         head = {'Authorization': 'token {}'.format(myToken)}
@@ -604,9 +604,9 @@ class ImgWelcome:
         except KeyError:
             DSban = discord.Embed(title=":warning:", description="Globally banned on Discord.Services")
             await self.bot.send_message(channel_object, embed=DSban)
-        if Dbans.text != "False":
-            Dban = discord.Embed(title=':warning:', description="Globally banned on Discordlist.net")
-            await self.bot.send_message(channel_object, embed=Dban)
+#        if Dbans.text != "False":
+#            Dban = discord.Embed(title=':warning:', description="Globally banned on Discordlist.net")
+#            await self.bot.send_message(channel_object, embed=Dban)
         if aban["banned"] != "false":
             abans = discord.Embed(title=':warning', description="User is listed on AlertBot Ban List!")
             await self.bot.send_message(channel_object, embed=abans)
