@@ -152,6 +152,7 @@ class BanList():
             return
         user1 = await self.bot.get_user_info(str(user.id))
         avatar = user1.avatar_url
+		#DSban
         ds = requests.get("http://discord.services/api/ban/{}/".format(user.id))
         try:
             name = user1
@@ -168,7 +169,7 @@ class BanList():
         except KeyError:
             await self.bot.say(
                 embed=self.embed_maker(":white_check_mark: Not listed on Discord.Services", 0x008000, None, ""))
-
+#AlertBot
         try:
             key = "c35ccd3cb3b99c3597c3e74c528e000b"
             ab = requests.get("http://generic-api.site/api/discordbans/?userid={}&key={}".format(user.id, key))
@@ -211,7 +212,7 @@ class BanList():
         except KeyError:
             await self.bot.say(
                 embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
-
+#Dbans
 #        try:
 #            final = await self.lookup(user.id)
 #        except ValueError:
