@@ -148,7 +148,7 @@ class BanList():
             await self.bot.say('User ids only\nExample:`248294452307689473`')
             return
         try:
-            user = await self.bot.get_user_info(id)
+            user = await self.bot.get_user_info(str(id))
         except discord.errors.NotFound:
             await self.bot.say('No user with the id `{}` found.'.format(id))
             return
@@ -183,8 +183,9 @@ class BanList():
                 await self.bot.say(
                     embed=self.embed_maker(":white_check_mark: No ban found on AlertBot!", 0x008000, None, ""))
             else:
+                user1 = await self.bot.get_user_info(str(user))
 
-                name = "<@{}>.format(user)"
+                name = user1.name
                 userid = user
                 reason = abban["reason"]
                 proof = "http://hubbot.io/alertbot/proofpics/{}".format((abban["image"]))
