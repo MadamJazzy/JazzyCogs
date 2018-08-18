@@ -39,7 +39,16 @@ class BanList():
         headers = {'Authorization': token}
         url = "https://bans.discord.id/api/check.php?user_id={}".format(userid)
         resp = requests.post(url, data=payload, headers=headers)
-        final = resp.text
+        final = await resp.text
+        return final
+
+    async def eqlookup(self, user):
+        myToken = 'cf1af2a4bb8d2e22af790b66c179e49a2c733d12'
+        equrl = 'https://api.ksoft.si/bans/info'
+        head = {'Authorization': 'token {}'.format(myToken)}
+        params = {"user": user}
+        resp = requests.get(equrl, headers=head, params=params)
+        final = await resp.json()
         return final
 
 
@@ -96,12 +105,7 @@ class BanList():
 
         #Equalizer Bot lookup
         try:
-            myToken = 'cf1af2a4bb8d2e22af790b66c179e49a2c733d12'
-            equrl = 'https://api.ksoft.si/bans/info'
-            head = {'Authorization': 'token {}'.format(myToken)}
-            params = {"user": user}
-            eq = requests.get(equrl, headers=head, params=params)
-            final = eq.json()
+            final = self.eqlookup(user)
             userid = final["id"]
             name = final["name"] + ["discriminator"]
             reason = final["reason"]
@@ -112,9 +116,31 @@ class BanList():
                     name, userid, reason, niceurl))
             await self.bot.say(embed=self.embed_maker(":x: **Globally banned on Equalizer Bot!** ", discord.Color.red(),
                                                       description, ""))
+
         except KeyError:
-            await self.bot.say(
-                embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
+            await self.bot.say(embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!",
+                                                      0x008000, None, ""))
+
+#        try:
+#            myToken = 'cf1af2a4bb8d2e22af790b66c179e49a2c733d12'
+#            equrl = 'https://api.ksoft.si/bans/info'
+#            head = {'Authorization': 'token {}'.format(myToken)}
+#            params = {"user": user}
+#            eq = requests.get(equrl, headers=head, params=params)
+#            final = eq.json()
+#            userid = final["id"]
+#            name = final["name"] + ["discriminator"]
+#            reason = final["reason"]
+#            proof = self.cleanurl(final["proof"])
+#            niceurl = "[Click Here]({})".format(proof)
+#            description = (
+#                """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
+#                    name, userid, reason, niceurl))
+#            await self.bot.say(embed=self.embed_maker(":x: **Globally banned on Equalizer Bot!** ", discord.Color.red(),
+#                                                      description, ""))
+#        except KeyError:
+#            await self.bot.say(
+#                embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
 
         #Dbans lookup
         final = await self.lookup(user)
@@ -236,14 +262,16 @@ class BanList():
         try:
             for r in server.members:
                 final = await self.lookup(r.id)
-                if '"banned": "1"' in final.lower():
+                data = json.loads(final)
+                if data["banned"] == 1:
                     names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id),))
             if len(names) is not 0:
                 em = discord.Embed(title="DiscordList.net Ban List",
                                    description="**Found {} bad users!**".format(len(names)), color=red)
                 for r in server.members:
                     final = await self.lookup(r.id)
-                    if '"banned": "1"' in final.lower():
+                    data = json.loads(final)
+                    if data["banned"] == 1:
                         em.add_field(name=" {} ".format(r), value="   {}   ".format(r.id))
             else:
                 em = discord.Embed(title="DiscordList.net Ban List", description="**NO bad users found!**", color=green)
@@ -286,12 +314,12 @@ class BanList():
                                    "Please correct and run this command again!")
         except:
             self.bot.say("I have encountered a problem with the Discord Services API!")
+
 #Equalizer All check
         myToken = 'cf1af2a4bb8d2e22af790b66c179e49a2c733d12'
         equrl = 'https://api.ksoft.si/bans/list'
         head = {'Authorization': 'token {}'.format(myToken)}
-        params = {"per_page": 5000}
-        try:
+        params = {"per_page": 8000}
             async with self.session.get(equrl, headers=head, params=params) as resp:
                 r = await resp.json()
                 oldlist = r['data']
