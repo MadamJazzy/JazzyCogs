@@ -320,12 +320,12 @@ class BanList():
         equrl = 'https://api.ksoft.si/bans/list'
         head = {'Authorization': 'token {}'.format(myToken)}
         params = {"per_page": 8000}
-            async with self.session.get(equrl, headers=head, params=params) as resp:
-                r = await resp.json()
-                oldlist = r['data']
-                newlist = []
-                for ban in oldlist:
-                    newlist.append(ban['id'])
+        async with self.session.get(equrl, headers=head, params=params) as resp:
+            r = await resp.json()
+            oldlist = r['data']
+            newlist = []
+            for ban in oldlist:
+                newlist.append(ban['id'])
             server = ctx.message.server
             names = []
             for r in server.members:
