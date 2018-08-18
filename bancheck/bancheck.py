@@ -105,42 +105,25 @@ class BanList():
 
         #Equalizer Bot lookup
         try:
-            final1 = self.eqlookup(user)
-            userid = final1["id"]
-            name = final1["name"] + final1["discriminator"]
-            reason = final1["reason"]
-            proof = self.cleanurl(final1["proof"])
+            myToken = 'cf1af2a4bb8d2e22af790b66c179e49a2c733d12'
+            equrl = 'https://api.ksoft.si/bans/info'
+            head = {'Authorization': 'token {}'.format(myToken)}
+            params = {"user": user}
+            eq = requests.get(equrl, headers=head, params=params)
+            final = eq.json()
+            userid = final["id"]
+            name = final["name"] + ["discriminator"]
+            reason = final["reason"]
+            proof = self.cleanurl(final["proof"])
             niceurl = "[Click Here]({})".format(proof)
             description = (
                 """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
                     name, userid, reason, niceurl))
             await self.bot.say(embed=self.embed_maker(":x: **Globally banned on Equalizer Bot!** ", discord.Color.red(),
                                                       description, ""))
-
         except KeyError:
-            await self.bot.say(embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!",
-                                                      0x008000, None, ""))
-
-#        try:
-#            myToken = 'cf1af2a4bb8d2e22af790b66c179e49a2c733d12'
-#            equrl = 'https://api.ksoft.si/bans/info'
-#            head = {'Authorization': 'token {}'.format(myToken)}
-#            params = {"user": user}
-#            eq = requests.get(equrl, headers=head, params=params)
-#            final = eq.json()
-#            userid = final["id"]
-#            name = final["name"] + ["discriminator"]
-#            reason = final["reason"]
-#            proof = self.cleanurl(final["proof"])
-#            niceurl = "[Click Here]({})".format(proof)
-#            description = (
-#                """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
-#                    name, userid, reason, niceurl))
-#            await self.bot.say(embed=self.embed_maker(":x: **Globally banned on Equalizer Bot!** ", discord.Color.red(),
-#                                                      description, ""))
-#        except KeyError:
-#            await self.bot.say(
-#                embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
+            await self.bot.say(
+                embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
 
         #Dbans lookup
         final = await self.lookup(user)
