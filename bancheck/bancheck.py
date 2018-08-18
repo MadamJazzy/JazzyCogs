@@ -121,7 +121,7 @@ class BanList():
         final = await self.lookup(user)
         data = json.loads(final)
         try:
-            reason = data["reason"]`token = 'm7oZkIEJBIbJ7Zprp0BJR6rwXxMbCKOg4z4gkbBzhUY'
+            reason = data["reason"]
             name = user1.name
             userid = user
             proof = self.cleanurl(data["proof"])
