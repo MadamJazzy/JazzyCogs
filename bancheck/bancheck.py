@@ -33,12 +33,11 @@ class BanList():
             return theurl
 
     async def lookup(self, user):
-        user1 = await self.bot.get_user_info(user)
         userid = user
         token = 'm7oZkIEJBIbJ7Zprp0BJR6rwXxMbCKOg4z4gkbBzhUY'
         payload = {'user_id': userid}
         headers = {'Authorization': token}
-        url = "https://bans.discord.id/api/check.php"
+        url = "https://bans.discord.id/api/check.php?user_id={}".format(userid)
         resp = requests.post(url, data=payload, headers=headers)
         final = resp.text
         return final
@@ -134,7 +133,7 @@ class BanList():
 
 
     @banlist.command(pass_context=True)
-    async def id(self, ctx, id):
+    async def id(self, ctx, id: str):
         """Check by user ID | Usage: banlist id 123456789123"""
         if (not id.isdigit()):
             await self.bot.say('User ids only\nExample:`248294452307689473`')
@@ -148,9 +147,9 @@ class BanList():
             await self.bot.say('❌ An error has occured.')
             return
         user1 = await self.bot.get_user_info(str(user.id))
-        avatar = user1.avatar_url
+        user = user1.id
         #DSban
-        ds = requests.get("http://discord.services/api/ban/{}/".format(user.id))
+        ds = requests.get("http://discord.services/api/ban/{}/".format(user))
         try:
             name = user1
             userid = ds.json()["ban"]["id"]
