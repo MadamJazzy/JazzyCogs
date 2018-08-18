@@ -33,9 +33,8 @@ class BanList():
             return theurl
 
     async def lookup(self, user):
-        payload = {"user_id": user}
         headers = {'Authorization': 'm7oZkIEJBIbJ7Zprp0BJR6rwXxMbCKOg4z4gkbBzhUY'}
-        resp = requests.get(URL + "?user_id" + user, headers=headers)
+        resp = requests.get(URL + "?user_id" + "{}".format(user), headers=headers)
         final = await resp.text()
         return final
 
