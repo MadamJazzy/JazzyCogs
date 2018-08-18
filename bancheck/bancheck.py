@@ -130,8 +130,7 @@ class BanList():
                 niceurl = "[Click Here]({})".format(proof)
                 description = ("""**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(name, userid, reason, niceurl))
                 await self.bot.say(embed=self.embed_maker(":x: **Globally banned on DiscordList.net** ", discord.Color.red(),description, ""))
-        except:
-            await self.bot.say("I have enountered an error with the DBans API!")
+        
 
     @banlist.command(pass_context=True)
     async def id(self, ctx, id: str):
