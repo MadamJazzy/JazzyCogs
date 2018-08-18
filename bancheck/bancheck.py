@@ -37,7 +37,7 @@ class BanList():
         headers = {'Authorization': 'm7oZkIEJBIbJ7Zprp0BJR6rwXxMbCKOg4z4gkbBzhUY'}
         async with aiohttp.ClientSession() as session:
             resp = await session.post(URL, data=payload, headers=headers)
-            final = await resp.text()
+            final = await resp.json
             resp.close()
         return final
 
@@ -54,7 +54,6 @@ class BanList():
         if not user:
             user = ctx.message.author
         user1 = await self.bot.get_user_info(str(user.id))
-        avatar = user1.avatar_url
         #DSban Lookup
         ds = requests.get("http://discord.services/api/ban/{}/".format(user.id))
         try:
@@ -243,22 +242,21 @@ class BanList():
                 final = await self.lookup(r.id)
                 if '"banned": "1"' in final.lower():
                     names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id),))
-                if len(names) is not 0:
-                    em = discord.Embed(title="DiscordList.net Ban List",
-                                       description="**Found {} bad users!**".format(len(names)), color=red)
-                else:
-                    em = discord.Embed(title="DiscordList.net Ban List", description="**NO bad users found!**", color=green)
-                if len(names) is not 0:
-                    for r in server.members:
-                        if r.id in newlist:
-                            names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id)))
-                            em.add_field(name=" {} ".format(r), value="   {}   ".format(r.id))
-                embedperm = ctx.message.server.me.permissions_in(ctx.message.channel).embed_links
-                if embedperm is True:
-                    await self.bot.say(embed=em)
-                else:
-                    await self.bot.say("I cannot display this data, I do not have Embed permissions in this channel. "
-                                       "Please correct and run this command again!")
+            if len(names) is not 0:
+                em = discord.Embed(title="DiscordList.net Ban List",
+                                   description="**Found {} bad users!**".format(len(names)), color=red)
+                for r in server.members:
+                    final = await self.lookup(r.id)
+                    if '"banned": "1"' in final.lower():
+                        em.add_field(name=" {} ".format(r), value="   {}   ".format(r.id))
+            else:
+                em = discord.Embed(title="DiscordList.net Ban List", description="**NO bad users found!**", color=green)
+            embedperm = ctx.message.server.me.permissions_in(ctx.message.channel).embed_links
+            if embedperm is True:
+                await self.bot.say(embed=em)
+            else:
+                await self.bot.say("I cannot display this data, I do not have Embed permissions in this channel. "
+                                   "Please correct and run this command again!")
         except:
             self.bot.say("I have encountered a problem with the DBans API!")
 
