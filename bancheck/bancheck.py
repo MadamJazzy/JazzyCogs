@@ -183,8 +183,8 @@ class BanList():
                 await self.bot.say(
                     embed=self.embed_maker(":white_check_mark: No ban found on AlertBot!", 0x008000, None, ""))
             else:
-                
-                name = user.mention
+
+                name = "{}.format(user)"
                 userid = user.id
                 reason = abban["reason"]
                 proof = "http://hubbot.io/alertbot/proofpics/{}".format((abban["image"]))
