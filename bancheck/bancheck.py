@@ -54,7 +54,7 @@ class BanList():
         """Check by username mention! | Usage: banlist user @username"""
         if not user:
             user = ctx.message.author.id
-        user1 = await self.bot.get_user_info(user.id)
+        user1 = await self.bot.get_user_info(user)
         #DSban Lookup
         ds = requests.get("http://discord.services/api/ban/{}/".format(user.id))
         try:
