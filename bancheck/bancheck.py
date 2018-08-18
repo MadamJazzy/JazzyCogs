@@ -132,7 +132,7 @@ class BanList():
 
 
     @banlist.command(pass_context=True)
-    async def id(self, ctx, id: str):
+    async def id(self, ctx, id):
         """Check by user ID | Usage: banlist id 123456789123"""
         if (not id.isdigit()):
             await self.bot.say('User ids only\nExample:`248294452307689473`')
