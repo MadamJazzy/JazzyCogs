@@ -38,7 +38,7 @@ class BanList():
         payload = {'user_id': userid}
         headers = {'Authorization': token}
         url = "https://bans.discord.id/api/check.php?user_id={}".format(userid)
-        resp = requests.post(url, data=json.dumps(payload), headers=headers)
+        resp = requests.post(url, data=payload, headers=headers)
         final = resp.text
         return final
 
