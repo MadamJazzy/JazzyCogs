@@ -146,7 +146,7 @@ class BanList():
         except:
             await self.bot.say('❌ An error has occured.')
             return
-        user1 = await self.bot.get_user_info(str(user.id))
+        user1 = await self.bot.get_user_info(str(id))
         user = user1.id
         #DSban
         ds = requests.get("http://discord.services/api/ban/{}/".format(user))
