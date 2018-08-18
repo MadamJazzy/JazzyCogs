@@ -279,34 +279,6 @@ class BanList():
         except:
             self.bot.say("I have encountered a problem with the Discord Services API!")
 
-#DBans All check
-#        try:
-#            for r in server.members:
-#                final = await self.lookup(r.id)
-#                data = json.loads(final)
-#                if data["banned"] == 1:
-#                    names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id),))
-#            if len(names) is not 0:
-#                em = discord.Embed(title="DiscordList.net Ban List",
-#                                   description="**Found {} bad users!**".format(len(names)), color=red)
-#                for r in server.members:
-#                    final = await self.lookup(r.id)
-#                    data = json.loads(final)
-#                    if data["banned"] == 1:
-#                        em.add_field(name=" {} ".format(r), value="   {}   ".format(r.id))
-#            else:
-#                em = discord.Embed(title="DiscordList.net Ban List", description="**NO bad users found!**", color=green)
-#            embedperm = ctx.message.server.me.permissions_in(ctx.message.channel).embed_links
-#            if embedperm is True:
-#                await self.bot.say(embed=em)
-#           else:
-#                await self.bot.say("I cannot display this data, I do not have Embed permissions in this channel. "
-#                                  "Please correct and run this command again!")
-#       except:
-#           self.bot.say("I have encountered a problem with the DBans API!")
-
-
-
 #Equalizer All check
         myToken = 'cf1af2a4bb8d2e22af790b66c179e49a2c733d12'
         equrl = 'https://api.ksoft.si/bans/list'
@@ -341,6 +313,36 @@ class BanList():
                                    "Please correct and run this command again!")
         except:
             self.bot.say("I have encountered a problem with the Ksoft API!")
+
+#DBans All check
+#        try:
+#            for r in server.members:
+#                final = await self.lookup(r.id)
+#                data = json.loads(final)
+#                if data["banned"] == 1:
+#                    names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id),))
+#            if len(names) is not 0:
+#                em = discord.Embed(title="DiscordList.net Ban List",
+#                                   description="**Found {} bad users!**".format(len(names)), color=red)
+#                for r in server.members:
+#                    final = await self.lookup(r.id)
+#                    data = json.loads(final)
+#                    if data["banned"] == 1:
+#                        em.add_field(name=" {} ".format(r), value="   {}   ".format(r.id))
+#            else:
+#                em = discord.Embed(title="DiscordList.net Ban List", description="**NO bad users found!**", color=green)
+#            embedperm = ctx.message.server.me.permissions_in(ctx.message.channel).embed_links
+#            if embedperm is True:
+#                await self.bot.say(embed=em)
+#           else:
+#                await self.bot.say("I cannot display this data, I do not have Embed permissions in this channel. "
+#                                  "Please correct and run this command again!")
+#       except:
+#           self.bot.say("I have encountered a problem with the DBans API!")
+
+
+
+
 
 def setup(bot):
     n = BanList(bot)
