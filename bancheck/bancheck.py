@@ -105,11 +105,11 @@ class BanList():
 
         #Equalizer Bot lookup
         try:
-            final = self.eqlookup(user)
-            userid = final["id"]
-            name = final["name"] + final["discriminator"]
-            reason = final["reason"]
-            proof = self.cleanurl(final["proof"])
+            final1 = self.eqlookup(user)
+            userid = final1["id"]
+            name = final1["name"] + final1["discriminator"]
+            reason = final1["reason"]
+            proof = self.cleanurl(final1["proof"])
             niceurl = "[Click Here]({})".format(proof)
             description = (
                 """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
