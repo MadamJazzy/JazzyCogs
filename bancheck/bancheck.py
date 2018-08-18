@@ -243,6 +243,39 @@ class BanList():
         red = discord.Color.red()
         server = ctx.message.server
         names = []
+        # DS Bans all check
+        try:
+            async with self.session.get('http://discord.services/api/bans/') as resp:
+                r = await resp.json()
+                oldlist = r["bans"]
+                newlist = []
+                for ban in oldlist:
+                    newlist.append(ban["id"])
+            server = ctx.message.server
+            names = []
+            for r in server.members:
+                if r.id in newlist:
+                    names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id), ))
+            if len(names) is not 0:
+                em = discord.Embed(title="Discord.Services Ban List",
+                                   description="**Found {} bad users!**".format(len(names)), color=red)
+            else:
+                em = discord.Embed(title="Discord.Services Ban List", description="**NO bad users found!**",
+                                   color=green)
+            if len(names) is not 0:
+                for r in server.members:
+                    if r.id in newlist:
+                        names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id)))
+                        em.add_field(name=" {} ".format(r), value="   {}   ".format(r.id))
+            embedperm = ctx.message.server.me.permissions_in(ctx.message.channel).embed_links
+            if embedperm is True:
+                await self.bot.say(embed=em)
+            else:
+                await self.bot.say("I cannot display this data, I do not have Embed permissions in this channel. "
+                                   "Please correct and run this command again!")
+        except:
+            self.bot.say("I have encountered a problem with the Discord Services API!")
+
 #DBans All check
         try:
             for r in server.members:
@@ -269,36 +302,7 @@ class BanList():
         except:
             self.bot.say("I have encountered a problem with the DBans API!")
 
-#DS Bans all check
-        try:
-            async with self.session.get('http://discord.services/api/bans/') as resp:
-                r = await resp.json()
-                oldlist = r["bans"]
-                newlist = []
-                for ban in oldlist:
-                    newlist.append(ban["id"])
-            server = ctx.message.server
-            names = []
-            for r in server.members:
-                if r.id in newlist:
-                    names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id),))
-            if len(names) is not 0:
-                em = discord.Embed(title="Discord.Services Ban List", description="**Found {} bad users!**".format(len(names)), color=red)
-            else:
-                em = discord.Embed(title="Discord.Services Ban List", description="**NO bad users found!**", color=green)
-            if len(names) is not 0:
-                for r in server.members:
-                    if r.id in newlist:
-                        names.append("``{}`` -- ``{}`` \n".format(str(r), str(r.id)))
-                        em.add_field(name=" {} ".format(r), value="   {}   ".format(r.id))
-            embedperm = ctx.message.server.me.permissions_in(ctx.message.channel).embed_links
-            if embedperm is True:
-                await self.bot.say(embed=em)
-            else:
-                await self.bot.say("I cannot display this data, I do not have Embed permissions in this channel. "
-                                   "Please correct and run this command again!")
-        except:
-            self.bot.say("I have encountered a problem with the Discord Services API!")
+
 
 #Equalizer All check
         myToken = 'cf1af2a4bb8d2e22af790b66c179e49a2c733d12'
