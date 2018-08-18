@@ -34,7 +34,7 @@ class BanList():
 
     async def lookup(self, user):
         user1 = await self.bot.get_user_info(user)
-        userid = user1
+        userid = user
         token = 'm7oZkIEJBIbJ7Zprp0BJR6rwXxMbCKOg4z4gkbBzhUY'
         payload = {'user_id': userid}
         headers = {'Authorization': token}
