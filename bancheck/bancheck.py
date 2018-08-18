@@ -33,7 +33,7 @@ class BanList():
             return theurl
 
     async def lookup(self, user):
-        payload = {"user_id": user.id}
+        payload = {"user_id": user}
         headers = {'Authorization': 'm7oZkIEJBIbJ7Zprp0BJR6rwXxMbCKOg4z4gkbBzhUY'}
         async with aiohttp.ClientSession() as session:
             resp = await session.post(URL, data=payload, headers=headers)
@@ -117,7 +117,7 @@ class BanList():
                 embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
 
         #Dbans lookup
-        final = await self.lookup(str(user.id))
+        final = await self.lookup(user.id)
         if '"banned": "0"' in final.lower():
             await self.bot.say(embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ",0x008000, None, ""))
         elif '"banned": "1"' in final.lower():
