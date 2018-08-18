@@ -117,20 +117,19 @@ class BanList():
                 embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
 
         #Dbans lookup
-        try:
-            final = await self.lookup(user.id)
-            if '"banned": "0"' in final.lower():
-                await self.bot.say(embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ",0x008000, None, ""))
-            elif '"banned": "1"' in final.lower():
-                data = json.loads(final)
-                name = user.name
-                userid = user.id
-                reason = data["reason"]
-                proof = self.cleanurl(data["proof"])
-                niceurl = "[Click Here]({})".format(proof)
-                description = ("""**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(name, userid, reason, niceurl))
-                await self.bot.say(embed=self.embed_maker(":x: **Globally banned on DiscordList.net** ", discord.Color.red(),description, ""))
-        
+        final = await self.lookup(user.id)
+        if '"banned": "0"' in final.lower():
+            await self.bot.say(embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ",0x008000, None, ""))
+        elif '"banned": "1"' in final.lower():
+            data = json.loads(final)
+            name = user.name
+            userid = user.id
+            reason = data["reason"]
+            proof = self.cleanurl(data["proof"])
+            niceurl = "[Click Here]({})".format(proof)
+            description = ("""**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(name, userid, reason, niceurl))
+            await self.bot.say(embed=self.embed_maker(":x: **Globally banned on DiscordList.net** ", discord.Color.red(),description, ""))
+    
 
     @banlist.command(pass_context=True)
     async def id(self, ctx, id: str):
