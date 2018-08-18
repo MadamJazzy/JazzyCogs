@@ -232,17 +232,7 @@ class BanList():
         green = discord.Color.green()
         red = discord.Color.red()
         server = ctx.message.server
-        dbans = []
-        dsban = []
-        abban = []
-        eqban = []
-        for r in server.members:
-            final=await self.lookup(r.id)
-            if '"banned": "1"' in final.lower():
-
-
-
-
+        names = []
 #DBans All check
         try:
             for r in server.members:
