@@ -113,7 +113,7 @@ class BanList():
                 embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
 
         #Dbans lookup
-        final = await self.lookup(user.id)
+        final = await self.lookup(str(user.id))
         if '"banned": "0"' in final.lower():
             await self.bot.say(embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ",0x008000, None, ""))
         elif '"banned": "1"' in final.lower():
