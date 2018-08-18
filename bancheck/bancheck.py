@@ -33,7 +33,8 @@ class BanList():
             return theurl
 
     async def lookup(self, user):
-        userid = user
+        user1 = await self.bot.get_user_info(user)
+        userid = user1.id
         token = 'm7oZkIEJBIbJ7Zprp0BJR6rwXxMbCKOg4z4gkbBzhUY'
         payload = {'user_id': userid}
         headers = {'Authorization': token}
@@ -120,7 +121,7 @@ class BanList():
         final = await self.lookup(user)
         data = json.loads(final)
         try:
-            reason = data["reason"]
+            reason = data["reason"]`token = 'm7oZkIEJBIbJ7Zprp0BJR6rwXxMbCKOg4z4gkbBzhUY'
             name = user1.name
             userid = user
             proof = self.cleanurl(data["proof"])
@@ -220,7 +221,7 @@ class BanList():
         niceurl = "[Click Here]({})".format(proof)
         description = ("""**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(name, userid, reason, niceurl))
         await self.bot.say(embed=self.embed_maker(":x: **Globally banned on DiscordList.net** ", discord.Color.red(),description, ""))
-        
+
 
     @banlist.command(pass_context=True)
     async def all(self, ctx):
