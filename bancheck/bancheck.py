@@ -53,7 +53,7 @@ class BanList():
     async def user(self, ctx, user: discord.Member=None):
         """Check by username mention! | Usage: banlist user @username"""
         if not user:
-            user = ctx.message.author
+            user = ctx.message.author.id
         user1 = await self.bot.get_user_info(str(user.id))
         #DSban Lookup
         ds = requests.get("http://discord.services/api/ban/{}/".format(user.id))
@@ -117,7 +117,7 @@ class BanList():
                 embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
 
         #Dbans lookup
-        final = await self.lookup(user.id)
+        final = await self.lookup(user)
         data = json.loads(final)
         if data["banned"] == "0":
             await self.bot.say(embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ",0x008000, None, ""))
