@@ -115,7 +115,7 @@ class BanList():
             eq = requests.get(equrl, headers=head, params=params)
             final = eq.json()
             userid = final["id"]
-            name = final["name"] + ["discriminator"]
+            name = final["name"] + final["discriminator"]
             reason = final["reason"]
             proof = self.cleanurl(final["proof"])
             niceurl = "[Click Here]({})".format(proof)
