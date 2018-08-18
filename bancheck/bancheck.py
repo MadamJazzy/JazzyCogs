@@ -183,8 +183,9 @@ class BanList():
                 await self.bot.say(
                     embed=self.embed_maker(":white_check_mark: No ban found on AlertBot!", 0x008000, None, ""))
             else:
-                name = self.bot.get_user_info(user)
-                userid = user
+                user1 = self.bot.get_user_info(user)
+                name = user.name
+                userid = user.id
                 reason = abban["reason"]
                 proof = "http://hubbot.io/alertbot/proofpics/{}".format((abban["image"]))
                 niceurl = "[Click Here]({})".format(proof)
