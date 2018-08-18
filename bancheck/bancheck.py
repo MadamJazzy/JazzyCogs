@@ -212,17 +212,15 @@ class BanList():
         #Dbans lookup
         final = await self.lookup(user)
         data = json.loads(final)
-        try:
-            reason = data["reason"]
-            name = user1.name
-            userid = user
-            proof = self.cleanurl(data["proof"])
-            niceurl = "[Click Here]({})".format(proof)
-            description = ("""**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(name, userid, reason, niceurl))
-            await self.bot.say(embed=self.embed_maker(":x: **Globally banned on DiscordList.net** ", discord.Color.red(),description, ""))
-        except KeyError:
-            await self.bot.say(
-                embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ", 0x008000, None, ""))
+
+        reason = data["reason"]
+        name = user1.name
+        userid = user
+        proof = self.cleanurl(data["proof"])
+        niceurl = "[Click Here]({})".format(proof)
+        description = ("""**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(name, userid, reason, niceurl))
+        await self.bot.say(embed=self.embed_maker(":x: **Globally banned on DiscordList.net** ", discord.Color.red(),description, ""))
+        
 
     @banlist.command(pass_context=True)
     async def all(self, ctx):
