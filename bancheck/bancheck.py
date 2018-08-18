@@ -192,7 +192,7 @@ class BanList():
             myToken = 'cf1af2a4bb8d2e22af790b66c179e49a2c733d12'
             equrl = 'https://api.ksoft.si/bans/info'
             head = {'Authorization': 'token {}'.format(myToken)}
-            params = {"user": user.id}
+            params = {"user": user}
             eq = requests.get(equrl, headers=head, params=params)
             final = eq.json()
             userid = final["id"]
