@@ -35,10 +35,8 @@ class BanList():
     async def lookup(self, user):
         payload = {"user_id": user}
         headers = {'Authorization': 'm7oZkIEJBIbJ7Zprp0BJR6rwXxMbCKOg4z4gkbBzhUY'}
-        async with aiohttp.ClientSession() as session:
-            resp = await session.post(URL, data=payload, headers=headers)
-            final = await resp.json
-            resp.close()
+        resp = requests.get(URL + "?user_id" + user, headers=headers)
+        final = await resp.text()
         return final
 
 
@@ -211,10 +209,10 @@ class BanList():
         # Dbans lookup
         try:
             final = await self.lookup(user.id)
-            if '"banned": "0"' in final.lower():
+            if final["banned"] == "0":
                 await self.bot.say(embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ",
                                                           0x008000, None, ""))
-            elif '"banned": "1"' in final.lower():
+            elif final["banned"] == "1":
                 data = json.loads(final)
                 name = user.name
                 userid = user.id
@@ -234,7 +232,16 @@ class BanList():
         green = discord.Color.green()
         red = discord.Color.red()
         server = ctx.message.server
-        names = []
+        dbans = []
+        dsban = []
+        abban = []
+        eqban = []
+        for r in server.members:
+            final=await self.lookup(r.id)
+            if '"banned": "1"' in final.lower():
+
+
+
 
 #DBans All check
         try:
@@ -324,7 +331,6 @@ class BanList():
                                    "Please correct and run this command again!")
         except:
             self.bot.say("I have encountered a problem with the Ksoft API!")
-
 
 def setup(bot):
     n = BanList(bot)
