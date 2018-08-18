@@ -99,7 +99,7 @@ class BanList():
             myToken = 'cf1af2a4bb8d2e22af790b66c179e49a2c733d12'
             equrl = 'https://api.ksoft.si/bans/info'
             head = {'Authorization': 'token {}'.format(myToken)}
-            params = {"user": user.id}
+            params = {"user": user}
             eq = requests.get(equrl, headers=head, params=params)
             final = eq.json()
             userid = final["id"]
@@ -123,7 +123,7 @@ class BanList():
             await self.bot.say(embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ",0x008000, None, ""))
         else:
             name = user.name
-            userid = user.id
+            userid = user
             reason = data["reason"]
             proof = self.cleanurl(data["proof"])
             niceurl = "[Click Here]({})".format(proof)
