@@ -33,9 +33,13 @@ class BanList():
             return theurl
 
     async def lookup(self, user):
-        headers = {'Authorization': 'm7oZkIEJBIbJ7Zprp0BJR6rwXxMbCKOg4z4gkbBzhUY'}
-        resp = requests.get(URL + "?user_id" + "{}".format(user), headers=headers)
-        final = await resp.text()
+        userid = user.id
+        token = 'm7oZkIEJBIbJ7Zprp0BJR6rwXxMbCKOg4z4gkbBzhUY'
+        payload = {'user_id': userid}
+        headers = {'Authorization': token}
+        url = "https://bans.discord.id/api/check.php?user_id={}".format(userid)
+        resp = requests.post(url, data=json.dumps(payload), headers=headers)
+        final = resp.text
         return final
 
 
@@ -113,11 +117,11 @@ class BanList():
                 embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
 
         #Dbans lookup
-        final = await self.lookup(str(user.id))
-        if '"banned": "0"' in final.lower():
+        final = await self.lookup(user.id)
+        data = json.loads(final)
+        if data["banned"] == "0":
             await self.bot.say(embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ",0x008000, None, ""))
-        elif '"banned": "1"' in final.lower():
-            data = json.loads(final)
+        else:
             name = user.name
             userid = user.id
             reason = data["reason"]
