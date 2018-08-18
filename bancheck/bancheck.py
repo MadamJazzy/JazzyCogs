@@ -39,7 +39,7 @@ class BanList():
         headers = {'Authorization': token}
         url = "https://bans.discord.id/api/check.php?user_id={}".format(userid)
         resp = requests.post(url, data=payload, headers=headers)
-        final = await resp.text
+        final = resp.text
         return final
 
     async def eqlookup(self, user):
