@@ -185,7 +185,7 @@ class BanList():
             else:
 
                 name = "{}.format(user)"
-                userid = user.id
+                userid = user
                 reason = abban["reason"]
                 proof = "http://hubbot.io/alertbot/proofpics/{}".format((abban["image"]))
                 niceurl = "[Click Here]({})".format(proof)
