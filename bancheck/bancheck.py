@@ -168,14 +168,14 @@ class BanList():
 #AlertBot
         try:
             key = "c35ccd3cb3b99c3597c3e74c528e000b"
-            ab = requests.get("http://generic-api.site/api/discordbans/?userid={}&key={}".format(user.id, key))
+            ab = requests.get("http://generic-api.site/api/discordbans/?userid={}&key={}".format(user, key))
             abban = ab.json()[0]
             if abban["banned"] == "false":
                 await self.bot.say(
                     embed=self.embed_maker(":white_check_mark: No ban found on AlertBot!", 0x008000, None, ""))
             else:
                 name = user.name
-                userid = user.id
+                userid = user
                 reason = abban["reason"]
                 proof = "http://hubbot.io/alertbot/proofpics/{}".format((abban["image"]))
                 niceurl = "[Click Here]({})".format(proof)
