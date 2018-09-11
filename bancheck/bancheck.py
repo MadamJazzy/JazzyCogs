@@ -67,7 +67,7 @@ class BanList():
             user = user.id
         user1 = await self.bot.get_user_info(user)
 
-        #DSban Lookup
+#DSban Lookup
         ds = requests.get("http://discord.services/api/ban/{}/".format(user))
         try:
             name = user1
@@ -84,7 +84,7 @@ class BanList():
         except KeyError:
             await self.bot.say(
                 embed=self.embed_maker(":white_check_mark: Not listed on Discord.Services", 0x008000, None, ""))
-        #AlertBot Lookup
+#AlertBot Lookup
         try:
             key = "c35ccd3cb3b99c3597c3e74c528e000b"
             ab = requests.get("http://generic-api.site/api/discordbans/?userid={}&key={}".format(user, key))
@@ -106,7 +106,7 @@ class BanList():
         except KeyError:
             pass
 
-        #Equalizer Bot lookup
+#Equalizer Bot lookup
         try:
             myToken = 'cf1af2a4bb8d2e22af790b66c179e49a2c733d12'
             equrl = 'https://api.ksoft.si/bans/info'
@@ -128,20 +128,20 @@ class BanList():
             await self.bot.say(
                 embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
 
-        #Dbans lookup
-        final = await self.lookup(user)
-        data = json.loads(final)
-        try:
-            reason = data["reason"]
-            name = user1.name
-            userid = user
-            proof = self.cleanurl(data["proof"])
-            niceurl = "[Click Here]({})".format(proof)
-            description = ("""**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(name, userid, reason, niceurl))
-            await self.bot.say(embed=self.embed_maker(":x: **Globally banned on DiscordList.net** ", discord.Color.red(),description, ""))
-        except KeyError:
-            await self.bot.say(
-                embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ", 0x008000, None, ""))
+#Dbans lookup
+#        final = await self.lookup(user)
+#        data = json.loads(final)
+#        try:
+#            reason = data["reason"]
+#            name = user1.name
+#            userid = user
+#            proof = self.cleanurl(data["proof"])
+#            niceurl = "[Click Here]({})".format(proof)
+#            description = ("""**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(name, userid, reason, niceurl))
+#            await self.bot.say(embed=self.embed_maker(":x: **Globally banned on DiscordList.net** ", discord.Color.red(),description, ""))
+#        except KeyError:
+#            await self.bot.say(
+#                embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ", 0x008000, None, ""))
 
 
     @banlist.command(pass_context=True)
@@ -160,7 +160,7 @@ class BanList():
             return
         user1 = await self.bot.get_user_info(str(id))
         user = user1.id
-        #DSban
+#DSban
         ds = requests.get("http://discord.services/api/ban/{}/".format(user))
         try:
             name = user1
@@ -201,7 +201,7 @@ class BanList():
         except KeyError:
             await self.bot.say("Key Error")
 
-        #Equalizer Bot lookup
+#Equalizer Bot lookup
         try:
             myToken = 'cf1af2a4bb8d2e22af790b66c179e49a2c733d12'
             equrl = 'https://api.ksoft.si/bans/info'
@@ -223,20 +223,20 @@ class BanList():
             await self.bot.say(
                 embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
 
-        #Dbans lookup
-        final = await self.lookup(user)
-        data = json.loads(final)
-        try:
-            reason = data["reason"]
-            name = user1.name
-            userid = user
-            proof = self.cleanurl(data["proof"])
-            niceurl = "[Click Here]({})".format(proof)
-            description = ("""**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(name, userid, reason, niceurl))
-            await self.bot.say(embed=self.embed_maker(":x: **Globally banned on DiscordList.net** ", discord.Color.red(),description, ""))
-        except KeyError:
-            await self.bot.say(
-                embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ", 0x008000, None, ""))
+#Dbans lookup
+#        final = await self.lookup(user)
+#        data = json.loads(final)
+#        try:
+#            reason = data["reason"]
+#            name = user1.name
+#            userid = user
+#            proof = self.cleanurl(data["proof"])
+#            niceurl = "[Click Here]({})".format(proof)
+#            description = ("""**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(name, userid, reason, niceurl))
+#            await self.bot.say(embed=self.embed_maker(":x: **Globally banned on DiscordList.net** ", discord.Color.red(),description, ""))
+#        except KeyError:
+#            await self.bot.say(
+#               embed=self.embed_maker(":white_check_mark: Not listed on Discordlist.net ", 0x008000, None, ""))
 
 
     @banlist.command(pass_context=True)
@@ -246,7 +246,7 @@ class BanList():
         red = discord.Color.red()
         server = ctx.message.server
         names = []
-        # DS Bans all check
+# DS Bans all check
         try:
             async with self.session.get('http://discord.services/api/bans/') as resp:
                 r = await resp.json()
