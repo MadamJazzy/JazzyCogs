@@ -106,7 +106,7 @@ class BanList():
         except KeyError:
             pass
 
-#Equalizer Bot lookup
+#KSOFT lookup
         try:
             myToken = 'cf1af2a4bb8d2e22af790b66c179e49a2c733d12'
             equrl = 'https://api.ksoft.si/bans/info'
@@ -122,11 +122,11 @@ class BanList():
             description = (
                 """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
                     name, userid, reason, niceurl))
-            await self.bot.say(embed=self.embed_maker(":x: **Globally banned on Equalizer Bot!** ", discord.Color.red(),
+            await self.bot.say(embed=self.embed_maker(":x: **Globally banned on Ksoft Bans!** ", discord.Color.red(),
                                                       description, ""))
         except KeyError:
             await self.bot.say(
-                embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
+                embed=self.embed_maker(":white_check_mark: No ban found on Ksoft Bans!", 0x008000, None, ""))
 
 #Dbans lookup
 #        final = await self.lookup(user)
@@ -201,7 +201,7 @@ class BanList():
         except KeyError:
             await self.bot.say("Key Error")
 
-#Equalizer Bot lookup
+#KSOFT lookup
         try:
             myToken = 'cf1af2a4bb8d2e22af790b66c179e49a2c733d12'
             equrl = 'https://api.ksoft.si/bans/info'
@@ -221,7 +221,7 @@ class BanList():
                                                       description, ""))
         except KeyError:
             await self.bot.say(
-                embed=self.embed_maker(":white_check_mark: No ban found on Equalizer Bot!", 0x008000, None, ""))
+                embed=self.embed_maker(":white_check_mark: No ban found on Ksoft Banlist!", 0x008000, None, ""))
 
 #Dbans lookup
 #        final = await self.lookup(user)
