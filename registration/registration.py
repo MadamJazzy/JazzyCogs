@@ -113,62 +113,9 @@ class registration:
                 bi = discord.utils.get(server.roles, name="Bisexual")
                 pan = discord.utils.get(server.roles, name="Pansexual")
                 asexual = discord.utils.get(server.roles, name="Asexual")
-#                dom = discord.utils.get(server.roles, name="Dominant")
-#                sub = discord.utils.get(server.roles, name="Submissive")
-#                switch = discord.utils.get(server.roles, name="Switch")
                 reg = discord.utils.get(server.roles, name="Registered")
                 over = discord.utils.get(server.roles, name="Over 18")
                 under = discord.utils.get(server.roles, name="Under 18")
-#                usa1 = discord.utils.get(server.roles, name="USA-Eastern")
-#                usa2 = discord.utils.get(server.roles, name="USA-Central")
-#                usa3 = discord.utils.get(server.roles, name="USA-Pacific")
-#                usa4 = discord.utils.get(server.roles, name="USA-Mountain")
-#                africa = discord.utils.get(server.roles, name="Africa")
-#                asia = discord.utils.get(server.roles, name="Asia")
-#                australia = discord.utils.get(server.roles, name="Australia")
-#                austria = discord.utils.get(server.roles, name="Austria")
-#                belgium = discord.utils.get(server.roles, name="Belgium")
-#                bosnia = discord.utils.get(server.roles, name="Bosnia")
-#                brazil = discord.utils.get(server.roles, name="Brazil")
-#                bulgaria = discord.utils.get(server.roles, name="Bulgaria")
-#                canada = discord.utils.get(server.roles, name="Canada")
-#                croatia = discord.utils.get(server.roles, name="Croatia")
-#                czech = discord.utils.get(server.roles, name="Czech")
-#                denmark = discord.utils.get(server.roles, name="Denmark")
-#                estonia = discord.utils.get(server.roles, name="Estonia")
-#                europe = discord.utils.get(server.roles, name="Europe")
-#                finland = discord.utils.get(server.roles, name="Finland")
-#                france = discord.utils.get(server.roles, name="France")
-#                germany = discord.utils.get(server.roles, name="Germany")
-#                hungary = discord.utils.get(server.roles, name="Hungary")
-#                ireland = discord.utils.get(server.roles, name="Ireland")
-#                israel = discord.utils.get(server.roles, name="Israel")
-#                italy = discord.utils.get(server.roles, name="Italy")
-#                latvia = discord.utils.get(server.roles, name="Latvia")
-#                lithuania = discord.utils.get(server.roles, name="Lithuania")
-#                macedonia = discord.utils.get(server.roles, name="Macedonia")
-#                mexico = discord.utils.get(server.roles, name="Mexico")
-#                middleeast = discord.utils.get(server.roles, name="Middle East")
-#                netherlands = discord.utils.get(server.roles, name="Netherlands")
-#                norway = discord.utils.get(server.roles, name="Norway")
-#                newzealand = discord.utils.get(server.roles, name="New Zealand")
-#                philippines = discord.utils.get(server.roles, name="Philippines")
-#                poland = discord.utils.get(server.roles, name="Poland")
-#                portugal = discord.utils.get(server.roles, name="Portugal")
-#                romania = discord.utils.get(server.roles, name="Romania")
-#                russia = discord.utils.get(server.roles, name="Russia")
-#                saudi = discord.utils.get(server.roles, name="Saudi")
-#                scotland = discord.utils.get(server.roles, name="Scotland")
-#                serbia = discord.utils.get(server.roles, name="Serbia")
-#                singapore = discord.utils.get(server.roles, name="Singapore")
-#                slovakia = discord.utils.get(server.roles, name="Slovakia")
-#                slovenia = discord.utils.get(server.roles, name="Slovenia")
-#                southamerica = discord.utils.get(server.roles, name="South America")
-#                spain = discord.utils.get(server.roles, name="Spain")
-#                sweden = discord.utils.get(server.roles, name="Sweden")
-#                switzerland = discord.utils.get(server.roles, name="Switzerland")
-#                turkey = discord.utils.get(server.roles, name="Turkey")
-#                uk = discord.utils.get(server.roles, name="United Kingdom")
 
                 await self.bot.reply("Ok, This will just take a moment")
                 if male not in server.roles:
@@ -185,12 +132,6 @@ class registration:
                     await self.bot.create_role(server, name="Bisexual")
                 if pan not in server.roles:
                     await self.bot.create_role(server, name="Pansexual")
-#                if dom not in server.roles:
-#                    await self.bot.create_role(server, name="Dominant")
-#                if sub not in server.roles:
-#                    await self.bot.create_role(server, name="Submissive")
-#                if switch not in server.roles:
-#                    await self.bot.create_role(server, name="Switch")
                 if over not in server.roles:
                     await self.bot.create_role(server, name="Over 18")
                 if reg not in server.roles:
@@ -203,109 +144,6 @@ class registration:
                     await self.bot.create_role(server, name="Trans FTM")
                 if asexual not in server.roles:
                     await self.bot.create_role(server, name="Asexual")
-#                if usa1 not in server.roles:
-#                    await self.bot.create_role(server, name="USA-Eastern")
-#                if usa2 not in server.roles:
-#                    await self.bot.create_role(server, name="USA-Central")
-#                if usa3 not in server.roles:
-#                    await self.bot.create_role(server, name="USA-Pacific")
-#                if usa4 not in server.roles:
-#                    await self.bot.create_role(server, name="USA-Mountain")
-#                if africa not in server.roles:
-#                    await self.bot.create_role(server, name="Africa")
-#                if asia not in server.roles:
-#                    await self.bot.create_role(server, name="Asia")
-#                if australia not in server.roles:
-#                    await self.bot.create_role(server, name="Australia")
-#                if austria not in server.roles:
-#                    await self.bot.create_role(server, name="Austria")
-#                if belgium not in server.roles:
-#                    await self.bot.create_role(server, name="Belgium")
-#                if bosnia not in server.roles:
-#                    await self.bot.create_role(server, name="Bosnia")
-#                if brazil not in server.roles:
-#                    await self.bot.create_role(server, name="Brazil")
-#                if bulgaria not in server.roles:
-#                    await self.bot.create_role(server, name="Bulgaria")
-#                if canada not in server.roles:
-#                    await self.bot.create_role(server, name="Canada")
-#                if croatia not in server.roles:
-#                    await self.bot.create_role(server, name="Croatia")
-#                if czech not in server.roles:
-#                    await self.bot.create_role(server, name="Czech")
-#                if denmark not in server.roles:
-#                    await self.bot.create_role(server, name="Denmark")
-#                if estonia not in server.roles:
-#                    await self.bot.create_role(server, name="Estonia")
-#                if europe not in server.roles:
-#                    await self.bot.create_role(server, name="Europe")
-#                if finland not in server.roles:
-#                    await self.bot.create_role(server, name="Finland")
-#                if france not in server.roles:
-#                    await self.bot.create_role(server, name="France")
-#                if germany not in server.roles:
-#                    await self.bot.create_role(server, name="Germany")
-#                if hungary not in server.roles:
-#                    await self.bot.create_role(server, name="Hungary")
-#                if ireland not in server.roles:
-#                    await self.bot.create_role(server, name="Ireland")
-#                if israel not in server.roles:
-#                    await self.bot.create_role(server, name="Israel")
-#                if italy not in server.roles:
-#                    await self.bot.create_role(server, name="Italy")
-#                if latvia not in server.roles:
-#                    await self.bot.create_role(server, name="Latvia")
-#                if lithuania not in server.roles:
-#                    await self.bot.create_role(server, name="Lithuania")
-#                if macedonia not in server.roles:
-#                    await self.bot.create_role(server, name="Macedonia")
-#                if mexico not in server.roles:
-#                    await self.bot.create_role(server, name="Mexico")
-#                if middleeast not in server.roles:
-#                    await self.bot.create_role(server, name="Middle East")
-#                if netherlands not in server.roles:
-#                    await self.bot.create_role(server, name="Netherlands")
-#                if norway not in server.roles:
-#                    await self.bot.create_role(server, name="Norway")
-#                if newzealand not in server.roles:
-#                    await self.bot.create_role(server, name="New Zealand")
-#                if philippines not in server.roles:
-#                    await self.bot.create_role(server, name="Philippines")
-#                if poland not in server.roles:
-#                    await self.bot.create_role(server, name="Poland")
-#                if portugal not in server.roles:
-#                    await self.bot.create_role(server, name="Portugal")
-                await asyncio.sleep(2.0)
-#                if romania not in server.roles:
-#                    await self.bot.create_role(server, name="Romania")
-#                if russia not in server.roles:
-#                    await self.bot.create_role(server, name="Russia")
-#                if saudi not in server.roles:
-#                    await self.bot.create_role(server, name="Saudi")
-#                if scotland not in server.roles:
-#                    await self.bot.create_role(server, name="Scotland")
-#                if serbia not in server.roles:
-#                    await self.bot.create_role(server, name="Serbia")
-#                if singapore not in server.roles:
-#                    await self.bot.create_role(server, name="Singapore")
-#                if slovakia not in server.roles:
-#                    await self.bot.create_role(server, name="Slovakia")
-#                if slovenia not in server.roles:
-#                    await self.bot.create_role(server, name="Slovenia")
-#                if southamerica not in server.roles:
-#                    await self.bot.create_role(server, name="South America")
-#                if spain not in server.roles:
-#                    await self.bot.create_role(server, name="Spain")
-#                if sweden not in server.roles:
-#                    await self.bot.create_role(server, name="Sweden")
-#                if switzerland not in server.roles:
-#                    await self.bot.create_role(server, name="Switzerland")
-#                if turkey not in server.roles:
-#                    await self.bot.create_role(server, name="Turkey")
-#                if uk not in server.roles:
-#                    await self.bot.create_role(server, name="United Kingdom")
-#                await asyncio.sleep(1.0)
-#                await self.bot.reply("All done!")
             else:
                 await self.bot.reply("The command has timed out or you have entered an invalid response. "
                                      "Please only type yes or no. Try again later")
@@ -327,22 +165,22 @@ class registration:
                 await self.bot.say("OK, I wont remove the roles.")
             elif setrole.content.lower() == "yes":
                 server = ctx.message.server
-#                male = discord.utils.get(server.roles, name="Male")
-#                female = discord.utils.get(server.roles, name="Female")
-#                trans = discord.utils.get(server.roles, name="Transgender")
-#                mtf = discord.utils.get(server.roles, name="Trans MTF")
-#                ftm = discord.utils.get(server.roles, name="Trans FTM")
-#                str8 = discord.utils.get(server.roles, name="Straight")
-#                gay = discord.utils.get(server.roles, name="Gay")
-#                bi = discord.utils.get(server.roles, name="Bisexual")
-#                pan = discord.utils.get(server.roles, name="Pansexual")
-#                asexual = discord.utils.get(server.roles, name="Asexual")
+                male = discord.utils.get(server.roles, name="Male")
+                female = discord.utils.get(server.roles, name="Female")
+                trans = discord.utils.get(server.roles, name="Transgender")
+                mtf = discord.utils.get(server.roles, name="Trans MTF")
+                ftm = discord.utils.get(server.roles, name="Trans FTM")
+                str8 = discord.utils.get(server.roles, name="Straight")
+                gay = discord.utils.get(server.roles, name="Gay")
+                bi = discord.utils.get(server.roles, name="Bisexual")
+                pan = discord.utils.get(server.roles, name="Pansexual")
+                asexual = discord.utils.get(server.roles, name="Asexual")
                 dom = discord.utils.get(server.roles, name="Dominant")
                 sub = discord.utils.get(server.roles, name="Submissive")
                 switch = discord.utils.get(server.roles, name="Switch")
-#                reg = discord.utils.get(server.roles, name="Registered")
-#                over = discord.utils.get(server.roles, name="Over 18")
-#                under = discord.utils.get(server.roles, name="Under 18")
+                reg = discord.utils.get(server.roles, name="Registered")
+                over = discord.utils.get(server.roles, name="Over 18")
+                under = discord.utils.get(server.roles, name="Under 18")
                 usa1 = discord.utils.get(server.roles, name="USA-Eastern")
                 usa2 = discord.utils.get(server.roles, name="USA-Central")
                 usa3 = discord.utils.get(server.roles, name="USA-Pacific")
@@ -395,38 +233,38 @@ class registration:
                 uk = discord.utils.get(server.roles, name="United Kingdom")
 
                 await self.bot.reply("Ok, This will just take a moment")
-#                if male in server.roles:
-#                    await self.bot.delete_role(server, male)
-#                if female in server.roles:
-#                    await self.bot.delete_role(server, female)
-#                if trans in server.roles:
-#                    await self.bot.delete_role(server, trans)
-#                if str8 in server.roles:
-#                    await self.bot.delete_role(server, str8)
-#                if gay in server.roles:
-#                    await self.bot.delete_role(server, gay)
-#                if bi in server.roles:
-#                    await self.bot.delete_role(server, bi)
-#                if pan in server.roles:
-#                    await self.bot.delete_role(server, pan)
+                if male in server.roles:
+                    await self.bot.delete_role(server, male)
+                if female in server.roles:
+                    await self.bot.delete_role(server, female)
+                if trans in server.roles:
+                    await self.bot.delete_role(server, trans)
+                if str8 in server.roles:
+                    await self.bot.delete_role(server, str8)
+                if gay in server.roles:
+                    await self.bot.delete_role(server, gay)
+                if bi in server.roles:
+                    await self.bot.delete_role(server, bi)
+                if pan in server.roles:
+                    await self.bot.delete_role(server, pan)
                 if dom in server.roles:
                     await self.bot.delete_role(server, dom)
                 if sub in server.roles:
                     await self.bot.delete_role(server, sub)
                 if switch in server.roles:
                     await self.bot.delete_role(server, switch)
-#                if over in server.roles:
-#                    await self.bot.delete_role(server, over)
-#                if reg in server.roles:
-#                    await self.bot.delete_role(server, reg)
-#                if under in server.roles:
-#                    await self.bot.delete_role(server, under)
-#                if mtf in server.roles:
-#                    await self.bot.delete_role(server, mtf)
-#                if ftm in server.roles:
-#                    await self.bot.delete_role(server, ftm)
-#                if asexual in server.roles:
-#                    await self.bot.delete_role(server, asexual)
+                if over in server.roles:
+                    await self.bot.delete_role(server, over)
+                if reg in server.roles:
+                    await self.bot.delete_role(server, reg)
+                if under in server.roles:
+                    await self.bot.delete_role(server, under)
+                if mtf in server.roles:
+                    await self.bot.delete_role(server, mtf)
+                if ftm in server.roles:
+                    await self.bot.delete_role(server, ftm)
+                if asexual in server.roles:
+                    await self.bot.delete_role(server, asexual)
                 if usa1 in server.roles:
                     await self.bot.delete_role(server, usa1)
                 if usa2 in server.roles:
@@ -658,44 +496,6 @@ class registration:
                 if ot is None:
                     break
 
-#                positionmsg = await self.bot.send_message(author, "Are you a Submissive, Dominant, or Switch?\n"
-#                                                                  "```Explanation```\n:one:Submissive - This means you "
-#                                                                  "are passive and not aggressive in relationships\n"
-#                                                                  ":two:Dominant - This means you are aggressive in "
-#                                                                  "relationships\n:three:Switch - This means you are "
-#                                                                  "both passive and aggressive or you 'switch' roles "
-#                                                                  "in relationships. You can bypass this by entering "
-#                                                                  "None.")
-#                while True:
-#                    pos = ["submissive", "dominant", "switch", "none"]
-#                    position = await self.bot.wait_for_message(channel=positionmsg.channel, author=author, timeout=60)
-#                    if position is None:
-#                        await self.bot.send_message(author,
-#                                                    "Registration has timed out. Please run register command again to continue!")
-#                        break
-#                    elif position.content.lower() not in pos:
-#                        await self.bot.send_message(author,
-#                                                    "You have entered an incorrect response. Please choose from Submiss"
-#                                                    "ive, Dominant, Switch, or None. Remember to check your spelling!")
-#                    elif position.content.lower() in pos:
-#                        dom = discord.utils.get(server.roles, name='Dominant')
-#                        sub = discord.utils.get(server.roles, name='Submissive')
-#                        switch = discord.utils.get(server.roles, name='Switch')
-#                        if position.content.lower() == "dominant":
-#                            await self.bot.add_roles(author, dom)
-#                            em.add_field(name="Position/Role", value="Dominant", inline=True)
-#                        elif position.content.lower() == "switch":
-#                            await self.bot.add_roles(author, switch)
-#                            em.add_field(name="Position/Role", value="Switch", inline=True)
-#                       elif position.content.lower() == "submissive":
-#                            await self.bot.add_roles(author, sub)
-#                            em.add_field(name="Position/Role", value="Submissive", inline=True)
-#                        elif position.content.lower() == "none":
-#                            em.add_field(name="Position/Role", value="Undecided", inline=True)
-#                        break
-#                if position is None:
-#                    break
-
                 agemsg = await self.bot.send_message(author, "What is your age? [Enter **NUMBER ONLY**]\n"
                                                              "**Your answer is NOT visible to the server, I only use "
                                                              "the answer you provide to give you one of two roles for "
@@ -725,193 +525,6 @@ class registration:
                     except:
                         break
 
-#                locationmsg = await self.bot.send_message(author, 'Please select your location from the following\n'
-#                                                                  '"usa-eastern", "usa-central", "usa-pacific", "usa-mountain",'
-#                                                                  '"africa", "asia","australia", "austria", "belgium", "bosnia", "brazil", "bulgaria",'
-#                                                                  '"canada", "croatia","czech", "denmark", "estonia", "europe", "finland", "france",'
-#                                                                  '"germany","hungary", "ireland", "israel", "italy", "latvia", "lithuania",'
-#                                                                  '"macedonia", "mexico", "middle east", "netherlands", "norway",'
-#                                                                  '"new zealand", "philippines", "poland", "portugal", "romania",'
-#                                                                  '"russia", "saudi", "scotland", "serbia", "singapore", "slovakia",'
-#                                                                  '"slovenia", "south america", "spain", "sweden", "switzerland",'
-#                                                                  '"turkey", "united kingdom"\n'
-#                                                                  'If you do not wish to disclose a location you can '
-#                                                                  'select none.')
-#                while True:
-#                    locations = ["usa-eastern", "usa-central", "usa-pacific", "usa-mountain", "africa", "asia",
-#                                 "australia", "austria", "belgium", "bosnia", "brazil", "bulgaria", "canada", "croatia",
-#                                 "czech", "denmark", "estonia", "europe", "finland", "france", "germany", "hungary",
-#                                 "ireland", "israel", "italy", "latvia", "lithuania", "macedonia", "mexico",
-#                                 "middle east", "netherlands", "norway", "new zealand", "philippines", "poland",
-#                                 "portugal", "romania", "russia", "saudi", "scotland", "serbia", "singapore",
-#                                 "slovakia","slovenia", "south america", "spain", "sweden", "switzerland", "turkey",
-#                                 "united kingdom", "none"]
-#                    location = await self.bot.wait_for_message(channel=locationmsg.channel, author=author, timeout=60)
-#                    if location is None:
-#                        await self.bot.send_message(author,
-#                                                    "Registration has timed out. Please run register command again to continue!")
-#                        break
-#                    elif location.content.lower() not in locations:
-#                        await self.bot.send_message(author,
-#                                                    "You have chosen an incorrect response. Please select from the list"
-#                                                    "above")
-#                    elif location.content.lower() in locations:
-#                        usa1 = discord.utils.get(server.roles, name="USA-Eastern")
-#                        usa2 = discord.utils.get(server.roles, name="USA-Central")
-#                        usa3 = discord.utils.get(server.roles, name="USA-Pacific")
-#                        usa4 = discord.utils.get(server.roles, name="USA-Mountain")
-#                        africa = discord.utils.get(server.roles, name="Africa")
-#                        asia = discord.utils.get(server.roles, name="Asia")
-#                        australia = discord.utils.get(server.roles, name="Australia")
-#                        austria = discord.utils.get(server.roles, name="Austria")
-#                        belgium = discord.utils.get(server.roles, name="Belgium")
-#                        bosnia = discord.utils.get(server.roles, name="Bosnia")
-#                        brazil = discord.utils.get(server.roles, name="Brazil")
-#                        bulgaria = discord.utils.get(server.roles, name="Bulgaria")
-#                        canada = discord.utils.get(server.roles, name="Canada")
-#                        croatia = discord.utils.get(server.roles, name="Croatia")
-#                        czech = discord.utils.get(server.roles, name="Czech")
-#                        denmark = discord.utils.get(server.roles, name="Denmark")
-#                        estonia = discord.utils.get(server.roles, name="Estonia")
-#                        europe = discord.utils.get(server.roles, name="Europe")
-#                        finland = discord.utils.get(server.roles, name="Finland")
-#                        france = discord.utils.get(server.roles, name="France")
-#                        germany = discord.utils.get(server.roles, name="Germany")
-#                        hungary = discord.utils.get(server.roles, name="Hungary")
-#                        ireland = discord.utils.get(server.roles, name="Ireland")
-#                        israel = discord.utils.get(server.roles, name="Israel")
-#                        italy = discord.utils.get(server.roles, name="Italy")
-#                        latvia = discord.utils.get(server.roles, name="Latvia")
-#                        lithuania = discord.utils.get(server.roles, name="Lithuania")
-#                        macedonia = discord.utils.get(server.roles, name="Macedonia")
-#                        mexico = discord.utils.get(server.roles, name="Mexico")
-#                        middleeast = discord.utils.get(server.roles, name="Middle East")
-#                        netherlands = discord.utils.get(server.roles, name="Netherlands")
-#                        norway = discord.utils.get(server.roles, name="Norway")
-#                        newzealand = discord.utils.get(server.roles, name="New Zealand")
-#                        philippines = discord.utils.get(server.roles, name="Philippines")
-#                        poland = discord.utils.get(server.roles, name="Poland")
-#                        portugal = discord.utils.get(server.roles, name="Portugal")
-#                        romania = discord.utils.get(server.roles, name="Romania")
-#                        russia = discord.utils.get(server.roles, name="Russia")
-#                        saudi = discord.utils.get(server.roles, name="Saudi")
-#                        scotland = discord.utils.get(server.roles, name="Scotland")
-#                        serbia = discord.utils.get(server.roles, name="Serbia")
-#                        singapore = discord.utils.get(server.roles, name="Singapore")
-#                        slovakia = discord.utils.get(server.roles, name="Slovakia")
-#                        slovenia = discord.utils.get(server.roles, name="Slovenia")
-#                        southamerica = discord.utils.get(server.roles, name="South America")
-#                        spain = discord.utils.get(server.roles, name="Spain")
-#                        sweden = discord.utils.get(server.roles, name="Sweden")
-#                        switzerland = discord.utils.get(server.roles, name="Switzerland")
-#                        turkey = discord.utils.get(server.roles, name="Turkey")
-#                        uk = discord.utils.get(server.roles, name="United Kingdom")
-#                        em.add_field(name="Location", value=location.content)
-#                        if location.content.lower() == "usa-eastern":
-#                            await self.bot.add_roles(author, usa1)
-#                        elif location.content.lower() == "usa-central":
-#                            await self.bot.add_roles(author, usa2)
-#                        elif location.content.lower() == "usa-pacific":
-#                            await self.bot.add_roles(author, usa3)
-#                        elif location.content.lower() == "usa-mountain":
-#                            await self.bot.add_roles(author, usa4)
-#                        elif location.content.lower() == "africa":
-#                            await self.bot.add_roles(author, africa)
-#                        elif location.content.lower() == "asia":
-#                            await self.bot.add_roles(author, asia)
-#                        elif location.content.lower() == "australia":
-#                            await self.bot.add_roles(author, australia)
-#                        elif location.content.lower() == "austria":
-#                            await self.bot.add_roles(author, austria)
-#                        elif location.content.lower() == "belgium":
-#                            await self.bot.add_roles(author, belgium)
-#                        elif location.content.lower() == "bosnia":
-#                            await self.bot.add_roles(author, bosnia)
-#                        elif location.content.lower() == "brazil":
-#                            await self.bot.add_roles(author, brazil)
-#                        elif location.content.lower() == "bulgaria":
-#                            await self.bot.add_roles(author, bulgaria)
-#                        elif location.content.lower() == "canada":
-#                            await self.bot.add_roles(author, canada)
-#                        elif location.content.lower() == "croatia":
-#                            await self.bot.add_roles(author, croatia)
-#                        elif location.content.lower() == "czech":
-#                            await self.bot.add_roles(author, czech)
-#                        elif location.content.lower() == "denmark":
-#                            await self.bot.add_roles(author, denmark)
-#                        elif location.content.lower() == "estonia":
-#                            await self.bot.add_roles(author, estonia)
-#                        elif location.content.lower() == "europe":
-#                            await self.bot.add_roles(author, europe)
-#                        elif location.content.lower() == "finland":
-#                            await self.bot.add_roles(author, finland)
-#                        elif location.content.lower() == "france":
-#                            await self.bot.add_roles(author, france)
-#                        elif location.content.lower() == "germany":
-#                            await self.bot.add_roles(author, germany)
-#                        elif location.content.lower() == "hungary":
-#                            await self.bot.add_roles(author, hungary)
-#                        elif location.content.lower() == "ireland":
-#                            await self.bot.add_roles(author, ireland)
-#                        elif location.content.lower() == "israel":
-#                            await self.bot.add_roles(author, israel)
-#                        elif location.content.lower() == "italy":
-#                            await self.bot.add_roles(author, italy)
-#                        elif location.content.lower() == "latvia":
-#                            await self.bot.add_roles(author, latvia)
-#                        elif location.content.lower() == "lithuania":
-#                            await self.bot.add_roles(author, lithuania)
-#                        elif location.content.lower() == "macedonia":
-#                            await self.bot.add_roles(author, macedonia)
-#                        elif location.content.lower() == "mexico":
-#                            await self.bot.add_roles(author, mexico)
-#                        elif location.content.lower() == "middle east":
-#                            await self.bot.add_roles(author, middleeast)
-#                        elif location.content.lower() == "netherlands":
-#                            await self.bot.add_roles(author, netherlands)
-#                        elif location.content.lower() == "norway":
-#                            await self.bot.add_roles(author, norway)
-#                        elif location.content.lower() == "new zealand":
-#                            await self.bot.add_roles(author, newzealand)
-#                        elif location.content.lower() == "philippines":
-#                            await self.bot.add_roles(author, philippines)
-#                        elif location.content.lower() == "poland":
-#                            await self.bot.add_roles(author, poland)
-#                        elif location.content.lower() == "portugal":
-#                            await self.bot.add_roles(author, portugal)
-#                        elif location.content.lower() == "romania":
-#                            await self.bot.add_roles(author, romania)
-#                        elif location.content.lower() == "russia":
-#                            await self.bot.add_roles(author, russia)
-#                        elif location.content.lower() == "saudi":
-#                            await self.bot.add_roles(author, saudi)
-#                        elif location.content.lower() == "scotland":
-#                            await self.bot.add_roles(author, scotland)
-#                        elif location.content.lower() == "serbia":
-#                            await self.bot.add_roles(author, serbia)
-#                        elif location.content.lower() == "singapore":
-#                            await self.bot.add_roles(author, singapore)
-#                        elif location.content.lower() == "slovakia":
-#                            await self.bot.add_roles(author, slovakia)
-#                        elif location.content.lower() == "slovenia":
-#                            await self.bot.add_roles(author, slovenia)
-#                        elif location.content.lower() == "south america":
-#                            await self.bot.add_roles(author, southamerica)
-#                        elif location.content.lower() == "spain":
-#                            await self.bot.add_roles(author, spain)
-#                        elif location.content.lower() == "sweden":
-#                            await self.bot.add_roles(author, sweden)
-#                        elif location.content.lower() == "switzerland":
-#                            await self.bot.add_roles(author, switzerland)
-#                        elif location.content.lower() == "turkey":
-#                            await self.bot.add_roles(author, turkey)
-#                        elif location.content.lower() == "united kingdom":
-#                            await self.bot.add_roles(author, uk)
-#                        else:
-#                            pass
-#                        break
-#                if location is None:
-#                    break
                 aboutmemsg = await self.bot.send_message(author, "Tell us a little about yourself!")
                 aboutme = await self.bot.wait_for_message(channel=aboutmemsg.channel, author=author, timeout=120)
                 await self.bot.send_message(author, "Thank you, Registration is now complete!")
@@ -923,7 +536,6 @@ class registration:
                     where = server.get_channel(output)
                     if where is not None:
                         await self.bot.send_message(where, embed=em)
-                        await self.bot.reply("Thank you for Registering!")
                         await self.bot.add_roles(author, regrole)
                         break
                 else:
