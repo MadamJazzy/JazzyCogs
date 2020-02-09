@@ -3,13 +3,14 @@ import os
 import re
 from copy import deepcopy
 from io import BytesIO
+
 import aiohttp
 import discord
-import requests
 from PIL import Image, ImageFont, ImageOps, ImageDraw
 from __main__ import send_cmd_help
-from cogs.utils import checks
 from discord.ext import commands
+
+from cogs.utils import checks
 from .utils.dataIO import dataIO
 
 default_settings = {"ANNOUNCE": False,
@@ -23,17 +24,17 @@ default_settings = {"ANNOUNCE": False,
                     "SERVERTEXT": [255, 255, 255, 230],
                     "TEXT": [255, 255, 255, 230],
                     "FONT": {"WELCOME_FONT": {"PATH": "data/imgwelcome/fonts/UniSansHeavy.otf",
-                                               "SIZE": 50},
+                                              "SIZE": 50},
                              "SERVER_FONT": {"PATH": "data/imgwelcome/fonts/UniSansHeavy.otf",
-                                              "SIZE": 20},
+                                             "SIZE": 20},
                              "NAME_FONT": {"PATH": "data/imgwelcome/fonts/UniSansHeavy.otf",
-                                            "SIZE": {"NORMAL": 30,
-                                                      "MEDIUM": 22,
-                                                      "SMALL": 18,
-                                                      "SMALLEST": 12
+                                           "SIZE": {"NORMAL": 30,
+                                                    "MEDIUM": 22,
+                                                    "SMALL": 18,
+                                                    "SMALLEST": 12
                                                     }
-                                            }
-                            }
+                                           }
+                             }
                     }
 
 
@@ -73,7 +74,7 @@ class ImgWelcome:
         draw = ImageDraw.Draw(profile_area)
         draw.ellipse(((0, 0), (512, 512)), fill=255)
         circle_img_size = tuple(self.settings[member.server.id]["CIRCLE"])
-        profile_area = profile_area.resize((circle_img_size), Image.ANTIALIAS)
+        profile_area = profile_area.resize(circle_img_size, Image.ANTIALIAS)
         try:
             url = url.replace('webp?size=1024', 'png')
             url = url.replace('gif?size=1024', 'png')
@@ -81,7 +82,7 @@ class ImgWelcome:
             profile_picture = Image.open('data/imgwelcome/profilepic.png')
         except:
             profile_picture = no_profile_picture
-        profile_area_output = ImageOps.fit(profile_picture, (circle_img_size), centering=(0, 0))
+        profile_area_output = ImageOps.fit(profile_picture, circle_img_size, centering=(0, 0))
         profile_area_output.putalpha(profile_area)
 
         bordercolor = tuple(self.settings[member.server.id]["BORDER"])
@@ -94,10 +95,11 @@ class ImgWelcome:
         draw_thumb.ellipse((0, 0) + (512, 512), fill=255, outline=0)
         circle = Image.new("RGBA", (512, 512))
         draw_circle = ImageDraw.Draw(circle)
-        draw_circle.ellipse([0, 0, 512, 512], fill=(bordercolor[0], bordercolor[1], bordercolor[2], 180), outline=(255, 255, 255, 250))
+        draw_circle.ellipse([0, 0, 512, 512], fill=(bordercolor[0], bordercolor[1], bordercolor[2], 180),
+                            outline=(255, 255, 255, 250))
         circle_border_size = await self._circle_border(circle_img_size)
-        circle = circle.resize((circle_border_size), Image.ANTIALIAS)
-        circle_mask = mask.resize((circle_border_size), Image.ANTIALIAS)
+        circle = circle.resize(circle_border_size, Image.ANTIALIAS)
+        circle_mask = mask.resize(circle_border_size, Image.ANTIALIAS)
         circle_pos = (7 + int((136 - circle_border_size[0]) / 2))
         border_pos = (11 + int((136 - circle_border_size[0]) / 2))
         drawtwo = ImageDraw.Draw(welcome_picture)
@@ -115,47 +117,48 @@ class ImgWelcome:
             up = (op[0], op[1] - pd)
             down = (op[0], op[1] + pd)
 
-            drawtwo.text(left, text, font=font, fill=(textoutline))
-            drawtwo.text(right, text, font=font, fill=(textoutline))
-            drawtwo.text(up, text, font=font, fill=(textoutline))
-            drawtwo.text(down, text, font=font, fill=(textoutline))
+            drawtwo.text(left, text, font=font, fill=textoutline)
+            drawtwo.text(right, text, font=font, fill=textoutline)
+            drawtwo.text(up, text, font=font, fill=textoutline)
+            drawtwo.text(down, text, font=font, fill=textoutline)
 
-            drawtwo.text(op, text, font=font, fill=(textoutline))
+            drawtwo.text(op, text, font=font, fill=textoutline)
 
-        _outline((150, 16), "Welcome", 1, welcome_font, (textoutline))
-        drawtwo.text((150, 16), "Welcome", font=welcome_font, fill=(fontcolor))
+        _outline((150, 16), "Welcome", 1, welcome_font, textoutline)
+        drawtwo.text((150, 16), "Welcome", font=welcome_font, fill=fontcolor)
 
         if len(uname) <= 17:
-            _outline((152, 63), uname, 1, name_font, (textoutline))
-            drawtwo.text((152, 63), uname, font=name_font, fill=(fontcolor))
+            _outline((152, 63), uname, 1, name_font, textoutline)
+            drawtwo.text((152, 63), uname, font=name_font, fill=fontcolor)
 
         if len(uname) > 17:
             if len(uname) <= 23:
-                _outline((152, 66), uname, 1,  name_font_medium, (textoutline))
-                drawtwo.text((152, 66), uname, font=name_font_medium, fill=(fontcolor))
+                _outline((152, 66), uname, 1, name_font_medium, textoutline)
+                drawtwo.text((152, 66), uname, font=name_font_medium, fill=fontcolor)
 
         if len(uname) >= 24:
             if len(uname) <= 32:
-                _outline((152, 70), uname, 1,  name_font_small, (textoutline))
-                drawtwo.text((152, 70), uname, font=name_font_small, fill=(fontcolor))
+                _outline((152, 70), uname, 1, name_font_small, textoutline)
+                drawtwo.text((152, 70), uname, font=name_font_small, fill=fontcolor)
 
         if len(uname) >= 33:
-            drawtwo.text((152, 73), uname, 1,  name_font_smallest, (textoutline))
-            drawtwo.text((152, 73), uname, font=name_font_smallest, fill=(fontcolor))
+            drawtwo.text((152, 73), uname, 1, name_font_smallest, textoutline)
+            drawtwo.text((152, 73), uname, font=name_font_smallest, fill=fontcolor)
 
         if test_member_number is None:
             members = sorted(server.members,
-                               key=lambda m: m.joined_at).index(member) + 1
+                             key=lambda m: m.joined_at).index(member) + 1
         else:
             members = test_member_number
 
         member_number = str(members) + self._get_suffix(members)
-        sname = str(member.server.name) + '!' if len(str(member.server.name)) <= 28 else str(member.server.name)[:23] + '...'
+        sname = str(member.server.name) + '!' if len(str(member.server.name)) <= 28 else str(member.server.name)[
+                                                                                         :23] + '...'
 
-        _outline((152, 96), "You are the " + str(member_number) + " member", 1, server_font, (textoutline))
-        drawtwo.text((152, 96), "You are the " + str(member_number) + " member", font=server_font, fill=(servercolor))
-        _outline((152, 116), 'of ' + sname, 1, server_font, (textoutline))
-        drawtwo.text((152, 116), 'of ' + sname, font=server_font, fill=(servercolor))
+        _outline((152, 96), "You are the " + str(member_number) + " member", 1, server_font, textoutline)
+        drawtwo.text((152, 96), "You are the " + str(member_number) + " member", font=server_font, fill=servercolor)
+        _outline((152, 116), 'of ' + sname, 1, server_font, textoutline)
+        drawtwo.text((152, 116), 'of ' + sname, font=server_font, fill=servercolor)
 
         image_object = BytesIO()
         welcome_picture.save(image_object, format="PNG")
@@ -191,16 +194,16 @@ class ImgWelcome:
 
         if "FONT" not in self.settings[server.id].keys():
             self.settings[server.id]["FONT"] = {"WELCOME_FONT": {"PATH": "data/imgwelcome/fonts/UniSansHeavy.otf",
-                                                                  "SIZE": 50},
+                                                                 "SIZE": 50},
                                                 "SERVER_FONT": {"PATH": "data/imgwelcome/fonts/UniSansHeavy.otf",
-                                                                 "SIZE": 20},
+                                                                "SIZE": 20},
                                                 "NAME_FONT": {"PATH": "data/imgwelcome/fonts/UniSansHeavy.otf",
-                                                               "SIZE": {"NORMAL": 30,
-                                                                         "MEDIUM": 22,
-                                                                         "SMALL": 18,
-                                                                         "SMALLEST": 12
-                                                                        }
-                                                                }
+                                                              "SIZE": {"NORMAL": 30,
+                                                                       "MEDIUM": 22,
+                                                                       "SMALL": 18,
+                                                                       "SMALLEST": 12
+                                                                       }
+                                                              }
                                                 }
 
         if "OUTLINE" not in self.settings[server.id].keys():
@@ -226,10 +229,10 @@ class ImgWelcome:
 
         # if only 3 characters are given
         if len(str(h)) == 3:
-            expand = ''.join([x*2 for x in str(h)])
+            expand = ''.join([x * 2 for x in str(h)])
             h = expand
 
-        colors = [int(h[i:i+2], 16) for i in (0, 2, 4)]
+        colors = [int(h[i:i + 2], 16) for i in (0, 2, 4)]
         colors.append(a)
         return tuple(colors)
 
@@ -314,7 +317,7 @@ class ImgWelcome:
             await self.bot.say('The text outline has been set.')
 
     @imgwelcome.command(name="preview", pass_context=True, no_pm=True)
-    async def imagewelcome_preview(self, ctx, member: discord.Member=None, number: int=None):
+    async def imagewelcome_preview(self, ctx, member: discord.Member = None, number: int = None):
         """Show a welcome image with the current settings."""
         server = ctx.message.server
         channel = ctx.message.channel
@@ -410,13 +413,14 @@ class ImgWelcome:
                 print(e)
             if success:
                 if serverimage.size == (500, 150):
-                    self.settings[server.id]['BACKGROUND'] = "data/imgwelcome/" + ctx.message.server.id + "/serverbg.png"
+                    self.settings[server.id][
+                        'BACKGROUND'] = "data/imgwelcome/" + ctx.message.server.id + "/serverbg.png"
                     await self.save_settings()
                 else:
                     await self.bot.say("Image needs to be 500x150.")
                     return
                 background_img = ('data/imgwelcome/{}/serverbg.png'.format(server.id))
-                self.settings[server.id]['BACKGROUND'] = (background_img)
+                self.settings[server.id]['BACKGROUND'] = background_img
                 await self.save_settings()
                 await self.bot.say('Welcome image for this server set to uploaded file.')
             else:
@@ -449,7 +453,8 @@ class ImgWelcome:
         """Toggle text announcement when a new user's account is <7d old."""
         server = ctx.message.server
         await self._data_check(ctx)
-        self.settings[server.id]["BONUSES"]["ACCOUNT_WARNINGS"] = not self.settings[server.id]["BONUSES"]["ACCOUNT_WARNINGS"]
+        self.settings[server.id]["BONUSES"]["ACCOUNT_WARNINGS"] = not self.settings[server.id]["BONUSES"][
+            "ACCOUNT_WARNINGS"]
         await self.save_settings()
         if self.settings[server.id]["BONUSES"]["ACCOUNT_WARNINGS"]:
             msg = "I will now announce when new accounts join."
@@ -475,7 +480,7 @@ class ImgWelcome:
 
         if len(fonts) == 0:
             await self.bot.send_message(channel, "No fonts found. Place "
-                                        "fonts in /data/imgwelcome/fonts/.")
+                                                 "fonts in /data/imgwelcome/fonts/.")
             return
 
         pager = commands.formatter.Paginator(prefix='```', suffix='```', max_size=2000)
@@ -486,7 +491,7 @@ class ImgWelcome:
             await self.bot.send_message(channel, page)
 
     @imgwelcome_font.command(pass_context=True, name='name', no_pm=True)
-    async def fontg_name(self, ctx, font_name: str, size: int=None):
+    async def fontg_name(self, ctx, font_name: str, size: int = None):
         """Change the name text font.
         e.g. [p]imgwelcome font name "UniSansHeavy.otf"
         """
@@ -512,7 +517,7 @@ class ImgWelcome:
         await self.bot.say("Name font changed to: {}".format(font_name[:-4]))
 
     @imgwelcome_font.command(pass_context=True, name='server', no_pm=True)
-    async def fontg_server(self, ctx, font_name: str, size: int=None):
+    async def fontg_server(self, ctx, font_name: str, size: int = None):
         """Change the server text font."""
         await self._data_check(ctx)
         server = ctx.message.server
@@ -534,7 +539,7 @@ class ImgWelcome:
         pass
 
     @imgwelcome_font.command(pass_context=True, name='welcome', no_pm=True)
-    async def fontg_welcome(self, ctx, font_name: str, size: int=None):
+    async def fontg_welcome(self, ctx, font_name: str, size: int = None):
         """Change the welcome text font."""
         # try open file_name, if fail tell user
         # if opens change settings, tell user success
@@ -558,11 +563,6 @@ class ImgWelcome:
         await self.bot.say("Welcome font changed to: {}".format(font_name[:-4]))
         pass
 
-    @imgwelcome.command(name="version", pass_context=True, hidden=True)
-    async def imagewelcomeset_version(self):
-        """Displays the imgwelcome version."""
-        await self.bot.say("imgwelcome version {}.".format(self.version))
-
     async def on_member_join(self, member):
         server = member.server
         if server.id not in self.settings:
@@ -574,45 +574,27 @@ class ImgWelcome:
         channel_object = self.bot.get_channel(channelid)
         await self.bot.send_typing(channel_object)
         image_object = await self._create_welcome(member, member.avatar_url)
-        await self.bot.send_message(channel_object, content="Welcome {} to {}. Please enjoy your stay".format(member.mention, server.name))
         await self.bot.send_file(channel_object, image_object, filename="welcome.png")
-        if (len(member.server.members) % 100) == 0 or (len(member.server.members) == 1337) and self.settings[server.id]["SPECIAL_USERS"]:
-            msg = "\N{PARTY POPPER} Thanks <@" + member.id + ">, you're the ***" + str(len(member.server.members)) + "*** th user on this server! \N{PARTY POPPER}"
+        if (len(member.server.members) % 100) == 0 or (len(member.server.members) == 1337) and self.settings[server.id][
+            "SPECIAL_USERS"]:
+            msg = "\N{PARTY POPPER} Thanks <@" + member.id + ">, you're the ***" + str(
+                len(member.server.members)) + "*** th user on this server! \N{PARTY POPPER}"
             await self.bot.send_message(channel_object, msg)
         date_join = datetime.datetime.strptime(str(member.created_at), "%Y-%m-%d %H:%M:%S.%f")
         date_now = datetime.datetime.now(datetime.timezone.utc)
         date_now = date_now.replace(tzinfo=None)
         since_join = date_now - date_join
-        payload = {"token": "REKlxFjDbU", "userid": str(member.id)}
-        url1 = "https://bans.discordlist.net/api"
-        ds = requests.get('http://discord.services/api/ban/{}/'.format(member.id))
-        ab = requests.get("http://generic-api.site/api/discordbans/?userid={}".format(member.id,))
-        aban = ab.json()[0]
-#        Dbans = requests.post(url1, data=payload)
-        myToken = 'cf1af2a4bb8d2e22af790b66c179e49a2c733d12'
-        equrl = 'https://api.ksoft.si/bans/check'
-        head = {'Authorization': 'token {}'.format(myToken)}
-        params = {"user": member.id}
-        eq = requests.get(equrl, headers=head, params=params)
         if since_join.days < 7:
-            age=discord.Embed(color=discord.Colour.red(), title=':warning:',
-                              description='This account was created' + str(since_join.days) + " days ago!")
-            await self.bot.send_message(channel_object, embed=age)
-        try:
-            if ds.json()["msg"] == "No ban found":
-                DSban=discord.Embed(title="")
-        except KeyError:
-            DSban = discord.Embed(title=":warning:", description="Globally banned on Discord.Services")
-            await self.bot.send_message(channel_object, embed=DSban)
-#        if Dbans.text != "False":
-#            Dban = discord.Embed(title=':warning:', description="Globally banned on Discordlist.net")
-#            await self.bot.send_message(channel_object, embed=Dban)
-        if aban["banned"] != "false":
-            abans = discord.Embed(title=':warning', description="User is listed on AlertBot Ban List!")
-            await self.bot.send_message(channel_object, embed=abans)
-        if eq.json()['is_banned'] == "true":
-            eqbans = discord.Embed(title=':warning', description="User is listed on Ksoft API Ban List!")
-            await self.bot.send_message(channel_object, embed=eqbans)
+            age = "<@{}>".format(member.id) + ":warning: This account was created " + str(
+                since_join.days) + " days ago!"
+        else:
+            age = "<@{}>".format(member.id) + ":white_check_mark: This account was created " + str(
+                since_join.days) + " days ago"
+        embed = discord.Embed(title="Security Check", description=age)
+        embed.set_thumbnail(url=member.avatar_url)
+        await self.bot.send_message(channel_object, embed=embed)
+
+
 def check_folders():
     if not os.path.exists('data/imgwelcome/'):
         os.mkdir('data/imgwelcome/')
