@@ -1,0 +1,92 @@
+bite:
+  msg: "{} has bit {} and i think they liked it!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 7
+cuddle:
+  msg: "{} has cuddled with {}! aww how sweet!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 7
+facepalm:
+  msg: "{} blames {} for this facepalm!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 5
+feed:
+  msg: "{} has fed {}! aww how sweet!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 8
+fever:
+  msg: "Looks like {} has a fever. The Bieber FEVER!!"
+  selfmsg: "Looks like {} has a fever. The Bieber FEVER!!"
+  num: 8
+handshake:
+  msg: "{} has shook hands with {}!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 5
+hi5:
+  msg: "{} hi-fives with {}! awesome!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 5
+hug:
+  msg: "{} has hugged {}!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 6
+hungry:
+  msg: "{} was made hungry by {}. Here have some food!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 4
+kiss:
+  msg: "{} has kissed {}! STEAMY!!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 13
+lick:
+  msg: "{} has licked {}! KINKY!!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 8
+moist:
+  msg: "{} has feels moist because of {}! "
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 4
+nuts:
+  msg: "{} has kicked {} in the nuts! OUCH!!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 4
+ono:
+  msg: "{} says to {}!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 4
+shoot:
+  msg: "{} has shot {}! Luckily they survived!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 6
+slap:
+  msg: "{} has slapped {}! Naughty Naughty!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 8
+spank:
+  msg: "{} has spanked {}! Well then!!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 9
+strip:
+  msg: "{} has stripped for{}! Things are heating up!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 7
+taunt:
+  msg: "{} has taunted {}!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 4
+tease:
+  msg: "{} teases {}! Well then!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 5
+thirsty:
+  msg: "{} tells {} to calm their thirsty self down{}!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 5
+twerk:
+  msg: "{} has twerked for {}! NICE!!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 8
+whip:
+  msg: "{} has whipped {}! Someones feeling kinky!"
+  selfmsg: "Looks like someone is lonely and could use a friend"
+  num: 5
