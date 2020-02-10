@@ -11,7 +11,7 @@ class Social:
         self.bot = bot
 
     def config(self, action):
-        with open("data.yml", "r") as data:
+        with open("social.yml", "r") as data:
             return yaml.safe_load(data)[action]
 
     def embed_maker(self, action, user: discord.Member, sender: discord.Member, data):
