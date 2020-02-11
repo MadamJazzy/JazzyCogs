@@ -84,6 +84,7 @@ class BanList():
         except KeyError:
             await self.bot.say(
                 embed=self.embed_maker(":white_check_mark: Not listed on Discord.Services", 0x008000, None, ""))
+            self.embed_maker("", "", "", "")
 #AlertBot Lookup
         try:
             key = "c35ccd3cb3b99c3597c3e74c528e000b"
